@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+/* ----------------------------------------------------------------------------
+   Digital Disruption Matrix — design tokens
+   Section accent colors live here so they can be reused across the app.
+---------------------------------------------------------------------------- */
+@theme {
+  /* Base dark surface palette */
+  --color-base-950: #07090f;
+  --color-base-900: #0b0e16;
+  --color-base-850: #11151f;
+  --color-base-800: #161b27;
+  --color-base-700: #232a3a;
+
+  /* "Explore by Sector" accent — cyan */
+  --color-sector: #22d3ee;
+  --color-sector-soft: #0e3a44;
+
+  /* "Explore by Data" accent — violet */
+  --color-data: #a78bfa;
+  --color-data-soft: #2c2350;
+
+  /* "More" accent — toned down light grey */
+  --color-more: #94a3b8;
+
+  /* Action button accents */
+  --color-findings: #f59e0b; /* Key Findings — amber */
+  --color-heat: #fb7185;     /* HeatMatrix — rose */
+  --color-download: #34d399; /* Download the Report — emerald */
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-base-950);
+  color: #e2e8f0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Thin, dark scrollbars to match the theme */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-base-700) transparent;
+}
