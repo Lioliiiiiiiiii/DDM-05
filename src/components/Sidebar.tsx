@@ -34,10 +34,10 @@ export function Sidebar() {
     <aside className="flex h-full w-72 shrink-0 flex-col border-r border-base-800 bg-base-900">
       {/* Brand */}
       <NavLink to="/" className="block px-6 py-6">
-        <span className="block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+        <span className="block text-lg font-bold leading-tight tracking-tight text-slate-100">
           Digital Disruption Matrix
         </span>
-        <span className="mt-1 block text-lg font-bold leading-tight text-slate-100">
+        <span className="mt-1 block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
           Edition 2026
         </span>
       </NavLink>

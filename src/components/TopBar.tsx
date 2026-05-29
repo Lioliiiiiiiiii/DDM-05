@@ -17,8 +17,8 @@ const buttonStyles: Record<
     active: "bg-[var(--color-heat)]/20 ring-1 ring-[var(--color-heat)]/60",
   },
   download: {
-    base: "border-[var(--color-download)]/40 text-[var(--color-download)] hover:bg-[var(--color-download)]/15",
-    active: "bg-[var(--color-download)]/20 ring-1 ring-[var(--color-download)]/60",
+    base: "border-white/70 text-white hover:bg-white/10",
+    active: "bg-white/15 ring-1 ring-white/70",
   },
 };
 
