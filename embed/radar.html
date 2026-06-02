@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Heat Analysis Radar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600&family=Saira+Condensed:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#070b18; --bg-1:#0c1226; --bg-2:#121a35; --panel:#0e1530;
+    --line:#283357; --grid:#33406b;
+    --text:#eef1fb; --text-dim:#9aa6cc; --text-faint:#5e6a92;
+    --acc:#ff7a18; --acc-soft:rgba(255,122,24,.30); --acc-line:#ff8a32;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(900px 600px at 72% 8%, rgba(255,122,24,.10), transparent 60%),
+      radial-gradient(900px 700px at 18% 22%, rgba(55,224,216,.06), transparent 55%),
+      linear-gradient(160deg,var(--bg-1) 0%, var(--bg-0) 55%, #05080f 100%);
+    color:var(--text);font-family:"Saira",system-ui,sans-serif;
+    min-height:100vh;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:18px 28px 40px;}
+
+  .eyebrow{
+    text-align:center;font-family:"Saira Condensed";
+    letter-spacing:.32em;text-transform:uppercase;
+    font-size:13px;color:var(--text-faint);margin:0 0 6px;
+  }
+
+  .chart-stage{position:relative;display:flex;justify-content:center;}
+  svg.radar{width:100%;max-width:960px;height:auto;overflow:visible;}
+
+  .ax-name{
+    font-family:"Saira Condensed";font-size:15px;font-weight:600;
+    letter-spacing:.05em;text-transform:uppercase;color:var(--text);line-height:1.1;
+  }
+  .ax-desc{
+    font-family:"Saira";font-size:10.5px;font-weight:300;
+    color:#aab4d6;line-height:1.35;margin-top:4px;
+  }
+  .val{font-family:"Space Mono";font-size:12px;font-weight:700;fill:var(--acc);}
+  .dot{stroke:#0a0f1f;stroke-width:1.5;fill:var(--acc);}
+  .shape{filter:drop-shadow(0 0 8px rgba(255,122,24,.55));}
+  .hint{font-family:"Saira";font-size:13px;fill:var(--text-faint);}
+
+  .selectors{display:grid;grid-template-columns:1fr 1fr;gap:46px;margin-top:2px;}
+  @media (max-width:720px){.selectors{grid-template-columns:1fr;gap:34px;}}
+
+  .dd{position:relative;}
+  .dd-btn{
+    width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:linear-gradient(180deg,var(--bg-2),var(--panel));
+    border:1px solid var(--line);border-radius:12px;padding:14px 16px;
+    color:var(--text);font-family:"Saira";font-weight:600;
+    font-size:clamp(18px,2.2vw,23px);cursor:pointer;text-align:left;
+    transition:border-color .18s, box-shadow .18s;
+  }
+  .dd-btn .left{display:flex;align-items:center;gap:12px;min-width:0;}
+  .dd-btn .left span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .dd-btn.placeholder .left span{color:var(--text-dim);font-weight:500;}
+  .dd-btn:hover{box-shadow:0 0 0 1px var(--acc-line),0 8px 26px -16px var(--acc);}
+  .dd-btn .chev{transition:transform .2s;flex:none;color:var(--text-dim);}
+  .dd.open .dd-btn .chev{transform:rotate(180deg);}
+  .dd.open .dd-btn{border-color:var(--acc-line);}
+
+  .dd-menu{
+    position:absolute;z-index:30;top:calc(100% + 8px);left:0;right:0;
+    background:rgba(10,15,33,.98);border:1px solid var(--line);border-radius:12px;
+    padding:6px;max-height:340px;overflow:auto;box-shadow:0 26px 60px -22px #000;
+    backdrop-filter:blur(8px);display:none;
+  }
+  .dd.open .dd-menu{display:block;animation:pop .14s ease;}
+  @keyframes pop{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+  .dd-opt{padding:11px 13px;border-radius:8px;cursor:pointer;font-size:16px;
+    color:var(--text-dim);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .dd-opt:hover{background:var(--bg-2);color:var(--text);}
+  .dd-opt.active{color:var(--text);background:var(--acc-soft);}
+  .dd-opt .tick{opacity:0;color:var(--acc);} .dd-opt.active .tick{opacity:1;}
+
+  .overview-link{
+    display:inline-block;margin-top:16px;font-family:"Saira Condensed";
+    text-transform:uppercase;letter-spacing:.16em;font-size:12.5px;text-decoration:none;
+    color:var(--text-faint);border-bottom:1px solid transparent;
+    transition:color .18s,border-color .18s;cursor:pointer;
+  }
+  .overview-link:hover{color:var(--acc);border-color:var(--acc);}
+  .definition{margin-top:14px;font-size:15px;line-height:1.6;color:var(--text-dim);font-weight:300;}
+  .definition.empty{color:var(--text-faint);font-style:italic;}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"></head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Heat Analysis Radar</p>
+
+  <div class="chart-stage">
+    <svg class="radar" id="radar" viewBox="0 0 1010 660" role="img" aria-label="Heat analysis radar chart"></svg>
+  </div>
+
+  <div class="selectors">
+    <div class="dd-block tech">
+      <div class="dd tech" id="dd-tech">
+        <button class="dd-btn placeholder" id="btn-tech" aria-haspopup="listbox" aria-expanded="false">
+          <span class="left"><span id="lbl-tech">Select a Technology</span></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dd-menu" id="menu-tech" role="listbox"></div>
+      </div>
+      <a class="overview-link">View technology overview ↗</a>
+      <p class="definition empty" id="def-tech"></p>
+    </div>
+
+    <div class="dd-block ind">
+      <div class="dd ind" id="dd-ind">
+        <button class="dd-btn placeholder" id="btn-ind" aria-haspopup="listbox" aria-expanded="false">
+          <span class="left"><span id="lbl-ind">Select an Industry</span></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dd-menu" id="menu-ind" role="listbox"></div>
+      </div>
+      <a class="overview-link">View industry overview ↗</a>
+      <p class="definition empty" id="def-ind"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* AXES order: 0 Innovation intensity | 1 Innovation momentum | 2 Startup activity | 3 Unicorn Factor (Market Validation) | 4 Professionals' perception */
+const AXIS_NAME=["Innovation intensity","Innovation momentum","Startup activity","Unicorn Factor","Professionals' perception"];
+const AXIS_DESC=[
+  "Volume of scholar and patent publication.",
+  "Year over year growth of scholar and patent publication.",
+  "Number of startup founded in 2025.",
+  "Composed with the number of unicorns as of 2025 and their total funding and the number of companies considered as emerging unicorns.",
+  "Perceived impact & time horizon of impact, survey of a 1,000 professionals."
+];
+
+/* definitions */
+const TECH_DEF={
+  "Descriptive AI":"Descriptive AI encompasses traditional AI approaches that analyze and interpret existing data to identify patterns, make predictions, and derive insights. This technology forms the foundation of practical AI applications in industry through machine learning, statistical analysis, and pattern recognition.",
+  "Agentic & GenAI":"Generative AI and Agentic AI refers to AI systems that can create new content (text, images, code, synthetic data) and autonomously plan and execute multi-step actions to achieve goals. This technology leverages large language models and neural networks to generate novel outputs based on patterns learned from training data and complete tasks with reduced human supervision.",
+  "Blockchain & Decentralized Systems":"Blockchain technology enables secure, decentralized record-keeping and transactions without requiring central authority. It creates transparent, immutable records across distributed networks, supporting applications from cryptocurrency to supply chain tracking.",
+  "Physical AI & Robotics":"Physical AI and Robotics encompasses the design and deployment of physical systems that can perceive, reason, learn, and act in the real world with varying levels of intelligence and autonomy. This includes robotics, embodied AI, autonomous systems, and technologies that combine artificial intelligence with physical interaction and automation.",
+  "Quantum Computing":"Quantum Computing harnesses quantum mechanical phenomena like superposition and entanglement to perform computations. This technology enables exponentially faster calculations for specific problems, particularly in cryptography, material science, and complex system optimization."
+};
+const IND_DEF={
+  "Energy":"Companies involved in the exploration, production, or refining of energy products.",
+  "Materials":"Businesses in chemicals, construction materials, metals, paper, and forestry products.",
+  "Industrials":"Aerospace, defense, machinery, construction, fabrication, and manufacturing.",
+  "Consumer Goods":"Food & Beverage, General Merchandise, Clothing & Apparel, Household & Personal Care, Mass market & Luxury goods.",
+  "Healthcare":"Health care equipment and services, pharmaceuticals, and biotechnology companies.",
+  "Financial Services":"Banks, investment funds, insurance companies, and real estate firms.",
+  "Information technology":"Software, hardware, electronics, and IT services.",
+  "Communication & Creative Services":"Telecommunications, media, entertainment, and creative industries.",
+  "Real Estate":"Companies that own commercial, industrial, and residential real estate.",
+  "Automotive & Transport":"Mainstream automotive companies and transportation-related industries."
+};
+
+/* DATA[industry][technology] = [ Innovation intensity, Innovation momentum, Startup activity, Unicorn Factor, Professionals' perception ] */
+const T=["Descriptive AI","Agentic & GenAI","Blockchain & Decentralized Systems","Physical AI & Robotics","Quantum Computing"];
+const DATA={
+  "Energy":{[T[0]]:[8,2,7,1.75,5.5],[T[1]]:[4,10,2,0,5.5],[T[2]]:[4,2.5,4,0,0.5],[T[3]]:[6,2.5,4,0.25,3],[T[4]]:[2,5,2,0,0.5]},
+  "Materials":{[T[0]]:[7.5,1.5,5,4,7.5],[T[1]]:[3,5.5,1,1.25,7.5],[T[2]]:[1.5,3.5,3,0,1],[T[3]]:[7,0,2,2.5,3.5],[T[4]]:[3.5,5.5,1,0,0]},
+  "Industrials":{[T[0]]:[7,5,8,6.75,6],[T[1]]:[3,10,5,2,6.5],[T[2]]:[3.5,6,3,0.75,1.75],[T[3]]:[7,4,7,4.75,7],[T[4]]:[1.5,4,2,0,0.75]},
+  "Consumer Goods":{[T[0]]:[9,1.5,9,7,8],[T[1]]:[5.5,7,7,3.75,9],[T[2]]:[5.5,3,6,1,3.5],[T[3]]:[5.5,2,5,2.5,4],[T[4]]:[2,7.5,1,0,0]},
+  "Healthcare":{[T[0]]:[10,0.5,9,7.5,9],[T[1]]:[10,6.5,8,5.25,8],[T[2]]:[8,2,4,0.75,2],[T[3]]:[10,0.5,4,3.25,4],[T[4]]:[7.5,4.5,3,0,2]},
+  "Financial Services":{[T[0]]:[6.5,2.5,10,7.5,7],[T[1]]:[3,9,8,4.25,9.5],[T[2]]:[6,4,9,9,3],[T[3]]:[2,4,3,0.5,-0.5],[T[4]]:[1,6.5,3,0,1]},
+  "Information technology":{[T[0]]:[10,1,10,10,6],[T[1]]:[8,8,10,10,9.5],[T[2]]:[7.5,3.5,10,9,2.5],[T[3]]:[7.5,2,9,8.5,2],[T[4]]:[6.5,7.5,7,2,2.5]},
+  "Communication & Creative Services":{[T[0]]:[9.5,0.5,10,7.5,9],[T[1]]:[7.5,6.5,8,5.25,10],[T[2]]:[5,2,7,3.25,2.5],[T[3]]:[5.5,2,2,0,1],[T[4]]:[3,5.5,1,0,0.5]},
+  "Real Estate":{[T[0]]:[6.5,4.5,9,1.75,7.5],[T[1]]:[3,9.5,6,0,8.5],[T[2]]:[3.5,5,6,0,1.25],[T[3]]:[3.5,3.5,4,1,-0.5],[T[4]]:[1,8,1,0,-0.5]},
+  "Automotive & Transport":{[T[0]]:[9,0,8,8,5],[T[1]]:[5.5,6.5,6,3,6.5],[T[2]]:[3,2.5,5,0,1.75],[T[3]]:[7.5,2.5,5,4.75,5],[T[4]]:[2.5,6.5,1,0,0.25]}
+};
+
+const N=5, MIN=0, MAX=10, RINGS=3, CX=505, CY=355, R=160, LA=R+58;
+const W=240, HTOP=98, HSIDE=170;   // label box sizing
+const state={tech:null, ind:null};
+
+function angle(i){return (-90+i*(360/N))*Math.PI/180;}
+function rad(v){return (Math.max(v,MIN)-MIN)/(MAX-MIN)*R;}
+function pt(i,v){const rr=rad(v);return [CX+rr*Math.cos(angle(i)), CY+rr*Math.sin(angle(i))];}
+function poly(vals){return vals.map((v,i)=>pt(i,v).join(",")).join(" ");}
+function fmt(v){return (Math.round(v*100)/100).toString();}
+
+function labelBox(i){
+  const a=angle(i), ax=CX+LA*Math.cos(a), ay=CY+LA*Math.sin(a);
+  const c=Math.cos(a), s=Math.sin(a);
+  let x, align;
+  if(c>0.3){align="left";  x=ax;}
+  else if(c<-0.3){align="right"; x=ax-W;}
+  else{align="center"; x=ax-W/2;}
+  if(s<-0.5){ return {x, y:ay-HTOP, w:W, h:HTOP, align, justify:"flex-end"}; }   // top vertex
+  return {x, y:ay-HSIDE/2, w:W, h:HSIDE, align, justify:"center"};
+}
+
+function renderChart(){
+  const svg=document.getElementById("radar"); let s="";
+  for(let r=1;r<=RINGS;r++){
+    const ring=AXIS_NAME.map((_,i)=>pt(i,MIN+(MAX-MIN)*r/RINGS).join(",")).join(" ");
+    s+=`<polygon points="${ring}" fill="none" stroke="var(--grid)" stroke-width="1" opacity="${0.35+0.15*r/RINGS}"/>`;
+  }
+  AXIS_NAME.forEach((_,i)=>{const [x,y]=pt(i,MAX);
+    s+=`<line x1="${CX}" y1="${CY}" x2="${x}" y2="${y}" stroke="var(--grid)" stroke-width="1" opacity="0.5"/>`;});
+
+  const vals=(state.tech&&state.ind)?DATA[state.ind][state.tech]:null;
+  if(vals){
+    s+=`<polygon class="shape" points="${poly(vals)}" fill="var(--acc-soft)" stroke="var(--acc-line)" stroke-width="3" stroke-linejoin="round"/>`;
+    vals.forEach((v,i)=>{const [x,y]=pt(i,v); s+=`<circle class="dot" cx="${x}" cy="${y}" r="4"/>`;});
+  } else {
+    s+=`<text class="hint" x="${CX}" y="${CY+4}" text-anchor="middle">Select a technology and an industry</text>`;
+  }
+
+  AXIS_NAME.forEach((name,i)=>{
+    const b=labelBox(i);
+    s+=`<foreignObject x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" overflow="visible">
+          <div xmlns="http://www.w3.org/1999/xhtml" style="height:${b.h}px;display:flex;flex-direction:column;justify-content:${b.justify};text-align:${b.align};">
+            <div class="ax-name">${name}</div>
+            <div class="ax-desc">${AXIS_DESC[i]}</div>
+          </div>
+        </foreignObject>`;
+  });
+
+  if(vals){
+    AXIS_NAME.forEach((_,i)=>{const a=angle(i);const [vx,vy]=pt(i,vals[i]);
+      s+=`<text class="val" x="${vx+14*Math.cos(a)}" y="${vy+14*Math.sin(a)+4}" text-anchor="middle">${fmt(vals[i])}</text>`;});
+  }
+  svg.innerHTML=s;
+}
+
+function renderPanels(){
+  const lt=document.getElementById("lbl-tech"),li=document.getElementById("lbl-ind");
+  const bt=document.getElementById("btn-tech"),bi=document.getElementById("btn-ind");
+  const dt=document.getElementById("def-tech"),di=document.getElementById("def-ind");
+  if(state.tech){lt.textContent=state.tech;bt.classList.remove("placeholder");dt.textContent=TECH_DEF[state.tech];dt.classList.remove("empty");}
+  else{lt.textContent="Select a Technology";bt.classList.add("placeholder");dt.textContent="";dt.classList.add("empty");}
+  if(state.ind){li.textContent=state.ind;bi.classList.remove("placeholder");di.textContent=IND_DEF[state.ind];di.classList.remove("empty");}
+  else{li.textContent="Select an Industry";bi.classList.add("placeholder");di.textContent="";di.classList.add("empty");}
+}
+
+function buildMenu(menuId,keys,current,onPick){
+  const menu=document.getElementById(menuId);
+  menu.innerHTML=keys.map(k=>`<div class="dd-opt ${k===current?'active':''}" role="option" data-key="${k}"><span>${k}</span><span class="tick">✓</span></div>`).join("");
+  menu.querySelectorAll(".dd-opt").forEach(o=>o.addEventListener("click",()=>onPick(o.dataset.key)));
+}
+function setupDropdown(ddId,btnId,menuId,keys,key){
+  const dd=document.getElementById(ddId),btn=document.getElementById(btnId);
+  btn.addEventListener("click",e=>{e.stopPropagation();
+    document.querySelectorAll(".dd.open").forEach(x=>{if(x!==dd)x.classList.remove("open");});
+    dd.classList.toggle("open");btn.setAttribute("aria-expanded",dd.classList.contains("open"));});
+  dd._refresh=()=>buildMenu(menuId,keys,state[key],k=>{state[key]=k;dd.classList.remove("open");btn.setAttribute("aria-expanded","false");update();});
+  dd._refresh();
+}
+document.addEventListener("click",()=>document.querySelectorAll(".dd.open").forEach(x=>{
+  x.classList.remove("open");x.querySelector(".dd-btn").setAttribute("aria-expanded","false");}));
+
+function update(){renderChart();renderPanels();document.getElementById("dd-tech")._refresh();document.getElementById("dd-ind")._refresh();}
+
+setupDropdown("dd-tech","btn-tech","menu-tech",Object.keys(TECH_DEF),"tech");
+setupDropdown("dd-ind","btn-ind","menu-ind",Object.keys(IND_DEF),"ind");
+update();
+</script>
+<style id="ds-theme-override">
+:root{
+  --bg-0:#0a0e14; --bg-1:#0d1117; --bg-2:#11161f; --panel:#11161f;
+  --line:#1f2733; --grid:#2a3340;
+  --text:#e8eef5; --text-dim:#9aa7b5; --text-faint:#5e6b7a;
+  --acc:#f5a623; --acc-soft:rgba(245,166,35,.30); --acc-line:#f5a623;
+}
+body{font-family:'IBM Plex Sans',-apple-system,sans-serif!important;background:var(--bg-0)!important}
+.eyebrow,.ax-name,.overview-link{font-family:'Montserrat','IBM Plex Sans',sans-serif!important}
+.ax-desc,.hint,.dd-btn{font-family:'IBM Plex Sans',-apple-system,sans-serif!important}
+.val{font-family:'IBM Plex Mono',ui-monospace,monospace!important}
+</style></body>
+</html>

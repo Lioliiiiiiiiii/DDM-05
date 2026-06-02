@@ -1,0 +1,423 @@
+{
+  "$meta": {
+    "name": "Research & Innovation — Design System",
+    "version": "1.1.0",
+    "theme": "dark",
+    "description": "Design tokens for the Research & Innovation technology-intelligence dashboards. One accent at a time; in a technology-focused card, override `color.accent` and `color.accentTint` with that technology's hue.",
+    "changelog": [
+      "1.1.0 — Added the official SVG line-icon set: 5 technology icons + 10 industry icons (24x24, currentColor).",
+      "1.0.0 — Display typeface changed from Bricolage Grotesque to Montserrat; brand ampersand is now upright (font-style: normal) instead of italic."
+    ]
+  },
+  "color": {
+    "background": {
+      "bg": {
+        "value": "#0a0e14",
+        "role": "page background"
+      },
+      "bg2": {
+        "value": "#0d1117",
+        "role": "insets, track backgrounds, tab/toggle wells"
+      }
+    },
+    "surface": {
+      "panel": {
+        "value": "#11161f",
+        "role": "primary cards / panels"
+      },
+      "panel2": {
+        "value": "#161b22",
+        "role": "nested cards inside panels"
+      }
+    },
+    "border": {
+      "line": {
+        "value": "#1f2733",
+        "role": "default hairline, dividers"
+      },
+      "line2": {
+        "value": "#2a3340",
+        "role": "stronger border (toggle well, demo blocks)"
+      }
+    },
+    "text": {
+      "ink": {
+        "value": "#e8eef5",
+        "role": "primary text, headlines, key figures"
+      },
+      "ink2": {
+        "value": "#9aa7b5",
+        "role": "secondary text, body, descriptions"
+      },
+      "ink3": {
+        "value": "#5e6b7a",
+        "role": "muted text, labels, captions, axis ticks"
+      }
+    },
+    "accent": {
+      "default": {
+        "value": "#f5a623",
+        "role": "default accent (amber)"
+      },
+      "tintAlpha": 0.14,
+      "tintDefault": {
+        "value": "rgba(245,166,35,0.14)",
+        "role": "accent at 14% — chip fills, glows, focus shadow"
+      },
+      "onAccent": {
+        "value": "#1a1205",
+        "role": "text/icon placed on a solid accent fill"
+      },
+      "note": "In a focused card, set accent = technology hue and tint = hexA(hue, 0.14)."
+    },
+    "semantic": {
+      "up": {
+        "value": "#3fb950",
+        "role": "positive change / upward rank movement"
+      },
+      "down": {
+        "value": "#f85149",
+        "role": "negative change / downward rank movement"
+      },
+      "flat": {
+        "value": "#8b949e",
+        "role": "no change"
+      }
+    },
+    "technology": {
+      "Descriptive AI": {
+        "value": "#f5a623",
+        "glyph": "◈",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 3v18h18\"/><rect x=\"6.4\" y=\"12.5\" width=\"2.6\" height=\"5.5\" rx=\"0.7\" fill=\"currentColor\" stroke=\"none\"/><rect x=\"10.7\" y=\"9.5\" width=\"2.6\" height=\"8.5\" rx=\"0.7\" fill=\"currentColor\" stroke=\"none\" opacity=\"0.5\"/><rect x=\"15\" y=\"6.5\" width=\"2.6\" height=\"11.5\" rx=\"0.7\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M6 9.7l3.6-3.1 3 2 3.9-4.4\"/><circle cx=\"16.5\" cy=\"4.2\" r=\"1.5\" fill=\"currentColor\" stroke=\"none\"/></svg>"
+      },
+      "Agentic & GenAI": {
+        "value": "#e84b8a",
+        "glyph": "✦",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"><path d=\"M12 3c.6 3.8 1.9 5.1 5.7 5.7-3.8.6-5.1 1.9-5.7 5.7-.6-3.8-1.9-5.1-5.7-5.7C10.1 8.1 11.4 6.8 12 3Z\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M18.5 14.5c.3 1.8.9 2.4 2.7 2.7-1.8.3-2.4.9-2.7 2.7-.3-1.8-.9-2.4-2.7-2.7 1.8-.3 2.4-.9 2.7-2.7Z\" fill=\"currentColor\" stroke=\"none\" opacity=\"0.6\"/></svg>"
+      },
+      "Blockchain & Decentralized": {
+        "value": "#f05a32",
+        "glyph": "⬡",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.4\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.4\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.4\" opacity=\"0.5\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.4\" opacity=\"0.5\"/><path d=\"M10 6.5h4M6.5 10v4M17.5 10v4M10 17.5h4\"/></svg>"
+      },
+      "Physical AI & Robotics": {
+        "value": "#2abfa3",
+        "glyph": "⬢",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><rect x=\"4\" y=\"7.5\" width=\"16\" height=\"11\" rx=\"2.5\"/><circle cx=\"12\" cy=\"4\" r=\"1.3\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M12 5.3v2.2\"/><circle cx=\"9\" cy=\"13\" r=\"1.4\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"15\" cy=\"13\" r=\"1.4\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M2.5 12v3M21.5 12v3\"/></svg>"
+      },
+      "Quantum Computing": {
+        "value": "#4a90d9",
+        "glyph": "◉",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"12\" r=\"1.8\" fill=\"currentColor\" stroke=\"none\"/><ellipse cx=\"12\" cy=\"12\" rx=\"10\" ry=\"4.3\"/><ellipse cx=\"12\" cy=\"12\" rx=\"10\" ry=\"4.3\" transform=\"rotate(60 12 12)\"/><ellipse cx=\"12\" cy=\"12\" rx=\"10\" ry=\"4.3\" transform=\"rotate(120 12 12)\"/></svg>"
+      }
+    },
+    "chartGrid": {
+      "value": "rgba(255,255,255,0.05)"
+    },
+    "chartBorder": {
+      "value": "rgba(255,255,255,0.08)"
+    },
+    "tooltipBg": {
+      "value": "#161b22"
+    }
+  },
+  "typography": {
+    "fontFamilies": {
+      "display": {
+        "stack": "'Montserrat', 'IBM Plex Sans', -apple-system, sans-serif",
+        "google": "Montserrat:wght@500;600;700;800",
+        "use": "headlines, section titles, metrics, brand lockup"
+      },
+      "sans": {
+        "stack": "'IBM Plex Sans', -apple-system, sans-serif",
+        "google": "IBM+Plex+Sans:wght@400;500;600;700",
+        "use": "body copy, names, descriptions"
+      },
+      "mono": {
+        "stack": "'IBM Plex Mono', ui-monospace, monospace",
+        "google": "IBM+Plex+Mono:wght@400;500;600",
+        "use": "labels, eyebrows, figures, axis ticks, tabular numbers"
+      }
+    },
+    "numericFeature": "font-variant-numeric: tabular-nums (apply to all mono figures)",
+    "scale": {
+      "h1": {
+        "family": "display",
+        "weight": 700,
+        "size": "clamp(34px,5.4vw,58px)",
+        "letterSpacing": "-0.02em",
+        "lineHeight": 0.98
+      },
+      "sectionTitle": {
+        "family": "display",
+        "weight": 700,
+        "size": "20px",
+        "letterSpacing": "-0.01em"
+      },
+      "metricLarge": {
+        "family": "display",
+        "weight": 800,
+        "size": "30px",
+        "letterSpacing": "-0.02em",
+        "use": "scores, KPI values"
+      },
+      "metricCard": {
+        "family": "display",
+        "weight": 800,
+        "size": "25px",
+        "letterSpacing": "-0.02em"
+      },
+      "eyebrow": {
+        "family": "mono",
+        "weight": 500,
+        "size": "11px",
+        "letterSpacing": "0.32em",
+        "transform": "uppercase",
+        "color": "accent"
+      },
+      "lede": {
+        "family": "sans",
+        "weight": 400,
+        "size": "13.5px",
+        "lineHeight": 1.65,
+        "color": "ink2"
+      },
+      "sectionDesc": {
+        "family": "sans",
+        "weight": 400,
+        "size": "12.5px",
+        "lineHeight": 1.6,
+        "color": "ink2"
+      },
+      "body": {
+        "family": "sans",
+        "weight": 400,
+        "size": "13.5px",
+        "color": "ink"
+      },
+      "bodySmall": {
+        "family": "sans",
+        "weight": 400,
+        "size": "12px",
+        "color": "ink2"
+      },
+      "label": {
+        "family": "mono",
+        "weight": 500,
+        "size": "10px",
+        "letterSpacing": "0.06em",
+        "transform": "uppercase",
+        "color": "ink3"
+      },
+      "labelTiny": {
+        "family": "mono",
+        "weight": 500,
+        "size": "9px",
+        "letterSpacing": "0.05em",
+        "transform": "uppercase",
+        "color": "ink3"
+      },
+      "figure": {
+        "family": "mono",
+        "weight": 600,
+        "size": "12px",
+        "color": "ink2"
+      },
+      "caption": {
+        "family": "sans",
+        "weight": 400,
+        "size": "10.5px",
+        "style": "italic",
+        "lineHeight": 1.55,
+        "color": "ink3"
+      },
+      "badge": {
+        "family": "mono",
+        "weight": 600,
+        "size": "8.5px",
+        "letterSpacing": "0.05em"
+      }
+    },
+    "brandAmpersand": {
+      "weight": 700,
+      "style": "normal",
+      "color": "accent",
+      "note": "Upright (NOT italic). Coloured with the active accent."
+    }
+  },
+  "space": {
+    "unit": 4,
+    "scale": [
+      4,
+      8,
+      12,
+      16,
+      22,
+      26,
+      40,
+      48
+    ],
+    "panelPadding": 22,
+    "panelPaddingCompact": 14,
+    "sectionGap": 44,
+    "cardGap": 12
+  },
+  "radius": {
+    "sm": 6,
+    "md": 8,
+    "card": 11,
+    "panel": 14,
+    "pill": 30,
+    "dot": 3,
+    "bar": 4
+  },
+  "border": {
+    "width": 1,
+    "color": "line",
+    "strong": "line2"
+  },
+  "shadow": {
+    "focusCard": "0 0 0 1px var(--accent), 0 10px 30px -12px var(--accent-tint)",
+    "highlightGlow": "radial-gradient(circle at top right, var(--accent-tint), transparent 70%)",
+    "pageBackdrop": "radial-gradient(1100px 600px at 12% -8%, rgba(245,166,35,0.07), transparent 55%), radial-gradient(900px 600px at 100% 0%, rgba(74,144,217,0.07), transparent 50%)"
+  },
+  "chart": {
+    "library": "Chart.js 4.x",
+    "line": {
+      "tension": 0.4,
+      "borderWidthSelected": 4,
+      "borderWidthDefault": 1.8,
+      "borderWidthNeutral": 2.5,
+      "pointRadiusSelected": 4.5,
+      "pointRadiusDefault": 0,
+      "pointRadiusNeutral": 4,
+      "pointHoverRadius": 7,
+      "pointBorderColor": "#0a0e14",
+      "rule": "All lines keep their full technology colour. Emphasise the focused technology with greater borderWidth and visible points; others stay full-colour but thinner with no points. In the all-technology view use the neutral weights."
+    },
+    "grid": "rgba(255,255,255,0.05)",
+    "axisTick": {
+      "family": "mono",
+      "size": 12,
+      "color": "#5e6b7a"
+    },
+    "tooltip": {
+      "bg": "#161b22",
+      "border": "#2a3340",
+      "titleColor": "#e8eef5",
+      "bodyColor": "#9aa7b5",
+      "padding": 11
+    }
+  },
+  "dataViz": {
+    "indexConvention": "Leaderboards and bar rankings are indexed so the leader = 100 and others scale proportionally (value / max * 100, one decimal, '100' for the leader). Absolute counts are not displayed; state this in a caption.",
+    "trend": {
+      "up": "▲ N",
+      "down": "▼ N",
+      "flat": "— 0",
+      "new": "▲ new",
+      "rule": "N = positions gained/lost vs the prior-period rank; colour by semantic up/down/flat."
+    },
+    "badges": {
+      "new": "NEW vs 2020 top-15",
+      "climb": "↑ from #R"
+    }
+  },
+  "iconography": {
+    "style": "Single line-icon family on a 24x24 grid. 1.5-1.7px strokes, round caps/joins, drawn in currentColor with selective solid fills (fill=\"currentColor\") and reduced-opacity secondary shapes (opacity 0.35-0.6).",
+    "grid": "0 0 24 24",
+    "strokeWidth": "1.5 - 1.7",
+    "lineCap": "round",
+    "lineJoin": "round",
+    "color": "currentColor — set via the element's color; technology icons use the technology hue, industry icons inherit the active accent.",
+    "renderSize": {
+      "default": 30,
+      "tile": 29,
+      "legend": 17,
+      "selectorCard": 30
+    },
+    "fallbackGlyphs": {
+      "Descriptive AI": "◈",
+      "Agentic & GenAI": "✦",
+      "Blockchain & Decentralized": "⬡",
+      "Physical AI & Robotics": "⬢",
+      "Quantum Computing": "◉"
+    },
+    "flags": "Country flags use Unicode regional-indicator emoji; fall back to the white-flag glyph.",
+    "technology": {
+      "Descriptive AI": {
+        "color": "#f5a623",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 3v18h18\"/><rect x=\"6.4\" y=\"12.5\" width=\"2.6\" height=\"5.5\" rx=\"0.7\" fill=\"currentColor\" stroke=\"none\"/><rect x=\"10.7\" y=\"9.5\" width=\"2.6\" height=\"8.5\" rx=\"0.7\" fill=\"currentColor\" stroke=\"none\" opacity=\"0.5\"/><rect x=\"15\" y=\"6.5\" width=\"2.6\" height=\"11.5\" rx=\"0.7\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M6 9.7l3.6-3.1 3 2 3.9-4.4\"/><circle cx=\"16.5\" cy=\"4.2\" r=\"1.5\" fill=\"currentColor\" stroke=\"none\"/></svg>"
+      },
+      "Agentic & GenAI": {
+        "color": "#e84b8a",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"><path d=\"M12 3c.6 3.8 1.9 5.1 5.7 5.7-3.8.6-5.1 1.9-5.7 5.7-.6-3.8-1.9-5.1-5.7-5.7C10.1 8.1 11.4 6.8 12 3Z\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M18.5 14.5c.3 1.8.9 2.4 2.7 2.7-1.8.3-2.4.9-2.7 2.7-.3-1.8-.9-2.4-2.7-2.7 1.8-.3 2.4-.9 2.7-2.7Z\" fill=\"currentColor\" stroke=\"none\" opacity=\"0.6\"/></svg>"
+      },
+      "Blockchain & Decentralized": {
+        "color": "#f05a32",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.4\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.4\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.4\" opacity=\"0.5\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.4\" opacity=\"0.5\"/><path d=\"M10 6.5h4M6.5 10v4M17.5 10v4M10 17.5h4\"/></svg>"
+      },
+      "Physical AI & Robotics": {
+        "color": "#2abfa3",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><rect x=\"4\" y=\"7.5\" width=\"16\" height=\"11\" rx=\"2.5\"/><circle cx=\"12\" cy=\"4\" r=\"1.3\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M12 5.3v2.2\"/><circle cx=\"9\" cy=\"13\" r=\"1.4\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"15\" cy=\"13\" r=\"1.4\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M2.5 12v3M21.5 12v3\"/></svg>"
+      },
+      "Quantum Computing": {
+        "color": "#4a90d9",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"12\" r=\"1.8\" fill=\"currentColor\" stroke=\"none\"/><ellipse cx=\"12\" cy=\"12\" rx=\"10\" ry=\"4.3\"/><ellipse cx=\"12\" cy=\"12\" rx=\"10\" ry=\"4.3\" transform=\"rotate(60 12 12)\"/><ellipse cx=\"12\" cy=\"12\" rx=\"10\" ry=\"4.3\" transform=\"rotate(120 12 12)\"/></svg>"
+      }
+    },
+    "industry": {
+      "Energy": {
+        "accent": true,
+        "description": "Exploration, production, or refining of energy products.",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M13 2.5 L6.5 13 H11 L10.3 21.5 L17.8 10 H12.7 Z\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M4.6 6.4a9.5 9.5 0 0 0-1.1 4.3\" opacity=\"0.45\"/><path d=\"M20.5 13.3a9.5 9.5 0 0 1-1.1 4.3\" opacity=\"0.45\"/></svg>"
+      },
+      "Materials": {
+        "accent": true,
+        "description": "Chemicals, construction materials, metals, paper & forestry.",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M12 3 21 7.5 12 12 3 7.5 12 3Z\"/><path d=\"M3 12 12 16.5 21 12\" opacity=\"0.55\"/><path d=\"M3 16.5 12 21 21 16.5\" opacity=\"0.35\"/></svg>"
+      },
+      "Industrials": {
+        "accent": true,
+        "description": "Aerospace, defense, machinery, construction & manufacturing.",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"12\" r=\"3.2\"/><path d=\"M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4 5.3 5.3\"/></svg>"
+      },
+      "Consumer Goods": {
+        "accent": true,
+        "description": "Food & beverage, merchandise, apparel, household & luxury.",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M5.5 8h13l-1 11.5a1 1 0 0 1-1 .9H7.5a1 1 0 0 1-1-.9L5.5 8Z\"/><path d=\"M8.5 8V6.5a3.5 3.5 0 0 1 7 0V8\"/></svg>"
+      },
+      "Healthcare": {
+        "accent": true,
+        "description": "Health-care equipment & services, pharma, biotech.",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M12 20.5S3.5 15 3.5 8.8A4.3 4.3 0 0 1 12 7a4.3 4.3 0 0 1 8.5 1.8C20.5 15 12 20.5 12 20.5Z\"/><path d=\"M6.5 12h2l1.5-2.5 2 4 1.5-1.5H17\"/></svg>"
+      },
+      "Financial Services": {
+        "accent": true,
+        "description": "Banks, investment funds, insurance, real-estate firms.",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M3.5 9 12 4l8.5 5\"/><path d=\"M5 9v8M9 9v8M15 9v8M19 9v8\"/><path d=\"M3.5 20.5h17\"/></svg>"
+      },
+      "Information Technology": {
+        "accent": true,
+        "description": "Software, hardware, electronics & IT services.",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><rect x=\"7\" y=\"7\" width=\"10\" height=\"10\" rx=\"1.6\"/><path d=\"M10 7V4M14 7V4M10 20v-3M14 20v-3M7 10H4M7 14H4M20 10h-3M20 14h-3\"/></svg>"
+      },
+      "Communication & Creative Services": {
+        "accent": true,
+        "description": "Telecom, media, entertainment & creative industries.",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M4 5.5h16a1 1 0 0 1 1 1V16a1 1 0 0 1-1 1H9l-4 3.5V17H4a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1Z\"/><path d=\"M8 10h8M8 13h5\"/></svg>"
+      },
+      "Real Estate": {
+        "accent": true,
+        "description": "Owners of commercial, industrial & residential property.",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M5 20.5V6l7-3 7 3v14.5\"/><path d=\"M3.5 20.5h17\"/><path d=\"M9.5 11h.01M14.5 11h.01M9.5 15h.01M14.5 15h.01\" stroke-width=\"2\"/></svg>"
+      },
+      "Automotive & Transport": {
+        "accent": true,
+        "description": "Automotive companies & transportation industries.",
+        "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M3 14l1.8-5.2A2 2 0 0 1 6.7 7.5h10.6a2 2 0 0 1 1.9 1.3L21 14v4.5h-3V17H6v1.5H3Z\"/><circle cx=\"7\" cy=\"14.5\" r=\"1.3\"/><circle cx=\"17\" cy=\"14.5\" r=\"1.3\"/></svg>"
+      }
+    },
+    "note": "Industry icons are not colour-coded; they take whichever accent is active on the surface (default amber, or the focus technology's hue)."
+  }
+}

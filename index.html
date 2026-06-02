@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Disruption Matrix 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e14;--bg2:#0d1117;--panel:#11161f;--panel2:#161b22;
+    --line:#1f2733;--line2:#2a3340;
+    --ink:#e8eef5;--ink2:#9aa7b5;--ink3:#5e6b7a;
+    --accent:#f5a623;--accent-tint:rgba(245,166,35,0.14);--on-accent:#1a1205;
+    --display:'Montserrat','IBM Plex Sans',-apple-system,sans-serif;
+    --sans:'IBM Plex Sans',-apple-system,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --nav-w:274px; --topbar-h:68px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+
+  /* ---------- FIXED BACKGROUND LAYERS (full viewport) ---------- */
+  #particles-js{position:fixed;inset:0;z-index:0}
+  #particles-js canvas{display:block}
+  .glow{position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(1200px 760px at 4% -8%, rgba(245,166,35,0.16), transparent 54%),
+               radial-gradient(1200px 820px at 106% 4%, rgba(74,144,217,0.15), transparent 54%),
+               linear-gradient(180deg, transparent 56%, rgba(10,14,20,0.55));}
+  .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+    box-shadow:inset 0 0 240px 50px rgba(10,14,20,0.66)}
+
+  /* ---------- HERO / MAIN CONTENT (offset by sidebar + topbar) ---------- */
+  .hero{position:relative;z-index:5;margin-left:var(--nav-w);min-height:100vh;
+    padding-top:var(--topbar-h);isolation:isolate}
+
+  .inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;
+    padding:clamp(36px,5vw,72px) clamp(26px,4vw,60px);
+    min-height:calc(100vh - var(--topbar-h));display:grid;align-items:center;
+    grid-template-columns:1.15fr .85fr;gap:clamp(32px,5vw,68px);pointer-events:none}
+  .inner > *{pointer-events:auto}
+
+  /* ---------- SIDEBAR (vertical nav) ---------- */
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--nav-w);z-index:40;
+    display:flex;flex-direction:column;
+    background:rgba(13,17,23,0.82);border-right:1px solid var(--line);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+  .sidebar::-webkit-scrollbar{width:8px}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
+
+  .brand{padding:22px 22px 18px;border-bottom:1px solid var(--line)}
+  .brand .mark{font-family:var(--display);font-weight:700;color:var(--ink);
+    font-size:19px;line-height:1.18;letter-spacing:-.015em}
+  .brand .ed{margin-top:7px;font-family:var(--mono);font-weight:500;font-size:11px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+
+  .nav{padding:14px 12px 26px;flex:1}
+  .nav-group{margin-top:18px}
+  .nav-group:first-child{margin-top:6px}
+  .nav-eyebrow{display:flex;align-items:center;gap:8px;
+    padding:0 10px 9px;font-family:var(--mono);font-weight:500;font-size:10.5px;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--ink3)}
+  .nav-eyebrow::before{content:"";width:18px;height:1px;background:var(--accent);flex:none;opacity:.85}
+  .nav a{display:block;position:relative;padding:8px 12px;border-radius:8px;
+    font-family:var(--sans);font-size:13.5px;color:var(--ink2);text-decoration:none;
+    transition:color .2s,background .2s}
+  .nav a::before{content:"";position:absolute;left:4px;top:50%;transform:translateY(-50%);
+    width:2px;height:0;border-radius:2px;background:var(--accent);transition:height .2s}
+  .nav a:hover{color:var(--ink);background:var(--bg2)}
+  .nav a:hover::before{height:16px}
+  .nav a.active{color:var(--accent);background:var(--accent-tint)}
+  .nav a.active::before{height:18px}
+
+  /* ---------- TOPBAR (action buttons, right-aligned) ---------- */
+  .topbar{position:fixed;top:0;right:0;left:var(--nav-w);height:var(--topbar-h);z-index:35;
+    display:flex;align-items:center;justify-content:flex-end;gap:12px;
+    padding:0 clamp(20px,3.5vw,44px);
+    background:linear-gradient(180deg, rgba(10,14,20,0.78), rgba(10,14,20,0.32));
+    border-bottom:1px solid var(--line);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .actions{display:flex;align-items:center;gap:12px}
+  .btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 17px;
+    border-radius:30px;font-family:var(--mono);font-weight:500;font-size:11.5px;
+    letter-spacing:.06em;text-transform:uppercase;text-decoration:none;cursor:pointer;
+    transition:border-color .2s,background .2s,color .2s,box-shadow .2s,transform .2s}
+  .btn svg{width:15px;height:15px}
+  .btn-ghost{background:var(--bg2);border:1px solid var(--line2);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);
+    background:var(--accent-tint);transform:translateY(-1px)}
+  .btn-primary{background:var(--accent);border:1px solid var(--accent);color:var(--on-accent);
+    font-weight:600;box-shadow:0 8px 24px -12px var(--accent)}
+  .btn-primary:hover{transform:translateY(-1px);
+    box-shadow:0 0 0 1px var(--accent), 0 12px 30px -12px var(--accent-tint)}
+
+  /* mobile nav toggle (hidden on desktop) */
+  .navtoggle{display:none}
+
+  /* ---------- LEFT ---------- */
+  .left{max-width:640px}
+  .essec{height:clamp(80px,7.4vw,116px);width:auto;mix-blend-mode:screen;margin-bottom:clamp(26px,4vw,46px);
+    opacity:0;animation:up .8s cubic-bezier(.2,.8,.2,1) .15s forwards}
+  h1{font-family:var(--display);font-weight:700;color:var(--ink);
+    font-size:clamp(40px,6.4vw,78px);line-height:.98;letter-spacing:-.025em;
+    opacity:0;animation:up .9s cubic-bezier(.2,.8,.2,1) .28s forwards}
+  .sub{margin-top:clamp(18px,2.4vw,30px);font-family:var(--display);font-weight:600;
+    color:var(--accent);font-size:clamp(17px,2.3vw,26px);letter-spacing:-.01em;
+    opacity:0;animation:up .9s cubic-bezier(.2,.8,.2,1) .42s forwards}
+
+  /* ---------- RIGHT PANEL ---------- */
+  .panel{background:rgba(17,22,31,0.74);border:1px solid var(--line2);border-radius:16px;
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    padding:clamp(22px,2.4vw,30px);box-shadow:0 30px 70px -30px rgba(0,0,0,.7);
+    opacity:0;animation:up .9s cubic-bezier(.2,.8,.2,1) .5s forwards}
+  .panel h2{font-family:var(--display);font-weight:700;color:var(--accent);
+    font-size:clamp(18px,1.9vw,23px);letter-spacing:-.01em;margin-bottom:20px}
+
+  .row{display:flex;align-items:center;gap:14px;padding:11px 0;
+    opacity:0;animation:up .7s cubic-bezier(.2,.8,.2,1) forwards}
+  .row:nth-child(2){animation-delay:.60s}
+  .row:nth-child(3){animation-delay:.68s}
+  .row:nth-child(4){animation-delay:.76s}
+  .row:nth-child(5){animation-delay:.84s}
+  .row:nth-child(6){animation-delay:.92s}
+  .ic{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);
+    display:grid;place-items:center;color:var(--accent);background:rgba(245,166,35,0.05);
+    transition:border-color .3s,background .3s}
+  .ic svg{width:19px;height:19px}
+  .row:hover .ic{border-color:var(--accent);background:var(--accent-tint)}
+  .row .label{flex:1;font-family:var(--sans);font-size:clamp(13px,1.05vw,14.5px);color:var(--ink);line-height:1.35}
+  .row .label b{font-weight:600}
+
+  .info{position:relative;flex:none;width:22px;height:22px;border-radius:50%;border:1px solid var(--line2);
+    background:transparent;color:var(--ink3);font-family:var(--mono);font-size:11px;font-style:italic;
+    display:grid;place-items:center;cursor:help;transition:color .25s,border-color .25s,transform .25s}
+  .info:hover,.info:focus-visible{color:var(--accent);border-color:var(--accent);transform:scale(1.12);outline:none}
+  .info .tip{position:absolute;bottom:calc(100% + 10px);right:-6px;width:max-content;max-width:240px;
+    background:var(--panel2);border:1px solid var(--line2);border-radius:9px;padding:9px 11px;
+    font-family:var(--sans);font-style:normal;font-size:11.5px;line-height:1.45;color:var(--ink2);text-align:left;
+    box-shadow:0 14px 34px -14px rgba(0,0,0,.8);opacity:0;transform:translateY(4px);pointer-events:none;
+    transition:opacity .22s,transform .22s;z-index:5}
+  .info .tip::after{content:"";position:absolute;top:100%;right:12px;border:6px solid transparent;border-top-color:var(--line2)}
+  .info:hover .tip,.info:focus-visible .tip{opacity:1;transform:translateY(0)}
+
+  .divider{height:1px;background:var(--line);margin:18px 0 16px}
+  .powered{font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--ink3);margin-bottom:14px}
+  .partners{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .chip{background:#fff;border-radius:9px;padding:10px 14px;display:grid;place-items:center;
+    box-shadow:0 6px 18px -10px rgba(0,0,0,.6);transition:transform .3s,box-shadow .3s}
+  .chip:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(245,166,35,.35)}
+  .chip img{display:block}
+  .chip.bnp img{height:22px}
+  .chip.sia img{height:26px}
+
+  @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+  /* tablet/desktop: collapse the fixed sidebar into an off-canvas drawer */
+  @media (max-width:1080px){
+    .hero{margin-left:0}
+    .topbar{left:0;justify-content:space-between}
+    .navtoggle{display:inline-flex;align-items:center;justify-content:center;
+      width:42px;height:42px;border-radius:10px;cursor:pointer;
+      background:var(--bg2);border:1px solid var(--line2);color:var(--ink)}
+    .navtoggle svg{width:20px;height:20px}
+    .sidebar{transform:translateX(-100%);box-shadow:0 0 60px rgba(0,0,0,.6);
+      transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+    #navState:checked ~ .sidebar{transform:translateX(0)}
+    #navState:checked ~ .scrim{opacity:1;pointer-events:auto}
+    .scrim{position:fixed;inset:0;z-index:38;background:rgba(6,9,13,.6);
+      opacity:0;pointer-events:none;transition:opacity .3s}
+  }
+  @media (min-width:1081px){ .scrim{display:none} }
+
+  @media (max-width:880px){
+    .inner{grid-template-columns:1fr;gap:36px;align-items:start}
+    .left{max-width:none}
+    .info .tip{right:auto;left:-6px}
+    .info .tip::after{right:auto;left:12px}
+  }
+  @media (max-width:560px){
+    .btn .lbl{display:none}
+    .btn{padding:0 13px}
+    .btn-primary .lbl{display:inline}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation-duration:.001s!important}}
+</style>
+</head>
+<body>
+<!-- background layers sit behind everything, full-viewport -->
+<input type="checkbox" id="navState" hidden>
+<div id="particles-js"></div>
+<div class="glow"></div>
+<div class="vignette"></div>
+
+<!-- ===================== LEFT VERTICAL NAV ===================== -->
+<aside class="sidebar">
+  <div class="brand">
+    <a href="index.html" style="text-decoration:none">
+      <div class="mark">Digital Disruption Matrix</div>
+    </a>
+    <div class="ed">Edition 2026</div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-group">
+      <div class="nav-eyebrow">Explore by Sector</div>
+      <a href="explore/technology.html">Technology</a>
+      <a href="explore/industry.html">Industry</a>
+      <a href="explore/tech-x-industry.html">Technology &times; Industry</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-eyebrow">Explore by Data</div>
+      <a href="data/professionals-perception.html">Professionals&rsquo; Perception</a>
+      <a href="data/unicorn-factor.html">Unicorn Factor</a>
+      <a href="data/research-innovation.html">Research &amp; Innovation</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-eyebrow">More</div>
+      <a href="more/about.html">About us</a>
+      <a href="more/methodology.html">Methodology</a>
+      <a href="more/faq.html">FAQ</a>
+      <a href="more/contact.html">Contact</a>
+      <a href="more/acknowledgment.html">Acknowledgment</a>
+    </div>
+  </nav>
+</aside>
+
+<!-- scrim for mobile drawer -->
+<label class="scrim" for="navState" aria-label="Close menu"></label>
+
+<!-- ===================== TOP ACTION BAR ===================== -->
+<div class="topbar">
+  <label class="navtoggle" for="navState" aria-label="Toggle menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </label>
+  <div class="actions">
+    <a href="key-findings.html" class="btn btn-ghost">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.5.4.5 1 .5 1.6h6c0-.6 0-1.2.5-1.6A6 6 0 0 0 12 3Z"/></svg>
+      <span class="lbl">Key findings</span>
+    </a>
+    <a href="heatmatrix.html" class="btn btn-ghost">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.3"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.3" fill="currentColor" stroke="none" opacity=".4"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.3" fill="currentColor" stroke="none" opacity=".4"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.3"/></svg>
+      <span class="lbl">Heatmatrix</span>
+    </a>
+    <a href="download.html" class="btn btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v10m0 0 4-4m-4 4-4-4"/><path d="M5 19h14"/></svg>
+      <span class="lbl">Download the report</span>
+    </a>
+  </div>
+</div>
+
+<!-- ===================== HERO / HOMEPAGE ===================== -->
+<header class="hero">
+  <div class="inner">
+    <!-- LEFT -->
+    <div class="left">
+      <img class="essec" src="assets/img/essec-blanc.png" alt="ESSEC Business School">
+      <h1>Digital Disruption<br>Matrix 2026</h1>
+      <p class="sub">5 Technologies Analyzed Across 10 Industries.</p>
+    </div>
+
+    <!-- RIGHT -->
+    <aside class="panel">
+      <h2>Data-driven with human insights</h2>
+
+      <div class="row">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14a0 0 0 0 1 0 0H6a0 0 0 0 1 0 0V3Z"/><path d="M14 3v4h4"/><path d="M8.5 12h7M8.5 15.5h7M8.5 8.5h2"/></svg></span>
+        <span class="label"><b>600+</b> global industry reports</span>
+        <button class="info">i<span class="tip">Aggregated from 600+ published global industry reports.</span></button>
+      </div>
+
+      <div class="row">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 13.5a4.6 4.6 0 0 1 5 4"/></svg></span>
+        <span class="label"><b>1,000</b> industry professionals surveyed</span>
+        <button class="info">i<span class="tip">Survey commissioned and analyzed by the chair team.</span></button>
+      </div>
+
+      <div class="row">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h16a1 1 0 0 1 1 1V16a1 1 0 0 1-1 1H10l-4.5 3.5V17H4a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1Z"/><path d="M8 9.5h8M8 13h5"/></svg></span>
+        <span class="label"><b>20+</b> hours of expert interviews</span>
+        <button class="info">i<span class="tip">Interviews conducted by the chair team to pressure-test the data and add sector-specific nuance.</span></button>
+      </div>
+
+      <div class="row">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 2.5 8.5 12 13l9.5-4.5L12 4Z"/><path d="M6 10.5V15c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-4.5"/><path d="M21.5 8.5v5"/></svg></span>
+        <span class="label">Academic papers &amp; global patents</span>
+        <button class="info">i<span class="tip">Scholarly publications and patent filings from Lens.org.</span></button>
+      </div>
+
+      <div class="row">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4c3.5 1 5.5 4 5 8.5L15 17l-4-4 3-9Z"/><path d="M11 13 7.5 12 5 14.5 8 16l1 3 2.5-2.5"/><circle cx="14.5" cy="8.5" r="1.3"/><path d="M5 19c-1 .6-1.6 1.8-1.6 3 1.2 0 2.4-.6 3-1.6"/></svg></span>
+        <span class="label">Startup &amp; unicorn data</span>
+        <button class="info">i<span class="tip">Data from Crunchbase analyzed by the chair team.</span></button>
+      </div>
+
+      <div class="divider"></div>
+      <p class="powered">Powered by our chair partners</p>
+      <div class="partners">
+        <span class="chip bnp"><img src="assets/img/bnp.png" alt="BNP Paribas"></span>
+        <span class="chip sia"><img src="assets/img/sia.jpg" alt="SIA Partners"></span>
+      </div>
+    </aside>
+  </div>
+</header>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+(function(){
+  function start(){
+    if(!window.particlesJS){ return setTimeout(start,120); }
+    // re-skinned to the design system: blue "Quantum" constellation on the dark canvas,
+    // scaled up + more visible while staying subtle behind the UI.
+    var colors = { particles:"#7fb4eb", lines:"#3d5f86", accent:"#4a90d9" };
+    window.particlesJS("particles-js", {
+      particles: {
+        number: { value: 90, density: { enable: true, value_area: 850 } },
+        color: { value: colors.particles },
+        shape: { type: "circle", stroke: { width: 0.6, color: colors.accent } },
+        opacity: { value: 0.7, random: true, anim: { enable: true, speed: 1, opacity_min: 0.28 } },
+        size: { value: 3.6, random: true, anim: { enable: true, speed: 2, size_min: 1.1 } },
+        line_linked: { enable: true, distance: 185, color: colors.lines, opacity: 0.4, width: 1.3 },
+        move: { enable: true, speed: 1.5, random: true, out_mode: "bounce" }
+      },
+      interactivity: {
+        detect_on: "window",
+        events: {
+          onhover: { enable: true, mode: "grab" },
+          onclick: { enable: true, mode: "push" },
+          resize: true
+        },
+        modes: {
+          grab: { distance: 240, line_linked: { opacity: 0.75 } },
+          push: { particles_nb: 4 },
+          repulse: { distance: 200, duration: 0.4 }
+        }
+      },
+      retina_detect: true
+    });
+  }
+  start();
+})();
+</script>
+</body>
+</html>
