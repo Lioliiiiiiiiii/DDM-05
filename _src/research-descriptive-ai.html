@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research &amp; Innovation</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0e14; --bg2:#0d1117; --panel:#11161f; --panel2:#161b22;
+  --line:#1f2733; --line2:#2a3340;
+  --ink:#e8eef5; --ink2:#9aa7b5; --ink3:#5e6b7a;
+  --accent:#f5a623;
+  --accent-tint:rgba(245,166,35,0.14);
+  --c0:#f5a623; --c1:#e84b8a; --c2:#f05a32; --c3:#2abfa3; --c4:#4a90d9;
+  --up:#3fb950; --down:#f85149; --flat:#8b949e;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --sans:'IBM Plex Sans',-apple-system,sans-serif;
+  --disp:'Bricolage Grotesque',var(--sans);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:
+    radial-gradient(1100px 600px at 12% -8%, rgba(245,166,35,0.07), transparent 55%),
+    radial-gradient(900px 600px at 100% 0%, rgba(74,144,217,0.07), transparent 50%),
+    var(--bg);
+  color:var(--ink); font-family:var(--sans);
+  -webkit-font-smoothing:antialiased; line-height:1.5;
+  padding:34px clamp(16px,4vw,46px) 60px;
+}
+.wrap{max-width:1280px;margin:0 auto}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ===== HEADER ===== */
+.masthead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px;
+  padding-bottom:22px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);
+  display:flex;align-items:center;gap:9px;margin-bottom:11px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);display:inline-block}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(34px,5.4vw,58px);letter-spacing:-.02em;line-height:.98}
+h1 .amp{color:var(--accent);font-style:italic;font-weight:600}
+.lede{color:var(--ink2);font-size:13.5px;max-width:560px;margin-top:12px;line-height:1.65}
+.tech-chip{display:inline-flex;align-items:center;gap:9px;margin-top:14px;padding:7px 15px 7px 13px;
+  border:1px solid var(--accent);border-radius:30px;background:var(--accent-tint);
+  font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:-.01em;color:var(--accent)}
+.tech-chip .tc-ico{font-size:15px}
+.tech-chip .tc-pre{font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink3);margin-right:2px}
+.card.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent), 0 10px 30px -12px var(--accent-tint)}
+.card.sel .card-name::after{content:" ◀ focus";font-family:var(--mono);font-size:8px;letter-spacing:.08em;color:var(--accent);font-weight:600;text-transform:uppercase}
+.legend-item.sel{color:var(--ink);font-weight:600}
+.legend-item.sel .legend-dot{box-shadow:0 0 0 3px var(--accent-tint)}
+.scope{text-align:right;font-family:var(--mono);font-size:10.5px;color:var(--ink3);line-height:1.9;letter-spacing:.03em}
+.scope b{color:var(--ink2);font-weight:500}
+
+/* ===== KPI STRIP ===== */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin:26px 0 8px;
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}
+.kpi{padding:18px 20px 17px;border-right:1px solid var(--line);position:relative}
+.kpi:last-child{border-right:none}
+.kpi-ico{font-size:15px;opacity:.9;margin-bottom:9px}
+.kpi-val{font-family:var(--disp);font-weight:700;font-size:clamp(24px,3vw,33px);letter-spacing:-.02em;line-height:1}
+.kpi-val .u{font-size:.5em;color:var(--ink2);font-weight:500;margin-left:2px}
+.kpi-lab{font-size:10.5px;color:var(--ink2);margin-top:7px;letter-spacing:.02em}
+.kpi-sub{font-family:var(--mono);font-size:10px;color:var(--ink3);margin-top:3px}
+
+/* ===== SECTIONS ===== */
+section{margin-top:40px}
+.sec-head{display:flex;align-items:baseline;gap:13px;margin-bottom:6px}
+.sec-num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.05em}
+.sec-title{font-family:var(--disp);font-weight:600;font-size:21px;letter-spacing:-.01em}
+.sec-desc{color:var(--ink2);font-size:12.5px;margin-bottom:18px;max-width:760px;line-height:1.6}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+
+/* toggle */
+.toggle{display:inline-flex;background:var(--bg2);border:1px solid var(--line2);border-radius:10px;padding:3px;gap:2px}
+.toggle button{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--ink2);background:transparent;
+  border:none;border-radius:7px;padding:7px 15px;cursor:pointer;transition:.18s;text-transform:uppercase}
+.toggle button:hover{color:var(--ink)}
+.toggle button.on{background:var(--accent);color:#1a1205;font-weight:600}
+.chart-topbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;margin-bottom:6px}
+.chart-cap{font-size:11.5px;color:var(--ink3);font-family:var(--mono)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin:16px 0 12px}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink2);cursor:pointer;transition:.15s}
+.legend-item.off{opacity:.32}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.chart-wrap{position:relative;width:100%;height:360px}
+
+/* evolution cards */
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin-top:18px}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:14px 15px 15px}
+.card-name{font-size:11px;color:var(--ink);margin-bottom:9px;line-height:1.35;min-height:30px;font-weight:600}
+.card-score{font-family:var(--disp);font-size:25px;font-weight:700;line-height:1}
+.card-score-label{font-size:9px;color:var(--ink3);margin-top:3px;font-family:var(--mono);letter-spacing:.04em}
+.card-divider{border:none;border-top:1px solid var(--line);margin:11px 0}
+.card-stat{display:flex;justify-content:space-between;align-items:baseline;margin-top:5px}
+.card-stat-label{font-size:9.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-family:var(--mono)}
+.card-stat-val{font-size:12px;font-weight:600;font-family:var(--mono)}
+.driver-title{font-size:8.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin:11px 0 9px;font-family:var(--mono)}
+.driver-row{margin-bottom:8px}
+.driver-label-line{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.driver-label{font-size:10px;color:var(--ink2)}
+.driver-pct{font-size:10.5px;font-weight:600;font-family:var(--mono)}
+.driver-bar-track{height:4px;background:var(--line2);border-radius:2px;overflow:hidden}
+.driver-bar-fill{height:100%;border-radius:2px;transition:width .5s ease}
+.up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--flat)}
+
+/* highlights */
+.hl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.hl{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:13px;
+  padding:17px 17px 16px;position:relative;overflow:hidden}
+.hl::after{content:"";position:absolute;inset:0 0 auto auto;width:120px;height:120px;
+  background:radial-gradient(circle at top right,var(--glow,rgba(245,166,35,.13)),transparent 70%);pointer-events:none}
+.hl-tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);
+  display:flex;align-items:center;gap:7px;margin-bottom:11px}
+.hl-pill{padding:2px 7px;border-radius:20px;font-weight:600;font-size:9px;letter-spacing:.04em}
+.hl-big{font-family:var(--disp);font-weight:700;font-size:27px;letter-spacing:-.02em;line-height:1.05;margin-bottom:7px}
+.hl-txt{font-size:11.5px;color:var(--ink2);line-height:1.55}
+.hl-txt b{color:var(--ink);font-weight:600}
+
+/* heatmap */
+.heat{overflow-x:auto}
+table.heat-t{border-collapse:collapse;width:100%;min-width:720px;font-family:var(--mono)}
+.heat-t th{font-size:10px;color:var(--ink2);font-weight:500;padding:8px 6px;text-align:center;vertical-align:bottom;letter-spacing:.02em}
+.heat-t th.rowh{text-align:left;width:170px}
+.heat-t td{padding:0;text-align:center}
+.heat-cell{height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:7px;margin:2px;
+  font-size:11px;font-weight:500;transition:.15s;cursor:default;position:relative}
+.heat-cell:hover{outline:1.5px solid var(--ink);outline-offset:-1px}
+.heat-rowname{font-family:var(--sans);font-size:11.5px;color:var(--ink);font-weight:600;display:flex;align-items:center;gap:8px}
+.heat-rowname .sw{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.heat-foot{font-family:var(--mono);font-size:10px;color:var(--ink3);margin-top:12px;display:flex;align-items:center;gap:10px}
+.heat-scale{display:flex;gap:2px}.heat-scale i{width:22px;height:8px;border-radius:1px}
+
+/* two-col layouts */
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:16px}
+.grid2b{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* country race */
+.race-tabs,.appl-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.race-tabs button,.appl-tabs button{font-family:var(--mono);font-size:10.5px;color:var(--ink2);background:var(--bg2);
+  border:1px solid var(--line);border-radius:8px;padding:6px 11px;cursor:pointer;transition:.15s}
+.race-tabs button.on,.appl-tabs button.on{border-color:var(--accent);color:var(--accent)}
+.race-cols{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.race-col h4{font-family:var(--mono);font-size:10.5px;color:var(--ink3);letter-spacing:.06em;margin-bottom:13px;text-transform:uppercase}
+.bar-row{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.bar-flag{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+.bar-name{font-size:11.5px;width:96px;flex-shrink:0;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:18px;background:var(--bg2);border-radius:4px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;
+  font-family:var(--mono);font-size:9.5px;color:#0a0e14;font-weight:600;transition:width .5s ease;min-width:30px}
+.rank-no{font-family:var(--mono);font-size:10px;color:var(--ink3);width:15px;flex-shrink:0}
+.trend{font-family:var(--mono);font-size:9.5px;font-weight:600;flex-shrink:0;width:44px;text-align:right;letter-spacing:.02em}
+.trend.up{color:var(--up)} .trend.down{color:var(--down)} .trend.flatv{color:var(--ink3)}
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+.dual .sec-head{margin-top:0}
+.dual .bar-name{width:74px}
+.race-col h4{font-family:var(--mono);font-size:10px;color:var(--ink3);letter-spacing:.05em;margin-bottom:14px;text-transform:uppercase}
+.idx-note{font-size:10.5px;color:var(--ink3);line-height:1.55;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-style:italic}
+
+/* applicants leaderboard */
+.appl-list{display:flex;flex-direction:column;gap:2px}
+.appl-row{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;transition:.15s}
+.appl-row:hover{background:var(--bg2)}
+.appl-rank{font-family:var(--disp);font-size:15px;font-weight:700;color:var(--ink3);width:22px;text-align:center}
+.appl-row.gold .appl-rank{color:var(--accent)}
+.appl-name{flex:1;font-size:12.5px;color:var(--ink);font-weight:500}
+.appl-name .new{font-family:var(--mono);font-size:8.5px;background:rgba(63,185,80,.16);color:var(--up);
+  padding:2px 6px;border-radius:20px;margin-left:8px;letter-spacing:.05em;vertical-align:middle}
+.appl-name .climb{font-family:var(--mono);font-size:8.5px;background:rgba(245,166,35,.14);color:var(--accent);
+  padding:2px 6px;border-radius:20px;margin-left:8px;letter-spacing:.05em;vertical-align:middle}
+.appl-ct{font-family:var(--mono);font-size:12px;color:var(--ink2);font-weight:600}
+.appl-bar{height:3px;border-radius:2px;background:var(--accent);margin-top:5px}
+
+/* unicorn */
+.uni-list{display:flex;flex-direction:column;gap:1px}
+.uni-row{display:flex;align-items:center;gap:11px;padding:9px 6px;border-bottom:1px solid var(--line)}
+.uni-row:last-child{border-bottom:none}
+.uni-flag{font-size:15px;width:20px;text-align:center}
+.uni-name{flex:1;font-size:12.5px;font-weight:600;color:var(--ink)}
+.uni-tech{font-family:var(--mono);font-size:9.5px;color:var(--ink3)}
+.uni-val{font-family:var(--disp);font-size:16px;font-weight:700}
+.uni-val .u{font-size:.6em;color:var(--ink2);font-weight:500}
+
+/* survey */
+.sv-rank{display:flex;flex-direction:column;gap:11px}
+.sv-row{display:flex;align-items:center;gap:12px}
+.sv-medal{font-family:var(--disp);font-size:16px;font-weight:700;width:26px;text-align:center;color:var(--ink3)}
+.sv-row.top .sv-medal{color:var(--accent)}
+.sv-name{width:150px;font-size:12px;color:var(--ink);flex-shrink:0}
+.sv-track{flex:1;height:22px;background:var(--bg2);border-radius:5px;overflow:hidden}
+.sv-fill{height:100%;border-radius:5px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;
+  font-family:var(--mono);font-size:10px;font-weight:600;color:#0a0e14;transition:width .6s ease}
+.timing-wrap{display:flex;flex-direction:column;gap:9px}
+.timing-row{display:flex;align-items:center;gap:11px}
+.timing-name{width:150px;font-size:11.5px;color:var(--ink2);flex-shrink:0}
+.timing-bar{flex:1;height:20px;display:flex;border-radius:5px;overflow:hidden;background:var(--bg2)}
+.timing-seg{height:100%;font-family:var(--mono);font-size:8.5px;display:flex;align-items:center;justify-content:center;color:#0a0e14;font-weight:600;transition:.3s}
+
+.note{font-size:11.5px;color:var(--ink2);line-height:1.65;margin-top:16px;padding:14px 16px;
+  background:var(--panel);border-left:3px solid var(--accent);border-radius:5px}
+.note b{color:var(--ink);font-weight:600}
+.footer{margin-top:46px;padding-top:20px;border-top:1px solid var(--line);font-family:var(--mono);
+  font-size:10.5px;color:var(--ink3);line-height:1.9;letter-spacing:.02em}
+
+@media(max-width:920px){
+  .kpis{grid-template-columns:repeat(2,1fr)} .kpi:nth-child(2n){border-right:none}
+  .cards{grid-template-columns:repeat(2,1fr)} .hl-grid{grid-template-columns:repeat(2,1fr)}
+  .grid2,.grid2b{grid-template-columns:1fr} .race-cols{grid-template-columns:1fr}
+  .scope{text-align:left}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div>
+      <div class="eyebrow" id="eyebrow">Technology Intelligence · 2020 – 2025</div>
+      <h1>Research <span class="amp">&amp;</span> Innovation</h1>
+      <div class="tech-chip" id="techChip"></div>
+      <p class="lede" id="lede">A combined read on patent filings and scholarly publications, 2020–2025 — with the countries and organisations driving this technology.</p>
+    </div>
+  </header>
+
+  <!-- 01 EVOLUTION -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">Publication trajectory</span></div>
+    <p class="sec-desc">Indexed publication score, 2020–2025. Toggle the underlying signal: <b>Combined</b> weights patents and scholarly output 50/50 (max = 100); <b>Scholar</b> and <b>Patents</b> each rebase to their own all-time, all-tech peak (max = 50).</p>
+    <div class="panel">
+      <div class="chart-topbar">
+        <div class="toggle" id="toggle">
+          <button data-v="combined" class="on">Combined</button>
+          <button data-v="scholar">Scholar</button>
+          <button data-v="patents">Patents</button>
+        </div>
+        <div class="chart-cap" id="chartCap"></div>
+      </div>
+      <div class="legend" id="legend"></div>
+      <div class="chart-wrap"><canvas id="evoChart"></canvas></div>
+      <div class="cards" id="evoCards"></div>
+    </div>
+  </section>
+
+  <!-- 02 COUNTRIES + 03 APPLICANTS (side by side) -->
+  <section>
+    <div class="dual">
+      <div>
+        <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">Most active countries in scholar publications</span></div>
+        <p class="sec-desc">Top countries by scholarly output in 2025. Arrows show movement against each country's 2020 rank for the selected technology.</p>
+        <div class="panel">
+          <div class="race-tabs" id="raceTabs"></div>
+          <div id="raceCols"></div>
+        </div>
+      </div>
+      <div>
+        <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">Who's filing the patents</span></div>
+        <p class="sec-desc">Top patent applicants in 2025. Badges flag organisations <b>absent from the 2020 top-15</b> or that made a notable climb.</p>
+        <div class="panel">
+          <div class="appl-tabs" id="applTabs"></div>
+          <div id="applWrap"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const DATA = {"evolution": {"years": [2020, 2021, 2022, 2023, 2024, 2025], "patents": {"Descriptive AI": [22.52, 30.08, 42.61, 50.0, 45.53, 48.29], "Agentic & GenAI": [3.11, 3.97, 5.48, 6.56, 7.6, 11.27], "Blockchain & Decentralized": [1.95, 2.66, 3.59, 4.15, 4.21, 4.22], "Physical AI & Robotics": [12.22, 14.58, 17.89, 20.01, 19.97, 21.14], "Quantum Computing": [1.75, 2.41, 3.16, 3.96, 4.34, 5.59]}, "scholar": {"Descriptive AI": [20.82, 26.51, 27.14, 33.39, 39.7, 50.0], "Agentic & GenAI": [0.95, 1.24, 1.22, 3.16, 7.15, 12.8], "Blockchain & Decentralized": [1.69, 1.94, 2.1, 2.65, 2.98, 4.17], "Physical AI & Robotics": [5.89, 6.47, 6.25, 7.23, 8.44, 10.16], "Quantum Computing": [0.72, 1.01, 0.99, 1.26, 1.55, 2.34]}, "combined": {"Descriptive AI": [43.34, 56.6, 69.75, 83.39, 85.24, 98.29], "Agentic & GenAI": [4.06, 5.21, 6.7, 9.72, 14.75, 24.08], "Blockchain & Decentralized": [3.64, 4.6, 5.69, 6.81, 7.19, 8.39], "Physical AI & Robotics": [18.1, 21.05, 24.14, 27.24, 28.42, 31.31], "Quantum Computing": [2.47, 3.42, 4.15, 5.23, 5.89, 7.93]}}, "yoy": {"Descriptive AI": {"patent": 6.1, "scholar": 25.9}, "Agentic & GenAI": {"patent": 48.4, "scholar": 79.0}, "Blockchain & Decentralized": {"patent": 0.2, "scholar": 39.8}, "Physical AI & Robotics": {"patent": 5.9, "scholar": 20.4}, "Quantum Computing": {"patent": 28.8, "scholar": 51.0}}, "raw2025": {"Descriptive AI": {"patent": 41505, "scholar": 504400}, "Agentic & GenAI": {"patent": 9690, "scholar": 129169}, "Blockchain & Decentralized": {"patent": 3630, "scholar": 42038}, "Physical AI & Robotics": {"patent": 18174, "scholar": 102533}, "Quantum Computing": {"patent": 4808, "scholar": 23587}}, "raw2020": {"Descriptive AI": {"patent": 19358, "scholar": 210027}, "Agentic & GenAI": {"patent": 2676, "scholar": 9586}, "Blockchain & Decentralized": {"patent": 1677, "scholar": 17082}, "Physical AI & Robotics": {"patent": 10502, "scholar": 59375}, "Quantum Computing": {"patent": 1506, "scholar": 7289}}, "kpi": {"patents2025": 77807, "scholar2025": 801727, "total2025": 879534}, "heat2025": {"Descriptive AI": {"Energy": 16334, "Materials": 18334, "Industrials": 8829, "Consumer goods": 10019, "Health Care": 129388, "Financials services": 5019, "Information technology": 36935, "Communication & creative industries": 18431, "Real Estate": 5631, "Automotive & transport": 13835}, "Agentic & GenAI": {"Energy": 1454, "Materials": 1358, "Industrials": 1233, "Consumer goods": 2560, "Health Care": 28330, "Financials services": 1030, "Information technology": 8553, "Communication & creative industries": 5775, "Real Estate": 859, "Automotive & transport": 2743}, "Blockchain & Decentralized": {"Energy": 1695, "Materials": 565, "Industrials": 1857, "Consumer goods": 2642, "Health Care": 8500, "Financials services": 4003, "Information technology": 7553, "Communication & creative industries": 2604, "Real Estate": 1630, "Automotive & transport": 1180}, "Physical AI & Robotics": {"Energy": 2905, "Materials": 5613, "Industrials": 5142, "Consumer goods": 3592, "Health Care": 38664, "Financials services": 656, "Information technology": 9648, "Communication & creative industries": 5085, "Real Estate": 1249, "Automotive & transport": 7167}, "Quantum Computing": {"Energy": 687, "Materials": 1401, "Industrials": 412, "Consumer goods": 517, "Health Care": 7467, "Financials services": 421, "Information technology": 3463, "Communication & creative industries": 1079, "Real Estate": 301, "Automotive & transport": 736}}, "industries": ["Energy", "Materials", "Industrials", "Consumer goods", "Health Care", "Financials services", "Information technology", "Communication & creative industries", "Real Estate", "Automotive & transport"], "topCountries": {"Descriptive AI": {"2020": [["United States", 40113], ["China", 35646], ["United Kingdom", 9735], ["India", 9589], ["Germany", 7213], ["Canada", 5795], ["South Korea", 5148], ["Japan", 5106]], "2025": [["China", 82383], ["United States", 47165], ["India", 21876], ["United Kingdom", 14228], ["Germany", 9831], ["Australia", 7855], ["Canada", 7794], ["Italy", 7380]]}, "Agentic & GenAI": {"2020": [["China", 2356], ["United States", 1926], ["United Kingdom", 494], ["India", 363], ["South Korea", 340], ["Germany", 327], ["Japan", 314], ["Canada", 262]], "2025": [["United States", 15021], ["China", 14553], ["United Kingdom", 3681], ["Australia", 2423], ["Germany", 2414], ["Hong Kong", 2121], ["India", 2064], ["Canada", 1984]]}, "Blockchain & Decentralized": {"2020": [["China", 1906], ["United States", 1721], ["United Kingdom", 780], ["India", 745], ["Australia", 527], ["Germany", 464], ["Canada", 390], ["Italy", 310]], "2025": [["China", 3287], ["United States", 2633], ["India", 2558], ["Indonesia", 1470], ["United Kingdom", 997], ["Australia", 738], ["Italy", 480], ["Saudi Arabia", 441]]}, "Physical AI & Robotics": {"2020": [["United States", 9594], ["China", 8030], ["Japan", 2728], ["United Kingdom", 2623], ["Germany", 2149], ["Italy", 2037], ["India", 1429], ["Canada", 1329]], "2025": [["China", 18656], ["United States", 9464], ["United Kingdom", 3047], ["Germany", 2431], ["Italy", 2364], ["Japan", 2115], ["India", 1876], ["South Korea", 1540]]}, "Quantum Computing": {"2020": [["United States", 1462], ["China", 836], ["Germany", 361], ["United Kingdom", 326], ["Japan", 266], ["India", 249], ["Canada", 204], ["France", 199]], "2025": [["United States", 2696], ["China", 1713], ["Germany", 783], ["India", 747], ["United Kingdom", 632], ["Japan", 539], ["Italy", 425], ["Canada", 338]]}}, "topApplicants": {"Descriptive AI": {"2020": [["IBM", 782], ["MICROSOFT TECHNOLOGY LICENSING LLC", 617], ["GOOGLE LLC", 490], ["SAMSUNG ELECTRONICS CO LTD", 353], ["INTEL CORP", 313], ["AMAZON TECH INC", 188], ["KONINKLIJKE PHILIPS NV", 180]], "2025": [["IBM", 916], ["SAMSUNG ELECTRONICS CO LTD", 792], ["GOOGLE LLC", 756], ["MICROSOFT TECHNOLOGY LICENSING LLC", 545], ["QUALCOMM INC", 529], ["INTEL CORP", 476], ["KONINKLIJKE PHILIPS NV", 449]]}, "Agentic & GenAI": {"2020": [["MICROSOFT TECHNOLOGY LICENSING LLC", 83], ["GOOGLE LLC", 74], ["SAMSUNG ELECTRONICS CO LTD", 64], ["IBM", 45], ["ADOBE INC", 41], ["SNAP INC", 34], ["CAPITAL ONE SERVICES LLC", 31]], "2025": [["MICROSOFT TECHNOLOGY LICENSING LLC", 323], ["GOOGLE LLC", 307], ["SAMSUNG ELECTRONICS CO LTD", 257], ["SNAP INC", 252], ["IBM", 188], ["ADOBE INC", 183], ["QUALCOMM INC", 141]]}, "Blockchain & Decentralized": {"2020": [["ALIBABA GROUP HOLDING LTD", 139], ["IBM", 96], ["NCHAIN HOLDINGS LTD", 57], ["ADVANCED NEW TECHNOLOGIES CO LTD", 33], ["ACCENTURE GLOBAL SOLUTIONS LTD", 28], ["MICROSOFT TECHNOLOGY LICENSING LLC", 25], ["BRITISH TELECOMM", 18]], "2025": [["NCHAIN LICENSING AG", 216], ["WELLS FARGO BANK NA", 139], ["PURE STORAGE INC", 114], ["IBM", 80], ["BEIJING BAIDU NETCOM SCI & TECH CO LTD", 77], ["TENCENT TECH SHENZHEN CO LTD", 57], ["BANK OF AMERICA", 50]]}, "Physical AI & Robotics": {"2020": [["SAMSUNG ELECTRONICS CO LTD", 216], ["ETHICON LLC", 207], ["BOEING CO", 148], ["INTEL CORP", 148], ["MASSACHUSETTS INST TECHNOLOGY", 115], ["MICROSOFT TECHNOLOGY LICENSING LLC", 110], ["QUALCOMM INC", 97]], "2025": [["QUALCOMM INC", 451], ["SAMSUNG ELECTRONICS CO LTD", 418], ["NVIDIA CORP", 307], ["INTEL CORP", 300], ["BOSCH GMBH ROBERT", 220], ["ERICSSON TELEFON AB L M", 200], ["INTERDIGITAL PATENT HOLDINGS INC", 177]]}, "Quantum Computing": {"2020": [["IBM", 133], ["GOOGLE LLC", 73], ["MASSACHUSETTS INST TECHNOLOGY", 47], ["BROAD INST INC", 46], ["IMMATICS BIOTECHNOLOGIES GMBH", 34], ["HARVARD COLLEGE", 32], ["INTEL CORP", 30]], "2025": [["IBM", 844], ["GOOGLE LLC", 134], ["PURE STORAGE INC", 109], ["MICROSOFT TECHNOLOGY LICENSING LLC", 97], ["FORTINET INC", 50], ["IONQ INC", 50], ["ATOMBEAM TECHNOLOGIES INC", 42]]}}, "nvidia": [[2021, 131], [2022, 202], [2023, 260], [2024, 277], [2025, 307]], "unicornCount": {"Descriptive AI": 392, "Agentic & GenAI": 63, "Blockchain & Decentralized": 106, "Physical AI & Robotics": 46, "Quantum Computing": 7}, "unicornFund": {"Descriptive AI": 507.0, "Agentic & GenAI": 200.0, "Blockchain & Decentralized": 42.0, "Physical AI & Robotics": 26.8, "Quantum Computing": 5.2}, "unicornTotal": 517, "unicornCountries": {"United States": 320, "China": 51, "United Kingdom": 20, "Canada": 15, "Singapore": 12, "France": 12, "Israel": 11, "Germany": 11}, "topUnicorns": [["OpenAI", "United States", "Descriptive AI", 79.0], ["Anthropic", "United States", "Agentic & GenAI", 63.7], ["Databricks", "United States", "Descriptive AI", 27.2], ["Waymo", "United States", "Descriptive AI", 27.1], ["Cruise", "United States", "Descriptive AI", 16.0], ["Scale", "United States", "Agentic & GenAI", 15.9], ["Firmus Technologies", "Singapore", "Descriptive AI", 10.6], ["ByteDance", "China", "Descriptive AI", 9.8], ["Anduril Industries", "United States", "Descriptive AI", 6.4], ["Project Prometheus", "United States", "Descriptive AI", 6.2]], "emergingCount": {"Descriptive AI": 92, "Agentic & GenAI": 27, "Blockchain & Decentralized": 24, "Physical AI & Robotics": 9, "Quantum Computing": 1}, "startupEvo": {"Descriptive AI": {"2023": 3825, "2024": 3176, "2025": 4311}, "Agentic & GenAI": {"2023": 383, "2024": 340, "2025": 831}, "Blockchain & Decentralized": {"2023": 844, "2024": 587, "2025": 519}, "Physical AI & Robotics": {"2023": 168, "2024": 194, "2025": 221}, "Quantum Computing": {"2023": 10, "2024": 17, "2025": 32}}, "surveyN": 1000, "surveyRank": {"Descriptive AI": 2.18, "Agentic & GenAI": 1.68, "Blockchain & Decentralized": 3.62, "Physical AI & Robotics": 3.36, "Quantum Computing": 4.16}, "surveyTiming": {"Descriptive AI": {"Now": 743, "Soon (next year)": 174, "Later (in 2+ years)": 77, "Never": 6}, "Agentic & GenAI": {"Now": 629, "Soon (next year)": 245, "Later (in 2+ years)": 123, "Never": 3}, "Blockchain & Decentralized": {"Later (in 2+ years)": 448, "Now": 201, "Soon (next year)": 189, "Never": 162}, "Physical AI & Robotics": {"Later (in 2+ years)": 407, "Now": 252, "Soon (next year)": 180, "Never": 161}, "Quantum Computing": {"Later (in 2+ years)": 663, "Never": 195, "Soon (next year)": 95, "Now": 47}}, "surveySectors": {"Financials": 134, "Information technology": 115, "Energy": 109, "Industrials": 107, "Consumer Goods": 105, "Automotive & Transport": 105, "Healthcare": 97, "Real Estate": 97, "Communication services": 80, "Materials": 51}, "appl2020rank": {"Descriptive AI": {"IBM": 1, "MICROSOFT TECHNOLOGY LICENSING LLC": 2, "GOOGLE LLC": 3, "SAMSUNG ELECTRONICS CO LTD": 4, "INTEL CORP": 5, "AMAZON TECH INC": 6, "KONINKLIJKE PHILIPS NV": 7, "APPLE INC": 8, "ADOBE INC": 9, "GEN ELECTRIC": 10, "SIEMENS HEALTHCARE GMBH": 11, "CISCO TECH INC": 12, "STRADVISION INC": 13, "BEIJING BAIDU NETCOM SCI & TEC": 14, "ACCENTURE GLOBAL SOLUTIONS LTD": 15}, "Agentic & GenAI": {"MICROSOFT TECHNOLOGY LICENSING LLC": 1, "GOOGLE LLC": 2, "SAMSUNG ELECTRONICS CO LTD": 3, "IBM": 4, "ADOBE INC": 5, "SNAP INC": 6, "CAPITAL ONE SERVICES LLC": 7, "APPLE INC": 8, "REGENERON PHARMA": 9, "SIEMENS HEALTHCARE GMBH": 10, "SLACK TECH INC": 11, "SONY CORP": 12, "P4TENTS1 LLC": 13, "UNIV CALIFORNIA": 14, "HERE GLOBAL BV": 15}, "Blockchain & Decentralized": {"ALIBABA GROUP HOLDING LTD": 1, "IBM": 2, "NCHAIN HOLDINGS LTD": 3, "ADVANCED NEW TECHNOLOGIES CO LTD": 4, "ACCENTURE GLOBAL SOLUTIONS LTD": 5, "MICROSOFT TECHNOLOGY LICENSING LLC": 6, "BRITISH TELECOMM": 7, "CAPITAL ONE SERVICES LLC": 8, "STRONG FORCE TX PORTFOLIO 2018 LLC": 9, "WELLS FARGO BANK NA": 10, "SIEMENS AG": 11, "STRONG FORCE IOT PORTFOLIO 2016 LLC": 12, "BANK OF AMERICA": 13, "PURE STORAGE INC": 14, "INTEL CORP": 15}, "Physical AI & Robotics": {"SAMSUNG ELECTRONICS CO LTD": 1, "ETHICON LLC": 2, "BOEING CO": 3, "INTEL CORP": 4, "MASSACHUSETTS INST TECHNOLOGY": 5, "MICROSOFT TECHNOLOGY LICENSING LLC": 6, "QUALCOMM INC": 7, "IBM": 8, "ETHICON ENDO SURGERY LLC": 9, "GOOGLE LLC": 10, "COMMVAULT SYSTEMS INC": 11, "INTUITIVE SURGICAL OPERATIONS": 12, "HARVARD COLLEGE": 13, "BROAD INST INC": 14, "MAGIC LEAP INC": 15}, "Quantum Computing": {"IBM": 1, "GOOGLE LLC": 2, "MASSACHUSETTS INST TECHNOLOGY": 3, "BROAD INST INC": 4, "IMMATICS BIOTECHNOLOGIES GMBH": 5, "HARVARD COLLEGE": 6, "INTEL CORP": 7, "IBM UK": 8, "MICROSOFT TECHNOLOGY LICENSING LLC": 9, "NORTHROP GRUMMAN SYSTEMS CORP": 10, "UNIV CALIFORNIA": 11, "D WAVE SYSTEMS INC": 12, "HERE GLOBAL BV": 13, "GUARDANT HEALTH INC": 14, "NOKIA TECHNOLOGIES OY": 15}}, "country2020rank": {"Descriptive AI": {"United States": 1, "China": 2, "United Kingdom": 3, "India": 4, "Germany": 5, "Canada": 6, "South Korea": 7, "Japan": 8, "Australia": 9, "Italy": 10, "France": 11, "Spain": 12, "Iran": 13, "Switzerland": 14, "Taiwan": 15}, "Agentic & GenAI": {"China": 1, "United States": 2, "United Kingdom": 3, "India": 4, "South Korea": 5, "Germany": 6, "Japan": 7, "Canada": 8, "Australia": 9, "France": 10, "Italy": 11, "Singapore": 12, "Hong Kong": 13, "Taiwan": 14, "Switzerland": 15}, "Blockchain & Decentralized": {"China": 1, "United States": 2, "United Kingdom": 3, "India": 4, "Australia": 5, "Germany": 6, "Canada": 7, "Italy": 8, "South Korea": 9, "Russia": 10, "Japan": 11, "France": 12, "Switzerland": 13, "Spain": 14, "Hong Kong": 15}, "Physical AI & Robotics": {"United States": 1, "China": 2, "Japan": 3, "United Kingdom": 4, "Germany": 5, "Italy": 6, "India": 7, "Canada": 8, "South Korea": 9, "Australia": 10, "France": 11, "Russia": 12, "Spain": 13, "Switzerland": 14, "Netherlands": 15}, "Quantum Computing": {"United States": 1, "China": 2, "Germany": 3, "United Kingdom": 4, "Japan": 5, "India": 6, "Canada": 7, "France": 8, "Russia": 9, "Australia": 10, "Italy": 11, "Netherlands": 12, "Spain": 13, "Switzerland": 14, "Austria": 15}}};
+const TECHS = ["Descriptive AI","Agentic & GenAI","Blockchain & Decentralized","Physical AI & Robotics","Quantum Computing"];
+const COL = {"Descriptive AI":"#f5a623","Agentic & GenAI":"#e84b8a","Blockchain & Decentralized":"#f05a32","Physical AI & Robotics":"#2abfa3","Quantum Computing":"#4a90d9"};
+const ICON = {"Descriptive AI":"◈","Agentic & GenAI":"✦","Blockchain & Decentralized":"⬡","Physical AI & Robotics":"⬢","Quantum Computing":"◉"};
+const FLAG = {"United States":"🇺🇸","China":"🇨🇳","United Kingdom":"🇬🇧","India":"🇮🇳","Germany":"🇩🇪","Canada":"🇨🇦","Australia":"🇦🇺","Italy":"🇮🇹","Indonesia":"🇮🇩","South Korea":"🇰🇷","Japan":"🇯🇵","Hong Kong":"🇭🇰","France":"🇫🇷","Saudi Arabia":"🇸🇦","Spain":"🇪🇸","Israel":"🇮🇱","Singapore":"🇸🇬","United Arab Emirates":"🇦🇪","Switzerland":"🇨🇭","Netherlands":"🇳🇱","The Netherlands":"🇳🇱","Brazil":"🇧🇷","Iran":"🇮🇷","Taiwan":"🇹🇼","Pakistan":"🇵🇰","Turkey":"🇹🇷","Sweden":"🇸🇪","Russia":"🇷🇺","Egypt":"🇪🇬"};
+const flag = c => FLAG[c] || "🏳️";
+const fmtNum = n => n>=1e6 ? (n/1e6).toFixed(2)+"M" : n>=1e3 ? (n/1e3).toFixed(0)+"k" : ""+n;
+const hexA = (h,a)=>{const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return`rgba(${r},${g},${b},${a})`;};
+
+/* ===== SELECTED TECHNOLOGY (per-card focus) ===== */
+const SELECTED = "Descriptive AI";
+(function(){
+  const c = COL[SELECTED];
+  const root = document.documentElement;
+  root.style.setProperty('--accent', c);
+  root.style.setProperty('--accent-tint', hexA(c, 0.14));
+  document.title = SELECTED + " · Research & Innovation";
+  const eb = document.getElementById('eyebrow');
+  if(eb) eb.textContent = "Technology Intelligence · " + SELECTED + " · 2020 – 2025";
+  const chip = document.getElementById('techChip');
+  if(chip) chip.innerHTML = `<span class="tc-pre">Focus</span><span class="tc-ico">${ICON[SELECTED]}</span>${SELECTED}`;
+})();
+
+const HAS_CHART = typeof Chart !== 'undefined';
+if(HAS_CHART){
+  Chart.defaults.font.family = "'IBM Plex Mono', monospace";
+  Chart.defaults.color = "#5e6b7a";
+}
+
+/* ===== 01 EVOLUTION ===== */
+const years = DATA.evolution.years;
+const VIEWS = {
+  combined:{data:DATA.evolution.combined,max:105,step:20,cap:"Combined score — patents 50% + scholar 50% · max 100"},
+  scholar:{data:DATA.evolution.scholar,max:55,step:10,cap:"Scholar score — rebased to all-time, all-tech peak · max 50"},
+  patents:{data:DATA.evolution.patents,max:55,step:10,cap:"Patent score — rebased to all-time, all-tech peak · max 50"},
+};
+let curView = "combined";
+const hidden = new Set();
+
+const evoCtx = document.getElementById('evoChart').getContext('2d');
+const evoChart = HAS_CHART ? new Chart(evoCtx,{
+  type:'line',
+  data:{labels:years,datasets:TECHS.map(t=>{const sel=t===SELECTED;return{
+    label:t,data:VIEWS[curView].data[t],
+    borderColor: COL[t],
+    backgroundColor:'transparent',
+    borderWidth: sel?4:1.8,
+    pointRadius: sel?4.5:0, pointHoverRadius:7,
+    pointBackgroundColor:COL[t], pointBorderColor:'#0a0e14', pointBorderWidth:1.5,
+    tension:.4, fill:false, order: sel?0:1};})},
+  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#161b22',borderColor:'#2a3340',borderWidth:1,
+      titleColor:'#e8eef5',bodyColor:'#9aa7b5',padding:11,itemSort:(a,b)=>b.parsed.y-a.parsed.y,
+      callbacks:{label:c=>`  ${c.dataset.label}: ${c.parsed.y.toFixed(1)}`}}},
+    scales:{x:{grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{size:12}},border:{color:'rgba(255,255,255,.08)'}},
+      y:{min:0,max:VIEWS[curView].max,grid:{color:'rgba(255,255,255,.05)'},ticks:{stepSize:VIEWS[curView].step,font:{size:12}},border:{color:'rgba(255,255,255,.08)'}}}}
+}) : null;
+
+function renderLegend(){
+  document.getElementById('legend').innerHTML = TECHS.map(t=>
+    `<div class="legend-item ${hidden.has(t)?'off':''} ${t===SELECTED?'sel':''}" data-t="${t}">
+       <span class="legend-dot" style="background:${COL[t]}"></span>${t}</div>`).join('');
+  document.querySelectorAll('.legend-item').forEach(el=>el.onclick=()=>{
+    if(!evoChart) return;
+    const t=el.dataset.t, i=TECHS.indexOf(t);
+    const meta=evoChart.getDatasetMeta(i); meta.hidden=!meta.hidden;
+    meta.hidden?hidden.add(t):hidden.delete(t);
+    evoChart.update(); renderLegend();
+  });
+}
+
+function renderCards(){
+  const d = VIEWS[curView].data;
+  document.getElementById('evoCards').innerHTML = TECHS.map(t=>{
+    const s=d[t], v2020=s[0],v2024=s[4],v2025=s[5];
+    const g20=((v2025-v2020)/v2020*100), g24=((v2025-v2024)/v2024*100);
+    const fmt=v=>(v>0?'+':'')+v.toFixed(1)+'%';
+    const cls=v=>v>0.5?'up':v<-0.5?'down':'flat';
+    const pat=DATA.yoy[t].patent, sch=DATA.yoy[t].scholar;
+    const BAR=80, pw=Math.min(100,Math.abs(pat)/BAR*100), sw=Math.min(100,Math.abs(sch)/BAR*100);
+    return `<div class="card ${t===SELECTED?'sel':''}">
+      <div class="card-name">${ICON[t]} ${t}</div>
+      <div class="card-score" style="color:${COL[t]}">${v2025.toFixed(1)}</div>
+      <div class="card-score-label">2025 ${curView} score</div>
+      <hr class="card-divider">
+      <div class="card-stat"><span class="card-stat-label">vs 2020</span><span class="card-stat-val ${cls(g20)}">${fmt(g20)}</span></div>
+      <div class="card-stat"><span class="card-stat-label">vs 2024</span><span class="card-stat-val ${cls(g24)}">${fmt(g24)}</span></div>
+      <div class="driver-title">2024 → 2025 raw growth by source</div>
+      <div class="driver-row"><div class="driver-label-line"><span class="driver-label">Patents</span>
+        <span class="driver-pct ${cls(pat)}">${fmt(pat)}</span></div>
+        <div class="driver-bar-track"><div class="driver-bar-fill" style="width:${pw}%;background:${hexA(COL[t],.45)}"></div></div></div>
+      <div class="driver-row"><div class="driver-label-line"><span class="driver-label">Scholar</span>
+        <span class="driver-pct ${cls(sch)}">${fmt(sch)}</span></div>
+        <div class="driver-bar-track"><div class="driver-bar-fill" style="width:${sw}%;background:${COL[t]}"></div></div></div>
+    </div>`;
+  }).join('');
+}
+
+function switchView(v){
+  curView=v;
+  if(evoChart){
+    TECHS.forEach((t,i)=>{evoChart.data.datasets[i].data=VIEWS[v].data[t];});
+    evoChart.options.scales.y.max=VIEWS[v].max;
+    evoChart.options.scales.y.ticks.stepSize=VIEWS[v].step;
+    evoChart.update();
+  }
+  document.getElementById('chartCap').textContent=VIEWS[v].cap;
+  renderCards();
+}
+document.querySelectorAll('#toggle button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#toggle button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); switchView(b.dataset.v);
+});
+renderLegend(); switchView('combined');
+
+/* ===== 02 — MOST ACTIVE COUNTRIES (SCHOLAR, 2025) ===== */
+(function(){
+  const tabs=document.getElementById('raceTabs'), col=document.getElementById('raceCols');
+  tabs.innerHTML=TECHS.map((t,i)=>`<button data-t="${t}" class="${t===SELECTED?'on':''}">${ICON[t]} ${t}</button>`).join('');
+  function move(t,name,rank2025){
+    const r20=(DATA.country2020rank[t]||{})[name];
+    if(r20===undefined) return `<span class="trend up" title="Not in 2020 top 15">▲ new</span>`;
+    const d=r20-rank2025;
+    if(d>0)  return `<span class="trend up" title="Was #${r20} in 2020">▲ ${d}</span>`;
+    if(d<0)  return `<span class="trend down" title="Was #${r20} in 2020">▼ ${-d}</span>`;
+    return `<span class="trend flatv" title="Same rank as 2020">— 0</span>`;
+  }
+  function render(t){
+    const rows=DATA.topCountries[t]["2025"]; const mx=Math.max(...rows.map(r=>r[1]));
+    const idx=v=>{const n=v/mx*100; return n>=99.95?'100':n.toFixed(1);};
+    col.innerHTML=`<div class="race-col"><h4>2025 — scholarly activity index · vs 2020 rank</h4>`+
+      rows.map((r,i)=>{
+        const w=Math.max(8,r[1]/mx*100);
+        return `<div class="bar-row"><span class="rank-no">${i+1}</span><span class="bar-flag">${flag(r[0])}</span>
+          <span class="bar-name" title="${r[0]}">${r[0]}</span>
+          <span class="bar-track"><span class="bar-fill" style="width:${w}%;background:${COL[t]}">${idx(r[1])}</span></span>
+          ${move(t,r[0],i+1)}</div>`;
+      }).join('')+`</div>
+      <div class="idx-note">Indexed to the most active country (= 100); each score is a country's 2025 scholarly-publication volume as a share of the leader's. Absolute counts are not shown.</div>`;
+  }
+  tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{tabs.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');render(b.dataset.t);});
+  render(SELECTED);
+})();
+
+/* ===== 03 — TOP PATENT APPLICANTS (2025) ===== */
+(function(){
+  const tabs=document.getElementById('applTabs'), wrap=document.getElementById('applWrap');
+  tabs.innerHTML=TECHS.map((t,i)=>`<button data-t="${t}" class="${t===SELECTED?'on':''}">${ICON[t]} ${t}</button>`).join('');
+  function render(t){
+    const a25=DATA.topApplicants[t]["2025"];
+    const rank20=DATA.appl2020rank[t]||{};
+    const mx=Math.max(...a25.map(r=>r[1]));
+    const idx=v=>{const n=v/mx*100; return n>=99.95?'100':n.toFixed(1);};
+    const tidy=n=>n.replace(/ (LLC|INC|LTD|CORP|NV|GMBH|AG|CO LTD|SERVICES LLC|TECHNOLOGY LICENSING LLC|BANK NA|GROUP HOLDING LTD).*$/i,'').replace(/\s+CO$/,'');
+    const list=a25.map((r,i)=>{
+      let badge='';
+      if(!(r[0] in rank20)) badge=`<span class="new">NEW vs 2020 top-15</span>`;
+      else if(rank20[r[0]]-(i+1)>=3) badge=`<span class="climb">↑ from #${rank20[r[0]]}</span>`;
+      return `<div class="appl-row ${i==0?'gold':''}"><span class="appl-rank">${i+1}</span>
+        <div style="flex:1"><div class="appl-name">${tidy(r[0])}${badge}</div>
+        <div class="appl-bar" style="width:${Math.max(6,r[1]/mx*100)}%;background:${COL[t]}"></div></div>
+        <span class="appl-ct">${idx(r[1])}</span></div>`;
+    }).join('');
+    wrap.innerHTML=`<div class="appl-list">${list}</div>
+      <div class="idx-note">Indexed to the leading applicant (= 100); each score is an organisation's 2025 patent-filing volume as a share of the leader's. Absolute counts are not shown.</div>`;
+  }
+  tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{tabs.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');render(b.dataset.t);});
+  render(SELECTED);
+})();
+</script>
+</body>
+</html>

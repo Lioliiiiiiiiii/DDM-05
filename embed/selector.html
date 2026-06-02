@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research &amp; Innovation — Selector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e14; --bg2:#0d1117; --panel:#11161f; --panel2:#161b22;
+    --line:#1f2733; --line2:#2a3340;
+    --ink:#e8eef5; --ink2:#9aa7b5; --ink3:#5e6b7a;
+    --accent:#f5a623; --accent-tint:rgba(245,166,35,0.14); --on-accent:#1a1205;
+    --display:'Montserrat','IBM Plex Sans',-apple-system,sans-serif;
+    --sans:'IBM Plex Sans',-apple-system,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:-20% -10% auto -10%;height:140%;
+    background:radial-gradient(1100px 600px at 12% -8%, rgba(245,166,35,0.07), transparent 55%),radial-gradient(900px 600px at 100% 0%, rgba(74,144,217,0.07), transparent 50%);
+    z-index:0;animation:drift 26s ease-in-out infinite alternate}
+  @keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-2%,1.5%,0) scale(1.06)}}
+
+  .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:48px 26px 64px}
+  .head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-bottom:40px}
+  .eyebrow{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent)}
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--accent)}
+
+  .toggle{display:inline-flex;gap:3px;padding:3px;background:var(--bg2);border:1px solid var(--line2);border-radius:10px}
+  .toggle button{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);background:transparent;border:0;cursor:pointer;padding:9px 18px;border-radius:8px;transition:color .25s,background .25s}
+  .toggle button:hover{color:var(--ink)}
+  .toggle button.active{background:var(--accent);color:var(--on-accent);font-weight:600}
+
+  .view{display:none}
+  .view.show{display:block}
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+  #techGrid{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
+  #techGrid .card{flex:0 1 344px}
+
+  /* ---- card ---- */
+  .card{--ca:var(--accent);--ca-tint:rgba(245,166,35,0.14);
+    position:relative;text-align:left;cursor:pointer;background:var(--panel2);
+    border:1px solid var(--line);border-radius:11px;padding:14px;color:inherit;font:inherit;
+    transition:transform .42s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .42s,background .35s;
+    opacity:0;transform:translateY(18px)}
+  .view.show .card{animation:rise .62s cubic-bezier(.2,.8,.2,1) forwards}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  .card:hover{transform:translateY(-5px);border-color:var(--ca);box-shadow:0 0 0 1px var(--ca),0 16px 40px -16px var(--ca-tint);background:var(--panel)}
+  .card.sel{border-color:var(--ca);box-shadow:0 0 0 1px var(--ca),0 10px 30px -12px var(--ca-tint)}
+
+  /* hero / scene */
+  .hero{position:relative;height:152px;border:1px solid var(--line);border-radius:8px;overflow:hidden;
+    background:radial-gradient(120% 130% at 18% -10%, var(--ca-tint), transparent 60%),var(--bg2);
+    transition:border-color .35s}
+  .card:hover .hero{border-color:color-mix(in srgb, var(--ca) 45%, var(--line))}
+  .hero::before{content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:26px 26px;mask-image:radial-gradient(120% 120% at 50% 40%,#000,transparent 80%)}
+  .viz{position:absolute;inset:0;width:100%;height:100%;color:var(--ca)}
+
+  .dot{position:absolute;top:12px;right:12px;width:16px;height:16px;border-radius:50%;border:1px solid var(--line2);background:rgba(10,14,20,.6);z-index:3;transition:border-color .3s}
+  .dot::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--ca);transform:scale(0);transition:transform .3s cubic-bezier(.2,.9,.3,1.4)}
+  .card:hover .dot{border-color:var(--ca)}
+  .card.sel .dot{border-color:var(--ca)}
+  .card.sel .dot::after{transform:scale(1)}
+
+  .card-body{padding:14px 6px 4px}
+  .eyebrow-sm{font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--ca);display:block;margin-bottom:8px}
+  .card-name{font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:-.01em;line-height:1.2;margin-bottom:9px;color:var(--ink)}
+  .card-def{font-family:var(--sans);font-weight:400;font-size:12.5px;line-height:1.6;color:var(--ink2);
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;transition:color .35s}
+  .card:hover .card-def{color:var(--ink2)}
+
+
+  /* ================= SCENE ANIMATIONS ================= */
+  /* Descriptive AI — growing bars + trend sweep */
+  .viz-desc .bar{transform-box:fill-box;transform-origin:bottom;animation:barBob 3.4s ease-in-out infinite}
+  @keyframes barBob{0%,100%{transform:scaleY(.9)}50%{transform:scaleY(1)}}
+  .card:hover .viz-desc .bar{animation:barPop 1.15s ease-in-out infinite}
+  @keyframes barPop{0%{transform:scaleY(.78)}45%{transform:scaleY(1.06)}70%{transform:scaleY(.96)}100%{transform:scaleY(.78)}}
+  .viz-desc .trend{stroke-dasharray:430;stroke-dashoffset:430;animation:draw 5s ease-in-out infinite}
+  .card:hover .viz-desc .trend{animation-duration:2.6s}
+  @keyframes draw{0%{stroke-dashoffset:430}45%{stroke-dashoffset:0}62%{stroke-dashoffset:0}100%{stroke-dashoffset:-430}}
+  .viz-desc .peak{animation:peakPulse 2.4s ease-in-out infinite}
+  @keyframes peakPulse{0%,100%{opacity:.4;r:3}50%{opacity:1;r:5}}
+
+  /* GenAI — generative core + dispatched pulses */
+  .viz-gen .node{transform-box:fill-box;transform-origin:center;animation:nodeP 3s ease-in-out infinite}
+  @keyframes nodeP{0%,100%{transform:scale(.85);opacity:.8}50%{transform:scale(1.15);opacity:1}}
+  .viz-gen .edge{opacity:.22;transition:opacity .4s}
+  .card:hover .viz-gen .edge{opacity:.5}
+  .viz-gen .spark{transform-box:view-box;transform-origin:160px 75px;animation:spin 16s linear infinite}
+  .viz-gen .sparkPulse{transform-box:view-box;transform-origin:160px 75px;animation:sparkP 2.6s ease-in-out infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes sparkP{0%,100%{transform:scale(.86)}50%{transform:scale(1.12)}}
+  .card:hover .viz-gen .spark{animation-duration:6s}
+  .card:hover .viz-gen .sparkPulse{animation-duration:1.4s}
+  .viz-gen .pulse{opacity:0}
+  .viz-gen .p1{animation:flow1 3s ease-in-out infinite}
+  .viz-gen .p2{animation:flow2 3s ease-in-out infinite .8s}
+  .viz-gen .p3{animation:flow3 3s ease-in-out infinite 1.5s}
+  .card:hover .viz-gen .pulse{animation-duration:1.5s}
+  @keyframes flow1{0%{transform:translate(0,0);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translate(78px,-22px);opacity:0}}
+  @keyframes flow2{0%{transform:translate(0,0);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translate(-68px,36px);opacity:0}}
+  @keyframes flow3{0%{transform:translate(0,0);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translate(96px,38px);opacity:0}}
+
+  /* Blockchain — sequential validation + travelling token */
+  .viz-chain .glow{opacity:0}
+  .viz-chain .b0{animation:blkSeq 2.8s ease-in-out infinite}
+  .viz-chain .b1{animation:blkSeq 2.8s ease-in-out infinite .45s}
+  .viz-chain .b2{animation:blkSeq 2.8s ease-in-out infinite .9s}
+  .viz-chain .b3{animation:blkSeq 2.8s ease-in-out infinite 1.35s}
+  .card:hover .viz-chain [class^=b]{animation-duration:1.7s}
+  @keyframes blkSeq{0%,72%,100%{opacity:0}9%,34%{opacity:1}}
+  .viz-chain .token{animation:tok 2.8s ease-in-out infinite}
+  .card:hover .viz-chain .token{animation-duration:1.7s}
+  @keyframes tok{0%{transform:translateX(0);opacity:0}8%{opacity:1}50%{opacity:1}92%{opacity:1}100%{transform:translateX(186px);opacity:0}}
+  .viz-chain .link{stroke-dasharray:5 5;animation:dash 1.4s linear infinite}
+  @keyframes dash{to{stroke-dashoffset:-20}}
+
+  /* Robotics — articulated arm reaching */
+  .viz-arm .shoulder{transform-box:view-box;transform-origin:78px 120px;animation:sh 4s ease-in-out infinite}
+  .viz-arm .elbow{transform-box:view-box;transform-origin:150px 66px;animation:el 4s ease-in-out infinite}
+  @keyframes sh{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(6deg)}}
+  @keyframes el{0%,100%{transform:rotate(5deg)}50%{transform:rotate(-12deg)}}
+  .card:hover .viz-arm .shoulder{animation:shH 2.6s ease-in-out infinite}
+  .card:hover .viz-arm .elbow{animation:elH 2.6s ease-in-out infinite}
+  @keyframes shH{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(13deg)}}
+  @keyframes elH{0%,100%{transform:rotate(10deg)}50%{transform:rotate(-24deg)}}
+  .viz-arm .cube{transition:fill .3s,stroke .3s}
+  .card:hover .viz-arm .cube{fill:var(--ca-tint);stroke:var(--ca)}
+  .viz-arm .grip{animation:gp 4s ease-in-out infinite}
+  @keyframes gp{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
+
+  /* Quantum — orbiting electrons */
+  .viz-q .orbit{transform-box:view-box;transform-origin:160px 76px}
+  .viz-q .o1{animation:spin 9s linear infinite}
+  .viz-q .o2{animation:spin 11s linear infinite reverse}
+  .viz-q .o3{animation:spin 7s linear infinite}
+  .card:hover .viz-q .o1{animation-duration:3.4s}
+  .card:hover .viz-q .o2{animation-duration:4.2s}
+  .card:hover .viz-q .o3{animation-duration:2.7s}
+  .viz-q .nucleus{transform-box:view-box;transform-origin:160px 76px;animation:nuc 2.6s ease-in-out infinite}
+  @keyframes nuc{0%,100%{transform:scale(.82);opacity:.85}50%{transform:scale(1.18);opacity:1}}
+  .card:hover .viz-q .nucleus{animation-duration:1.3s}
+
+  /* Industry — icon medallion + pulsing rings */
+  .hero-ind{display:grid;place-items:center}
+  .ind-ic{position:relative;z-index:2;color:var(--ca);width:60px;height:60px;display:grid;place-items:center;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+  .ind-ic svg{width:46px;height:46px}
+  .card:hover .ind-ic{transform:scale(1.12) translateY(-2px)}
+  .ring{position:absolute;left:50%;top:50%;border:1px solid var(--ca);border-radius:50%;transform:translate(-50%,-50%) scale(.6);opacity:0;animation:ring 3.4s ease-out infinite}
+  .r-a{width:120px;height:120px}
+  .r-b{width:120px;height:120px;animation-delay:1.7s}
+  .card:hover .ring{animation-duration:2s}
+  @keyframes ring{0%{transform:translate(-50%,-50%) scale(.55);opacity:.55}80%{opacity:0}100%{transform:translate(-50%,-50%) scale(1.25);opacity:0}}
+
+  @media (prefers-reduced-motion: reduce){*{animation:none !important}}
+  @media (max-width:560px){.wrap{padding:34px 18px 52px}.grid{grid-template-columns:1fr}#techGrid .card{flex-basis:100%}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Select a focus</span>
+      <div class="toggle" role="tablist">
+        <button class="active" data-view="tech" role="tab">Technology</button>
+        <button data-view="industry" role="tab">Industry</button>
+      </div>
+    </div>
+    <section class="view show" id="tech"><div class="grid" id="techGrid"></div></section>
+    <section class="view" id="industry"><div class="grid" id="industryGrid"></div></section>
+  </div>
+
+<script>
+  const sceneDesc = `<svg class="viz viz-desc" viewBox="0 0 320 152" preserveAspectRatio="xMidYMid slice">
+    <g stroke="currentColor" stroke-opacity="0.0">
+      <rect class="bar" x="68"  y="74"  width="17" height="50"  rx="3" fill="currentColor" fill-opacity="0.55"/>
+      <rect class="bar" x="94"  y="58"  width="17" height="66"  rx="3" fill="currentColor" fill-opacity="0.7" style="animation-delay:.18s"/>
+      <rect class="bar" x="120" y="70"  width="17" height="54"  rx="3" fill="currentColor" fill-opacity="0.6" style="animation-delay:.36s"/>
+      <rect class="bar" x="146" y="40"  width="17" height="84"  rx="3" fill="currentColor" style="animation-delay:.54s"/>
+      <rect class="bar" x="172" y="56"  width="17" height="68"  rx="3" fill="currentColor" fill-opacity="0.7" style="animation-delay:.72s"/>
+      <rect class="bar" x="198" y="78"  width="17" height="46"  rx="3" fill="currentColor" fill-opacity="0.5" style="animation-delay:.9s"/>
+      <rect class="bar" x="224" y="64"  width="17" height="60"  rx="3" fill="currentColor" fill-opacity="0.65" style="animation-delay:1.08s"/>
+    </g>
+    <polyline class="trend" points="76,72 102,54 128,66 154,36 180,52 206,74 232,60" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle class="peak" cx="154" cy="36" r="3.5" fill="currentColor"/>
+  </svg>`;
+
+  const sceneGen = `<svg class="viz viz-gen" viewBox="0 0 320 152" preserveAspectRatio="xMidYMid slice">
+    <g class="edge" stroke="currentColor" stroke-width="1.4" fill="none">
+      <line x1="160" y1="76" x2="70"  y2="48"/><line x1="160" y1="76" x2="92" y2="116"/>
+      <line x1="160" y1="76" x2="238" y2="54"/><line x1="160" y1="76" x2="256" y2="114"/>
+      <line x1="160" y1="76" x2="160" y2="26"/><line x1="70" y1="48" x2="92" y2="116"/>
+      <line x1="238" y1="54" x2="256" y2="114"/>
+    </g>
+    <g fill="currentColor">
+      <circle class="node" cx="70"  cy="48"  r="6"  fill-opacity="0.9" style="animation-delay:.1s"/>
+      <circle class="node" cx="92"  cy="116" r="5.5" fill-opacity="0.8" style="animation-delay:.6s"/>
+      <circle class="node" cx="238" cy="54"  r="6"  fill-opacity="0.9" style="animation-delay:.9s"/>
+      <circle class="node" cx="256" cy="114" r="5"  fill-opacity="0.8" style="animation-delay:1.3s"/>
+      <circle class="node" cx="160" cy="26"  r="5"  fill-opacity="0.8" style="animation-delay:.4s"/>
+    </g>
+    <circle class="pulse p1" cx="160" cy="76" r="3.2" fill="currentColor"/>
+    <circle class="pulse p2" cx="160" cy="76" r="3.2" fill="currentColor"/>
+    <circle class="pulse p3" cx="160" cy="76" r="3.2" fill="currentColor"/>
+    <g class="sparkPulse"><g class="spark" fill="currentColor">
+      <path d="M160 56 C162 70,165 73,180 76 C165 79,162 82,160 96 C158 82,155 79,140 76 C155 73,158 70,160 56 Z"/>
+      <path d="M160 64 C161 73,162 75,170 76 C162 77,161 79,160 88 C159 79,158 77,150 76 C158 75,159 73,160 64 Z" fill-opacity="0.55"/>
+    </g></g>
+  </svg>`;
+
+  const sceneChain = `<svg class="viz viz-chain" viewBox="0 0 320 152" preserveAspectRatio="xMidYMid slice">
+    <g stroke="currentColor" class="link" stroke-width="1.6">
+      <line x1="78" y1="76" x2="104" y2="76"/><line x1="140" y1="76" x2="166" y2="76"/><line x1="202" y1="76" x2="228" y2="76"/>
+    </g>
+    ${[62,124,186,248].map((x,i)=>`
+      <g>
+        <rect x="${x}" y="54" width="44" height="44" rx="7" fill="var(--bg2)" stroke="var(--line2)" stroke-width="1.4"/>
+        <rect class="glow b${i}" x="${x}" y="54" width="44" height="44" rx="7" fill="var(--ca-tint)" stroke="currentColor" stroke-width="1.6"/>
+        <line x1="${x+10}" y1="68" x2="${x+28}" y2="68" stroke="currentColor" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"/>
+        <line x1="${x+10}" y1="76" x2="${x+34}" y2="76" stroke="currentColor" stroke-opacity="0.3" stroke-width="2" stroke-linecap="round"/>
+        <line x1="${x+10}" y1="84" x2="${x+24}" y2="84" stroke="currentColor" stroke-opacity="0.4" stroke-width="2" stroke-linecap="round"/>
+      </g>`).join('')}
+    <circle class="token" cx="84" cy="34" r="5" fill="currentColor"/>
+  </svg>`;
+
+  const sceneArm = `<svg class="viz viz-arm" viewBox="0 0 320 152" preserveAspectRatio="xMidYMid slice">
+    <line x1="40" y1="124" x2="300" y2="124" stroke="var(--line2)" stroke-width="2"/>
+    <rect class="cube" x="236" y="100" width="26" height="26" rx="4" fill="transparent" stroke="var(--ink3)" stroke-width="2"/>
+    <rect x="64" y="118" width="36" height="12" rx="3" fill="currentColor" fill-opacity="0.85"/>
+    <g class="shoulder">
+      <line x1="78" y1="120" x2="150" y2="66" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <g class="elbow">
+        <line x1="150" y1="66" x2="224" y2="100" stroke="var(--ink2)" stroke-width="8" stroke-linecap="round"/>
+        <g class="grip" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+          <path d="M224 100 l12 -8"/><path d="M224 100 l12 8"/>
+        </g>
+        <circle cx="150" cy="66" r="6.5" fill="var(--bg2)" stroke="currentColor" stroke-width="3"/>
+      </g>
+    </g>
+    <circle cx="78" cy="120" r="8" fill="var(--bg2)" stroke="currentColor" stroke-width="3"/>
+  </svg>`;
+
+  const sceneQ = `<svg class="viz viz-q" viewBox="0 0 320 152" preserveAspectRatio="xMidYMid slice">
+    <g class="orbit o1"><ellipse cx="160" cy="76" rx="74" ry="26" fill="none" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.4"/><circle cx="234" cy="76" r="4.5" fill="currentColor"/></g>
+    <g class="orbit o2" transform="rotate(60 160 76)"><ellipse cx="160" cy="76" rx="74" ry="26" fill="none" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.4"/><circle cx="234" cy="76" r="4" fill="currentColor" fill-opacity="0.85"/></g>
+    <g class="orbit o3" transform="rotate(120 160 76)"><ellipse cx="160" cy="76" rx="74" ry="26" fill="none" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.4"/><circle cx="234" cy="76" r="4" fill="currentColor" fill-opacity="0.85"/></g>
+    <circle class="nucleus" cx="160" cy="76" r="7" fill="currentColor"/>
+  </svg>`;
+
+  const tech = [
+    { name:"Descriptive AI", color:"#f5a623", hero:sceneDesc,
+      def:"Descriptive AI encompasses traditional AI approaches that analyze and interpret existing data to identify patterns, make predictions, and derive insights. This technology forms the foundation of practical AI applications in industry through machine learning, statistical analysis, and pattern recognition." },
+    { name:"Generative AI & Agentic AI", color:"#e84b8a", hero:sceneGen,
+      def:"Generative AI and Agentic AI refers to AI systems that can create new content (text, images, code, synthetic data) and autonomously plan and execute multi-step actions to achieve goals. This technology leverages large language models and neural networks to generate novel outputs based on patterns learned from training data." },
+    { name:"Blockchain & Decentralized Systems", color:"#f05a32", hero:sceneChain,
+      def:"Blockchain technology enables secure, decentralized record-keeping and transactions without requiring central authority. It creates transparent, immutable records across distributed networks, supporting applications from cryptocurrency to supply chain tracking." },
+    { name:"Physical AI & Robotics", color:"#2abfa3", hero:sceneArm,
+      def:"Physical AI and Robotics encompasses the design and deployment of physical systems that can perceive, reason, learn, and act in the real world with varying levels of intelligence and autonomy. This includes robotics, embodied AI, autonomous systems, and technologies combining intelligence with physical interaction." },
+    { name:"Quantum Computing", color:"#4a90d9", hero:sceneQ,
+      def:"Quantum Computing harnesses quantum mechanical phenomena like superposition and entanglement to perform computations. This technology enables exponentially faster calculations for specific problems, particularly in cryptography, material science, and complex system optimization." }
+  ];
+
+  const industry = [
+    { name:"Energy", svg:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5 L6.5 13 H11 L10.3 21.5 L17.8 10 H12.7 Z" fill="currentColor" stroke="none"/><path d="M4.6 6.4a9.5 9.5 0 0 0-1.1 4.3" opacity="0.45"/><path d="M20.5 13.3a9.5 9.5 0 0 1-1.1 4.3" opacity="0.45"/></svg>`,
+      def:"Companies involved in the exploration, production, or refining of energy products." },
+    { name:"Materials", svg:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3 21 7.5 12 12 3 7.5 12 3Z"/><path d="M3 12 12 16.5 21 12" opacity="0.55"/><path d="M3 16.5 12 21 21 16.5" opacity="0.35"/></svg>`,
+      def:"Businesses in chemicals, construction materials, metals, paper, and forestry products." },
+    { name:"Industrials", svg:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4 5.3 5.3"/></svg>`,
+      def:"Aerospace, defense, machinery, construction, fabrication, and manufacturing." },
+    { name:"Consumer Goods", svg:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M5.5 8h13l-1 11.5a1 1 0 0 1-1 .9H7.5a1 1 0 0 1-1-.9L5.5 8Z"/><path d="M8.5 8V6.5a3.5 3.5 0 0 1 7 0V8"/></svg>`,
+      def:"Food & Beverage, General Merchandise, Clothing & Apparel, Household & Personal Care, mass-market & luxury goods." },
+    { name:"Healthcare", svg:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M12 20.5S3.5 15 3.5 8.8A4.3 4.3 0 0 1 12 7a4.3 4.3 0 0 1 8.5 1.8C20.5 15 12 20.5 12 20.5Z"/><path d="M6.5 12h2l1.5-2.5 2 4 1.5-1.5H17"/></svg>`,
+      def:"Health care equipment and services, pharmaceuticals, and biotechnology companies." },
+    { name:"Financial Services", svg:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M3.5 9 12 4l8.5 5"/><path d="M5 9v8M9 9v8M15 9v8M19 9v8"/><path d="M3.5 20.5h17"/></svg>`,
+      def:"Banks, investment funds, insurance companies, and real estate firms." },
+    { name:"Information Technology", svg:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><rect x="7" y="7" width="10" height="10" rx="1.6"/><path d="M10 7V4M14 7V4M10 20v-3M14 20v-3M7 10H4M7 14H4M20 10h-3M20 14h-3"/></svg>`,
+      def:"Software, hardware, electronics, and IT services." },
+    { name:"Communication & Creative Services", svg:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M4 5.5h16a1 1 0 0 1 1 1V16a1 1 0 0 1-1 1H9l-4 3.5V17H4a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1Z"/><path d="M8 10h8M8 13h5"/></svg>`,
+      def:"Telecommunications, media, entertainment, and creative industries." },
+    { name:"Real Estate", svg:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M5 20.5V6l7-3 7 3v14.5"/><path d="M3.5 20.5h17"/><path d="M9.5 11h.01M14.5 11h.01M9.5 15h.01M14.5 15h.01" stroke-width="2"/></svg>`,
+      def:"Companies that own commercial, industrial, and residential real estate." },
+    { name:"Automotive & Transport", svg:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M3 14l1.8-5.2A2 2 0 0 1 6.7 7.5h10.6a2 2 0 0 1 1.9 1.3L21 14v4.5h-3V17H6v1.5H3Z"/><circle cx="7" cy="14.5" r="1.3"/><circle cx="17" cy="14.5" r="1.3"/></svg>`,
+      def:"Mainstream automotive companies and transportation-related industries." }
+  ];
+
+  function hexA(hex,a){const n=parseInt(hex.slice(1),16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;}
+
+  function makeCard(item, accent, kind, i){
+    const ca = accent || item.color || "#f5a623";
+    const el = document.createElement("button");
+    el.className = "card " + kind;
+    el.style.setProperty("--ca", ca);
+    el.style.setProperty("--ca-tint", hexA(ca, 0.14));
+    el.style.animationDelay = (i*70) + "ms";
+    const hero = kind === "tech"
+      ? `<div class="hero">${item.hero}</div>`
+      : `<div class="hero hero-ind"><span class="ring r-a"></span><span class="ring r-b"></span><span class="ind-ic">${item.svg}</span></div>`;
+    el.innerHTML = `${hero}${kind === "tech" ? '<span class="dot"></span>' : ''}
+      <div class="card-body">
+        <span class="eyebrow-sm">${kind === "tech" ? "Technology" : "Industry"}</span>
+        <div class="card-name">${item.name}</div>
+        <p class="card-def">${item.def}</p>
+      </div>`;
+    el.addEventListener("click", () => {
+      el.parentElement.querySelectorAll(".card").forEach(c => c.classList.remove("sel"));
+      el.classList.add("sel");
+    });
+    return el;
+  }
+
+  const tg = document.getElementById("techGrid");
+  tech.forEach((t,i) => tg.appendChild(makeCard(t, t.color, "tech", i)));
+  const ig = document.getElementById("industryGrid");
+  industry.forEach((t,i) => ig.appendChild(makeCard(t, "#f5a623", "industry", i)));
+
+  const buttons = document.querySelectorAll(".toggle button");
+  const views = { tech:document.getElementById("tech"), industry:document.getElementById("industry") };
+  buttons.forEach(btn => btn.addEventListener("click", () => {
+    if(btn.classList.contains("active")) return;
+    buttons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const target = btn.dataset.view;
+    Object.entries(views).forEach(([k,v]) => v.classList.toggle("show", k===target));
+    views[target].querySelectorAll(".card").forEach(c => { c.style.animation="none"; void c.offsetWidth; c.style.animation=""; });
+  }));
+</script>
+
+<script>
+(function(){
+  var techSlug={"Descriptive AI":"descriptive-ai","Generative AI & Agentic AI":"generative-agentic-ai","Blockchain & Decentralized Systems":"blockchain","Physical AI & Robotics":"robotics","Quantum Computing":"quantum-computing"};
+  var indSlug={"Energy":"energy","Materials":"materials","Industrials":"industrials","Consumer Goods":"consumer-goods","Healthcare":"healthcare","Financial Services":"financial-services","Information Technology":"information-technology","Communication & Creative Services":"communication-creative","Real Estate":"real-estate","Automotive & Transport":"automotive-transport"};
+  var p=new URLSearchParams(location.search), view=p.get('view');
+  function go(href){ (window.parent!==window?window.parent:window).location.href=href; }
+  function ready(){
+    var tg=document.getElementById('techGrid');
+    if(!tg||!tg.children.length) return setTimeout(ready,40);
+    if(view){
+      var btn=document.querySelector('.toggle button[data-view="'+view+'"]');
+      if(btn&&!btn.classList.contains('active')) btn.click();
+      var tog=document.querySelector('.toggle'); if(tog) tog.style.display='none';
+      var hd=document.querySelector('.head'); if(hd){hd.style.justifyContent='flex-start';}
+      var ey=document.querySelector('.eyebrow'); if(ey){ey.textContent=(view==='industry'?'Select an industry':'Select a technology');}
+    }
+    document.querySelectorAll('#techGrid .card').forEach(function(c){
+      var nm=c.querySelector('.card-name').textContent.trim(), s=techSlug[nm];
+      if(s) c.addEventListener('click',function(){go('../technology/'+s+'.html');});
+    });
+    document.querySelectorAll('#industryGrid .card').forEach(function(c){
+      var nm=c.querySelector('.card-name').textContent.trim(), s=indSlug[nm];
+      if(s) c.addEventListener('click',function(){go('../industry/'+s+'.html');});
+    });
+  }
+  ready();
+})();
+</script>
+</body>
+</html>
