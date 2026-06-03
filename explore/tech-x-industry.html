@@ -7,12 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/shell.css">
 <style>
-  .combo-pick{display:flex;gap:18px;flex-wrap:wrap}
-  .combo-pick label{display:flex;flex-direction:column;gap:7px;font-family:var(--mono);font-size:10px;
-    letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)}
-  .combo-pick select{font-family:var(--sans);font-size:14px;color:var(--ink);background:var(--panel2);
-    border:1px solid var(--line2);border-radius:10px;padding:11px 14px;min-width:240px;cursor:pointer}
-  .combo-pick select:focus{outline:none;border-color:var(--accent)}
+  #xsections[hidden]{display:none}
+  #xsections{animation:xfade .5s ease}
+  @keyframes xfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body class="">
@@ -49,10 +46,10 @@
   </label>
   <div class="crumb"><span>Explore</span><span class="sep">/</span><b>Technology &times; Industry</b></div>
   <div class="actions">
-    <a href="../key-findings.html" class="btn btn-ghost">
+    <a href="../key-findings.html" class="btn btn-ghost btn-anim">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.5.4.5 1 .5 1.6h6c0-.6 0-1.2.5-1.6A6 6 0 0 0 12 3Z"/></svg>
       <span class="lbl">Key findings</span></a>
-    <a href="../heatmatrix.html" class="btn btn-ghost">
+    <a href="../heatmatrix.html" class="btn btn-ghost btn-anim">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.3"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.3" fill="currentColor" stroke="none" opacity=".4"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.3" fill="currentColor" stroke="none" opacity=".4"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.3"/></svg>
       <span class="lbl">Heatmatrix</span></a>
     <a href="../download.html" class="btn btn-primary">
@@ -64,36 +61,27 @@
   <div class="container">
     <div class="eyebrow">Explore by Sector</div>
     <h1 class="page-title">Technology &times; Industry</h1>
-    <p class="page-lede">Start from the heat-analysis radar, then choose a technology-and-industry combination to reveal how professionals perceive that intersection, where the ventures cluster, and the research signal behind the technology.</p>
-    <div class="embed-wrap"><iframe class="embed-frame" src="../embed/radar.html" style="height:820px" title="embedded dashboard" loading="eager"></iframe></div>
+    <p class="page-lede">Pick a technology and an industry in the heat-analysis radar below. Once both are set, the analysis for that intersection appears underneath — how professionals perceive it, where the ventures cluster, and the research signal behind the technology.</p>
+    <div class="embed-wrap"><iframe class="embed-frame" src="../embed/radar.html" style="height:880px" title="embedded dashboard" loading="eager" scrolling="no" frameborder="0"></iframe></div>
 
-    <section class="section">
-      <div class="section-head"><span class="section-num">★</span><div><div class="section-title">Choose a combination</div><div class="section-desc">Pick a technology and an industry to compose the intersection view below.</div></div></div>
-      <div class="combo-pick">
-        <label>Technology
-          <select id="selTech"><option value="descriptive-ai" data-uni="Descriptive AI">Descriptive AI</option><option value="generative-agentic-ai" data-uni="Agentic &amp; GenAI">Generative AI &amp; Agentic AI</option><option value="blockchain" data-uni="Blockchain">Blockchain &amp; Decentralized Systems</option><option value="robotics" data-uni="Robotics">Physical AI &amp; Robotics</option><option value="quantum-computing" data-uni="Quantum">Quantum Computing</option></select>
-        </label>
-        <label>Industry
-          <select id="selInd"><option value="energy" data-uni="Energy">Energy</option><option value="materials" data-uni="Materials">Materials</option><option value="industrials" data-uni="Industrials">Industrials</option><option value="consumer-goods" data-uni="Consumer Goods">Consumer Goods</option><option value="healthcare" data-uni="Healthcare">Healthcare</option><option value="financial-services" data-uni="Financial Services">Financial Services</option><option value="information-technology" data-uni="Information Technology">Information Technology</option><option value="communication-creative" data-uni="Communication &amp; Creative Services">Communication &amp; Creative Services</option><option value="real-estate" data-uni="Real Estate">Real Estate</option><option value="automotive-transport" data-uni="Automotive &amp; Transport">Automotive &amp; Transport</option></select>
-        </label>
-      </div>
-    </section>
-
-        <section class="section">
-      <div class="section-head"><span class="section-num">01</span><div><div class="section-title">Professionals&rsquo; Perception</div><div class="section-desc">For the selected <b id="lblA"></b> &times; <b id="lblB"></b> intersection.</div></div></div>
+    <div id="xsections" hidden>
+    <nav class="scrollspy" aria-label="Page sections"><a href="#sec-perception"><span class="n">01</span>Perception</a><a href="#sec-unicorn"><span class="n">02</span>Unicorn Factor</a><a href="#sec-research"><span class="n">03</span>Research</a></nav>
+    <section class="section" id="sec-perception">
+      <div class="section-head"><span class="section-num">01</span><div><div class="section-title">Professionals&rsquo; Perception</div><div class="section-desc">For the selected <b id="lblA">…</b> &times; <b id="lblB">…</b> intersection.</div></div></div>
       
-      <div class="embed-wrap"><iframe id="frPerc" class="embed-frame" style="height:1000px" title="perception cell"></iframe></div>
+      <div class="embed-wrap"><iframe id="frPerc" class="embed-frame" style="height:1000px" title="perception cell" scrolling="no" frameborder="0"></iframe></div>
     </section>
-        <section class="section">
+    <section class="section" id="sec-unicorn">
       <div class="section-head"><span class="section-num">02</span><div><div class="section-title">Unicorn Factor</div><div class="section-desc">The intersection, then the technology-level view beneath it.</div></div></div>
       
-      <div class="embed-wrap"><iframe id="frUni" class="embed-frame" style="height:1700px" title="unicorn"></iframe></div>
+      <div class="embed-wrap"><iframe id="frUni" class="embed-frame" style="height:1700px" title="unicorn" scrolling="no" frameborder="0"></iframe></div>
     </section>
-        <section class="section">
+    <section class="section" id="sec-research">
       <div class="section-head"><span class="section-num">03</span><div><div class="section-title">Research &amp; Innovation</div><div class="section-desc">Publication and patent momentum for the selected technology.</div></div></div>
       <div class="note-strip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg><span>Research &amp; Innovation is measured at the <b>technology level only</b> — it is not specific to the chosen industry.</span></div>
-      <div class="embed-wrap"><iframe id="frRes" class="embed-frame" style="height:1700px" title="research"></iframe></div>
+      <div class="embed-wrap"><iframe id="frRes" class="embed-frame" style="height:1700px" title="research" scrolling="no" frameborder="0"></iframe></div>
     </section>
+    </div>
     <footer class="site">
       <span>Digital Disruption Matrix 2026 · ESSEC Business School</span>
       <span>5 technologies × 10 industries</span>
@@ -102,19 +90,27 @@
 </main>
 <script>
 (function(){
-  var st=document.getElementById('selTech'), si=document.getElementById('selInd');
+  var TMAP={"Descriptive AI": "descriptive-ai", "Agentic & GenAI": "generative-agentic-ai", "Blockchain & Decentralized Systems": "blockchain", "Physical AI & Robotics": "robotics", "Quantum Computing": "quantum-computing"}, IMAP={"Energy": "energy", "Materials": "materials", "Industrials": "industrials", "Consumer Goods": "consumer-goods", "Healthcare": "healthcare", "Financial Services": "financial-services", "Information technology": "information-technology", "Communication & Creative Services": "communication-creative", "Real Estate": "real-estate", "Automotive & Transport": "automotive-transport"}, UTECH={"descriptive-ai": "Descriptive AI", "generative-agentic-ai": "Agentic & GenAI", "blockchain": "Blockchain", "robotics": "Robotics", "quantum-computing": "Quantum"}, UIND={"energy": "Energy", "materials": "Materials", "industrials": "Industrials", "consumer-goods": "Consumer Goods", "healthcare": "Healthcare", "financial-services": "Financial Services", "information-technology": "Information Technology", "communication-creative": "Communication & Creative Services", "real-estate": "Real Estate", "automotive-transport": "Automotive & Transport"}, NTECH={"descriptive-ai": "Descriptive AI", "generative-agentic-ai": "Generative AI & Agentic AI", "blockchain": "Blockchain & Decentralized Systems", "robotics": "Physical AI & Robotics", "quantum-computing": "Quantum Computing"}, NIND={"energy": "Energy", "materials": "Materials", "industrials": "Industrials", "consumer-goods": "Consumer Goods", "healthcare": "Healthcare", "financial-services": "Financial Services", "information-technology": "Information Technology", "communication-creative": "Communication & Creative Services", "real-estate": "Real Estate", "automotive-transport": "Automotive & Transport"};
+  var sec=document.getElementById('xsections');
   var fP=document.getElementById('frPerc'), fU=document.getElementById('frUni'), fR=document.getElementById('frRes');
-  function upd(){
-    var ts=st.value, is=si.value;
-    var tu=encodeURIComponent(st.selectedOptions[0].dataset.uni);
-    var iu=encodeURIComponent(si.selectedOptions[0].dataset.uni);
-    document.getElementById('lblA').textContent=st.selectedOptions[0].textContent;
-    document.getElementById('lblB').textContent=si.selectedOptions[0].textContent;
+  var cur={t:null,i:null};
+  function apply(tKey,iKey){
+    var ts=TMAP[tKey], is=IMAP[iKey];
+    if(!ts||!is) return;
+    if(cur.t===ts && cur.i===is){ sec.hidden=false; return; }
+    cur.t=ts; cur.i=is;
+    document.getElementById('lblA').textContent=NTECH[ts]||tKey;
+    document.getElementById('lblB').textContent=NIND[is]||iKey;
     fP.src='../embed/perception-foresight.html?embed=1&type=cell&tech='+ts+'&indus='+is;
-    fU.src='../embed/unicorn.html?tech='+tu+'&indus='+iu;
+    fU.src='../embed/unicorn.html?tech='+encodeURIComponent(UTECH[ts])+'&indus='+encodeURIComponent(UIND[is]);
     fR.src='../embed/research/'+ts+'.html';
+    sec.hidden=false;
   }
-  st.addEventListener('change',upd); si.addEventListener('change',upd); upd();
+  window.addEventListener('message',function(e){
+    var d=e.data; if(!d||d.source!=='ddm-radar') return;
+    if(d.tech && d.ind) apply(d.tech,d.ind);
+    else sec.hidden=true;  // hide until both chosen again
+  });
 })();
 </script>
 <script src="../assets/js/shell.js"></script>

@@ -269,9 +269,39 @@ update();
   --text:#e8eef5; --text-dim:#9aa7b5; --text-faint:#5e6b7a;
   --acc:#f5a623; --acc-soft:rgba(245,166,35,.30); --acc-line:#f5a623;
 }
-body{font-family:'IBM Plex Sans',-apple-system,sans-serif!important;background:var(--bg-0)!important}
+html,body{font-family:'IBM Plex Sans',-apple-system,sans-serif!important;background:transparent!important;min-height:0!important;height:auto!important}
 .eyebrow,.ax-name,.overview-link{font-family:'Montserrat','IBM Plex Sans',sans-serif!important}
 .ax-desc,.hint,.dd-btn{font-family:'IBM Plex Sans',-apple-system,sans-serif!important}
 .val{font-family:'IBM Plex Mono',ui-monospace,monospace!important}
-</style></body>
+/* dropdowns sit near the bottom of the embed -> open menus upward so the
+   iframe can't clip them */
+.dd-menu{top:auto!important;bottom:calc(100% + 8px)!important;max-height:300px!important;overflow-y:auto!important}
+</style>
+<script>
+(function(){
+  // `state` is a const (not on window), so read the selection from the DOM:
+  // a chosen dropdown drops its button's "placeholder" class and the label
+  // shows the selected key (e.g. "Descriptive AI" / "Energy").
+  function val(btnId,lblId){
+    var b=document.getElementById(btnId);
+    if(!b || b.classList.contains('placeholder')) return null;
+    var l=document.getElementById(lblId);
+    return l ? l.textContent.trim() : null;
+  }
+  function emit(){
+    try{
+      parent.postMessage({source:'ddm-radar',
+        tech:val('btn-tech','lbl-tech'), ind:val('btn-ind','lbl-ind')}, '*');
+    }catch(e){}
+  }
+  function hook(){
+    if(typeof window.update!=='function') return setTimeout(hook,50);
+    var orig=window.update;
+    window.update=function(){ var r=orig.apply(this,arguments); setTimeout(emit,0); return r; };
+    emit();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',hook); else hook();
+})();
+</script>
+</body>
 </html>

@@ -126,10 +126,10 @@ def nav_links(root, active):
     return "\n      ".join(out)
 
 def topbar_actions(root):
-    return f'''<a href="{root}key-findings.html" class="btn btn-ghost">
+    return f'''<a href="{root}key-findings.html" class="btn btn-ghost btn-anim">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.5.4.5 1 .5 1.6h6c0-.6 0-1.2.5-1.6A6 6 0 0 0 12 3Z"/></svg>
       <span class="lbl">Key findings</span></a>
-    <a href="{root}heatmatrix.html" class="btn btn-ghost">
+    <a href="{root}heatmatrix.html" class="btn btn-ghost btn-anim">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.3"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.3" fill="currentColor" stroke="none" opacity=".4"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.3" fill="currentColor" stroke="none" opacity=".4"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.3"/></svg>
       <span class="lbl">Heatmatrix</span></a>
     <a href="{root}download.html" class="btn btn-primary">
@@ -206,15 +206,18 @@ PERCEPTION_OVERRIDE = """
   --font-body:'IBM Plex Sans',-apple-system,sans-serif;
   --font-mono:'IBM Plex Mono',ui-monospace,monospace;
 }
-html,body{background:var(--paper)!important;color:var(--ink)}
+html,body{background:transparent!important;color:var(--ink);min-height:0!important;height:auto!important}
+.owrap,.gwrap,.wrap{max-width:none!important}
 /* surfaces that were pure white */
 .module,.kpi,.scatterwrap,.chip,.gcard .module{background:var(--surface)}
 .empty{background:var(--panel2,#161b22)}
 .track{background:#0d1117}
 .fill{background:var(--mute)}
-.seg{color:#0a0e14}
-.seg.dim{color:var(--ink)}
-.controls{background:var(--paper)!important}
+/* stacked timeline segments: Now/Soon are the dark teal end -> white text;
+   Later/Never are the light end (.seg.dim) -> dark text */
+.seg{color:#fff}
+.seg.dim{color:#0a0e14}
+.controls{background:#0a0e14!important}
 /* active pills -> accent */
 .pill.on{background:var(--tech)!important;color:#0a0e14!important;border-color:var(--tech)!important}
 .upill.on{background:var(--tech)!important;color:#0a0e14!important;border-color:var(--tech)!important}
@@ -227,6 +230,18 @@ html,body{background:var(--paper)!important;color:var(--ink)}
 .chip:hover{border-color:var(--indus);box-shadow:0 1px 0 var(--indus)}
 .chip.tech .chip-ic{background:var(--tech-soft);color:var(--tech)}
 a{color:var(--tech)}
+/* breathing room between blocks (match the host page's section rhythm) */
+.block+.block{margin-top:34px}
+.mod-body{padding:24px 28px 30px}
+.kpis{margin-bottom:4px}
+/* EMBED MODE (slice): the host section header already names the tech/industry,
+   so drop the module's own title row; keep the descriptive sub-line. */
+body.embed-slice .mod-top{display:none}
+body.embed-slice .mod-head{padding:4px 2px 16px;border-bottom:1px solid var(--line)}
+body.embed-slice .mod-body{padding:22px 2px 6px}
+body.embed-slice .module{border:0;background:transparent}
+body.embed-slice .module::before{display:none}
+body.embed-slice .gcard{margin:0}
 """
 
 # parameter script for the foresight slice embed
@@ -242,22 +257,53 @@ FORESIGHT_PARAM = """
     if(p.get('indus')) sel.indus=p.get('indus');
     if(typeof apply==='function') apply();
     if(embed){
+      document.body.classList.add('embed-slice');
       var hide=document.querySelectorAll('.gh,.gsub,.controls');
       hide.forEach(function(e){e.style.display='none';});
-      var w=document.querySelector('.gwrap'); if(w){w.style.padding='6px 6px 20px';w.style.maxWidth='none';}
+      var w=document.querySelector('.gwrap'); if(w){w.style.padding='0';w.style.maxWidth='none';}
       var g=document.querySelector('.gcard:not(.hide)'); if(g){g.style.marginTop='0';}
     }
+    // initialise the "most-voted use cases" selectors so only the default
+    // group (top 3) shows — otherwise every group renders until a pill is clicked.
+    document.querySelectorAll('.upill.on').forEach(function(b){ b.click(); });
   }
   setSel();
 })();
 </script>
 """
 
+OVERVIEW_INIT = """
+<script>
+(function(){
+  // show only the default "most-voted use cases" group (top 3) on load
+  function init(){
+    var pills=document.querySelectorAll('.upill.on');
+    if(!pills.length) return setTimeout(init,40);
+    pills.forEach(function(b){ b.click(); });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
+"""
+
+def recolor_perception(body):
+    """Swap the green stacked-bar ramp (Now/Soon/Later/Never) for a DS teal ramp.
+    Colour only — no data is altered."""
+    ramp = {
+        "#0C5544": "#0e5a4b",  # Now   (darkest)  -> deep teal
+        "#1D9E75": "#1f9e85",  # Soon              -> teal
+        "#9FE1CB": "#7bd5c2",  # Later (light)     -> light teal
+        "#EDE9DE": "#9aa7b5",  # Never (neutral)   -> DS grey
+    }
+    for old, new in ramp.items():
+        body = body.replace("background:" + old, "background:" + new)
+    return body
+
 def build_perception_embeds():
-    overview = rd("perception-overview.html")
+    overview = recolor_perception(rd("perception-overview.html"))
     wr("embed/perception-overview.html",
-       standalone("Professionals&rsquo; Perception", overview, PERCEPTION_OVERRIDE))
-    foresight = rd("perception-foresight.html")
+       standalone("Professionals&rsquo; Perception", overview, PERCEPTION_OVERRIDE, OVERVIEW_INIT))
+    foresight = recolor_perception(rd("perception-foresight.html"))
     wr("embed/perception-foresight.html",
        standalone("Foresight matrix — perception", foresight, PERCEPTION_OVERRIDE, FORESIGHT_PARAM))
 
@@ -270,6 +316,8 @@ UNICORN_OVERRIDE = """
   --native:#f5a623; --unicorn:#4a90d9; --emerging:#2abfa3;
   --native-d:rgba(245,166,35,.16); --unicorn-d:rgba(74,144,217,.16); --emerging-d:rgba(42,191,163,.16);
 }
+html,body{background:transparent!important;background-image:none!important;min-height:0!important;height:auto!important}
+.wrap{max-width:none!important}
 .disp,h1,h2.sec,.explorer h1,.ebtn .et,.gcard .yoy,#tip .tn,#ftip .tn{
   font-family:'Montserrat','IBM Plex Sans',sans-serif!important;letter-spacing:-.01em}
 .toggle button.on{color:#0a0e14}
@@ -331,27 +379,69 @@ RADAR_OVERRIDE = """
   --text:#e8eef5; --text-dim:#9aa7b5; --text-faint:#5e6b7a;
   --acc:#f5a623; --acc-soft:rgba(245,166,35,.30); --acc-line:#f5a623;
 }
-body{font-family:'IBM Plex Sans',-apple-system,sans-serif!important;background:var(--bg-0)!important}
+html,body{font-family:'IBM Plex Sans',-apple-system,sans-serif!important;background:transparent!important;min-height:0!important;height:auto!important}
 .eyebrow,.ax-name,.overview-link{font-family:'Montserrat','IBM Plex Sans',sans-serif!important}
 .ax-desc,.hint,.dd-btn{font-family:'IBM Plex Sans',-apple-system,sans-serif!important}
 .val{font-family:'IBM Plex Mono',ui-monospace,monospace!important}
+/* dropdowns sit near the bottom of the embed -> open menus upward so the
+   iframe can't clip them */
+.dd-menu{top:auto!important;bottom:calc(100% + 8px)!important;max-height:300px!important;overflow-y:auto!important}
+"""
+# report the radar's own selection (state.tech / state.ind) up to the host page
+RADAR_PARAM = """
+<script>
+(function(){
+  // `state` is a const (not on window), so read the selection from the DOM:
+  // a chosen dropdown drops its button's "placeholder" class and the label
+  // shows the selected key (e.g. "Descriptive AI" / "Energy").
+  function val(btnId,lblId){
+    var b=document.getElementById(btnId);
+    if(!b || b.classList.contains('placeholder')) return null;
+    var l=document.getElementById(lblId);
+    return l ? l.textContent.trim() : null;
+  }
+  function emit(){
+    try{
+      parent.postMessage({source:'ddm-radar',
+        tech:val('btn-tech','lbl-tech'), ind:val('btn-ind','lbl-ind')}, '*');
+    }catch(e){}
+  }
+  function hook(){
+    if(typeof window.update!=='function') return setTimeout(hook,50);
+    var orig=window.update;
+    window.update=function(){ var r=orig.apply(this,arguments); setTimeout(emit,0); return r; };
+    emit();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',hook); else hook();
+})();
+</script>
 """
 def build_radar_embed():
     radar = rd("radar.html")
-    # radar is already a full document; inject DS fonts + override before </head>/end
+    # radar is already a full document; inject DS fonts + override + reporter
     doc = radar
     if "</head>" in doc:
         doc = doc.replace("</head>", DS_FONTS + "</head>", 1)
     else:
         doc = DS_FONTS + doc
+    tail = f'<style id="ds-theme-override">{RADAR_OVERRIDE}</style>{RADAR_PARAM}'
     if "</body>" in doc:
-        doc = doc.replace("</body>", f'<style id="ds-theme-override">{RADAR_OVERRIDE}</style></body>', 1)
+        doc = doc.replace("</body>", tail + "</body>", 1)
     else:
-        doc = doc + f'<style id="ds-theme-override">{RADAR_OVERRIDE}</style>'
+        doc = doc + tail
     wr("embed/radar.html", doc)
 
 # ---- Research (already dark; swap Bricolage display -> Montserrat) ----------
-RESEARCH_OVERRIDE = ":root{--disp:'Montserrat','IBM Plex Sans',sans-serif!important}"
+RESEARCH_OVERRIDE = """
+:root{--disp:'Montserrat','IBM Plex Sans',sans-serif!important}
+html,body{background:transparent!important;min-height:0!important;height:auto!important}
+/* host section header already says "Research & Innovation" -> drop the
+   masthead eyebrow ("Technology Intelligence · … · 2020–2025"), the duplicate
+   title and the focus chip. */
+.masthead #eyebrow,.masthead h1,.masthead #techChip{display:none!important}
+.masthead{border-bottom:0!important;padding-bottom:10px!important}
+.card.sel .card-name::after{content:none!important}
+"""
 def retheme_research(src_name, out_name, title):
     doc = rd(src_name)
     if "</head>" in doc:
@@ -396,6 +486,40 @@ def build_homepage():
         h = h.replace(f'href="{k}"', f'href="{v}"')
     # brand link
     h = h.replace('<a href="#" style="text-decoration:none">', '<a href="index.html" style="text-decoration:none">')
+    # --- visual tweaks requested ---
+    # 1. thinner hero title (700 -> 600 reads more refined)
+    h = h.replace('h1{font-family:var(--display);font-weight:700', 'h1{font-family:var(--display);font-weight:600')
+    # 2. larger nav text + eyebrow
+    h = h.replace('font-family:var(--sans);font-size:13.5px;color:var(--ink2);text-decoration:none',
+                  'font-family:var(--sans);font-size:15px;color:var(--ink2);text-decoration:none')
+    h = re.sub(r'font-size:10\.5px;(\s*)letter-spacing:\.22em', r'font-size:11px;\1letter-spacing:.22em', h)
+    # 3. partner logos: bigger + white chips with a touch more padding so they read
+    h = h.replace('.chip.bnp img{height:22px}', '.chip.bnp img{height:40px}')
+    h = h.replace('.chip.sia img{height:26px}', '.chip.sia img{height:40px}')
+    h = h.replace('.chip{background:#fff;border-radius:9px;padding:10px 14px',
+                  '.chip{background:#fff;border-radius:11px;padding:13px 18px')
+    # 4. bigger topbar buttons + travelling-border animation on the two ghost ones
+    h = h.replace('.btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 17px;',
+                  '.btn{display:inline-flex;align-items:center;gap:9px;height:46px;padding:0 21px;')
+    h = h.replace('.btn svg{width:15px;height:15px}', '.btn svg{width:17px;height:17px}')
+    h = h.replace('font-weight:500;font-size:11.5px;\n    letter-spacing:.06em;text-transform:uppercase',
+                  'font-weight:500;font-size:12.5px;\n    letter-spacing:.06em;text-transform:uppercase')
+    btn_anim_css = ("<style>"
+      "@property --bdr-angle{syntax:'<angle>';initial-value:0deg;inherits:false}"
+      ".btn-anim{position:relative;isolation:isolate}"
+      ".btn-anim::before{content:\"\";position:absolute;inset:0;border-radius:inherit;padding:1.6px;"
+      "background:conic-gradient(from var(--bdr-angle),transparent 0deg,transparent 250deg,var(--accent) 320deg,#fff 340deg,var(--accent) 350deg,transparent 360deg);"
+      "-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;"
+      "mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;"
+      "animation:bdr-rotate 4.5s linear infinite;pointer-events:none}"
+      "@keyframes bdr-rotate{to{--bdr-angle:360deg}}"
+      "@media (prefers-reduced-motion:reduce){.btn-anim::before{display:none}}"
+      "</style>")
+    h = h.replace("</head>", btn_anim_css + "</head>", 1)
+    h = h.replace('<a href="key-findings.html" class="btn btn-ghost">',
+                  '<a href="key-findings.html" class="btn btn-ghost btn-anim">')
+    h = h.replace('<a href="heatmatrix.html" class="btn btn-ghost">',
+                  '<a href="heatmatrix.html" class="btn btn-ghost btn-anim">')
     wr("index.html", h)
 
 # ============================================================================
@@ -438,7 +562,8 @@ def build_selector_embed():
 
 def iframe(src, h=900):
     return (f'<div class="embed-wrap"><iframe class="embed-frame" src="{src}" '
-            f'style="height:{h}px" title="embedded dashboard" loading="eager"></iframe></div>')
+            f'style="height:{h}px" title="embedded dashboard" loading="eager" '
+            f'scrolling="no" frameborder="0"></iframe></div>')
 
 def build_explore_selectors():
     body_t = f'''    <div class="eyebrow">Explore by Sector</div>
@@ -491,14 +616,20 @@ def focus_chip(label, icon, color, pre="Focus"):
             f'background:{color}22"><span class="pre">{pre}</span>'
             f'<span style="color:{color}">{icon}</span>{label}</div>')
 
-def section(num, title, desc, inner, note=None):
+def section(num, title, desc, inner, note=None, sid=None):
     n = f'<div class="note-strip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg><span>{note}</span></div>' if note else ""
     d = f'<div class="section-desc">{desc}</div>' if desc else ""
-    return f'''    <section class="section">
+    ida = f' id="{sid}"' if sid else ""
+    return f'''    <section class="section"{ida}>
       <div class="section-head"><span class="section-num">{num}</span><div><div class="section-title">{title}</div>{d}</div></div>
       {n}
       {inner}
     </section>'''
+
+def scrollspy(items):
+    """items: list of (target_id, num, label)."""
+    links = "".join(f'<a href="#{sid}"><span class="n">{num}</span>{label}</a>' for sid, num, label in items)
+    return f'    <nav class="scrollspy" aria-label="Page sections">{links}</nav>'
 
 def build_tech_pages():
     for i, t in enumerate(TECHS):
@@ -511,16 +642,20 @@ def build_tech_pages():
         # DS rule: a technology view re-themes the whole content accent to that
         # technology's fixed hue (sidebar/topbar stay the global amber chrome).
         accent_css = f'<style>.page{{--accent:{color};--accent-tint:{color}26}}</style>'
+        spy = scrollspy([("sec-perception","01","Perception"),
+                         ("sec-unicorn","02","Unicorn Factor"),
+                         ("sec-research","03","Research")])
         perc = section("01", "Professionals&rsquo; Perception",
                        "How surveyed professionals read this technology across the ten industries.",
-                       iframe(f"../embed/perception-foresight.html?embed=1&type=panel-tech&tech={s}", 1100))
+                       iframe(f"../embed/perception-foresight.html?embed=1&type=panel-tech&tech={s}", 1100),
+                       sid="sec-perception")
         unic = section("02", "Unicorn Factor",
                        "The startup &amp; unicorn signal for this technology — clustering, founding wave and capital concentration.",
-                       iframe(f"../embed/unicorn.html?tech={uni}", 1700))
+                       iframe(f"../embed/unicorn.html?tech={uni}", 1700), sid="sec-unicorn")
         res  = section("03", "Research &amp; Innovation",
                        "Publication and patent momentum behind this technology.",
-                       iframe(f"../embed/research/{s}.html", 1700))
-        body = "\n".join([head, perc, unic, res])
+                       iframe(f"../embed/research/{s}.html", 1700), sid="sec-research")
+        body = "\n".join([head, spy, perc, unic, res])
         crumb = '<span>Technology</span><span class="sep">/</span><b>'+t["name"]+'</b>'
         wr(f"technology/{s}.html", shell("../", "technology", t["name"], crumb, body, head_extra=accent_css))
 
@@ -531,70 +666,97 @@ def build_industry_pages():
     <h1 class="page-title">{ind["name"]}</h1>
     <p class="page-lede">{ind["desc"]}</p>
     {focus_chip(ind["name"], icon, "#f5a623")}'''
+        spy = scrollspy([("sec-perception","01","Perception"),
+                         ("sec-unicorn","02","Unicorn Factor")])
         perc = section("01", "Professionals&rsquo; Perception",
                        "How surveyed professionals read the five technologies within this industry.",
-                       iframe(f"../embed/perception-foresight.html?embed=1&type=panel-indus&indus={s}", 1100))
+                       iframe(f"../embed/perception-foresight.html?embed=1&type=panel-indus&indus={s}", 1100),
+                       sid="sec-perception")
         unic = section("02", "Unicorn Factor",
                        "The startup &amp; unicorn signal filtered to this industry.",
-                       iframe(f"../embed/unicorn.html?indus={indus}", 1700))
-        body = "\n".join([head, perc, unic])
+                       iframe(f"../embed/unicorn.html?indus={indus}", 1700), sid="sec-unicorn")
+        body = "\n".join([head, spy, perc, unic])
         crumb = '<span>Industry</span><span class="sep">/</span><b>'+ind["name"]+'</b>'
         wr(f"industry/{s}.html", shell("../", "industry", ind["name"], crumb, body))
 
-# ---- Technology × Industry landing (radar + dynamic combination sections) ---
+# ---- Technology × Industry landing (radar-first; sections reveal on select) -
 def build_tech_x_industry():
-    tech_opts = "".join(f'<option value="{t["slug"]}" data-uni="{html.escape(t["uni"])}">{t["name"]}</option>' for t in TECHS)
-    ind_opts = "".join(f'<option value="{i["slug"]}" data-uni="{html.escape(i["uni"])}">{i["name"]}</option>' for i in INDUSTRIES)
+    # radar selection keys -> our slugs
+    radar_tech = {"Descriptive AI":"descriptive-ai","Agentic & GenAI":"generative-agentic-ai",
+                  "Blockchain & Decentralized Systems":"blockchain","Physical AI & Robotics":"robotics",
+                  "Quantum Computing":"quantum-computing"}
+    radar_ind = {"Energy":"energy","Materials":"materials","Industrials":"industrials",
+                 "Consumer Goods":"consumer-goods","Healthcare":"healthcare","Financial Services":"financial-services",
+                 "Information technology":"information-technology","Communication & Creative Services":"communication-creative",
+                 "Real Estate":"real-estate","Automotive & Transport":"automotive-transport"}
+    import json
+    techMap = json.dumps(radar_tech); indMap = json.dumps(radar_ind)
+    uniTech = json.dumps({t["slug"]: t["uni"] for t in TECHS})
+    uniInd  = json.dumps({i["slug"]: i["uni"] for i in INDUSTRIES})
+    nameTech = json.dumps({t["slug"]: t["name"].replace("&amp;","&") for t in TECHS})
+    nameInd  = json.dumps({i["slug"]: i["name"].replace("&amp;","&") for i in INDUSTRIES})
+
+    spy = scrollspy([("sec-perception","01","Perception"),
+                     ("sec-unicorn","02","Unicorn Factor"),
+                     ("sec-research","03","Research")])
+    perc = section("01","Professionals&rsquo; Perception",
+                   'For the selected <b id="lblA">…</b> &times; <b id="lblB">…</b> intersection.',
+                   '<div class="embed-wrap"><iframe id="frPerc" class="embed-frame" style="height:1000px" title="perception cell" scrolling="no" frameborder="0"></iframe></div>',
+                   sid="sec-perception")
+    unic = section("02","Unicorn Factor",
+                   'The intersection, then the technology-level view beneath it.',
+                   '<div class="embed-wrap"><iframe id="frUni" class="embed-frame" style="height:1700px" title="unicorn" scrolling="no" frameborder="0"></iframe></div>',
+                   sid="sec-unicorn")
+    res  = section("03","Research &amp; Innovation",
+                   'Publication and patent momentum for the selected technology.',
+                   '<div class="embed-wrap"><iframe id="frRes" class="embed-frame" style="height:1700px" title="research" scrolling="no" frameborder="0"></iframe></div>',
+                   note="Research &amp; Innovation is measured at the <b>technology level only</b> — it is not specific to the chosen industry.",
+                   sid="sec-research")
     body = f'''    <div class="eyebrow">Explore by Sector</div>
     <h1 class="page-title">Technology &times; Industry</h1>
-    <p class="page-lede">Start from the heat-analysis radar, then choose a technology-and-industry combination to reveal how professionals perceive that intersection, where the ventures cluster, and the research signal behind the technology.</p>
-    {iframe("../embed/radar.html", 820)}
+    <p class="page-lede">Pick a technology and an industry in the heat-analysis radar below. Once both are set, the analysis for that intersection appears underneath — how professionals perceive it, where the ventures cluster, and the research signal behind the technology.</p>
+    {iframe("../embed/radar.html", 880)}
 
-    <section class="section">
-      <div class="section-head"><span class="section-num">★</span><div><div class="section-title">Choose a combination</div><div class="section-desc">Pick a technology and an industry to compose the intersection view below.</div></div></div>
-      <div class="combo-pick">
-        <label>Technology
-          <select id="selTech">{tech_opts}</select>
-        </label>
-        <label>Industry
-          <select id="selInd">{ind_opts}</select>
-        </label>
-      </div>
-    </section>
-
-    {section("01","Professionals&rsquo; Perception",'For the selected <b id="lblA"></b> &times; <b id="lblB"></b> intersection.','<div class="embed-wrap"><iframe id="frPerc" class="embed-frame" style="height:1000px" title="perception cell"></iframe></div>')}
-    {section("02","Unicorn Factor",'The intersection, then the technology-level view beneath it.','<div class="embed-wrap"><iframe id="frUni" class="embed-frame" style="height:1700px" title="unicorn"></iframe></div>')}
-    {section("03","Research &amp; Innovation",'Publication and patent momentum for the selected technology.','<div class="embed-wrap"><iframe id="frRes" class="embed-frame" style="height:1700px" title="research"></iframe></div>',
-      note="Research &amp; Innovation is measured at the <b>technology level only</b> — it is not specific to the chosen industry.")}'''
+    <div id="xsections" hidden>
+{spy}
+{perc}
+{unic}
+{res}
+    </div>'''
     head_extra = """<style>
-  .combo-pick{display:flex;gap:18px;flex-wrap:wrap}
-  .combo-pick label{display:flex;flex-direction:column;gap:7px;font-family:var(--mono);font-size:10px;
-    letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)}
-  .combo-pick select{font-family:var(--sans);font-size:14px;color:var(--ink);background:var(--panel2);
-    border:1px solid var(--line2);border-radius:10px;padding:11px 14px;min-width:240px;cursor:pointer}
-  .combo-pick select:focus{outline:none;border-color:var(--accent)}
+  #xsections[hidden]{display:none}
+  #xsections{animation:xfade .5s ease}
+  @keyframes xfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 </style>"""
-    script = """<script>
-(function(){
-  var st=document.getElementById('selTech'), si=document.getElementById('selInd');
+    script = f"""<script>
+(function(){{
+  var TMAP={techMap}, IMAP={indMap}, UTECH={uniTech}, UIND={uniInd}, NTECH={nameTech}, NIND={nameInd};
+  var sec=document.getElementById('xsections');
   var fP=document.getElementById('frPerc'), fU=document.getElementById('frUni'), fR=document.getElementById('frRes');
-  function upd(){
-    var ts=st.value, is=si.value;
-    var tu=encodeURIComponent(st.selectedOptions[0].dataset.uni);
-    var iu=encodeURIComponent(si.selectedOptions[0].dataset.uni);
-    document.getElementById('lblA').textContent=st.selectedOptions[0].textContent;
-    document.getElementById('lblB').textContent=si.selectedOptions[0].textContent;
+  var cur={{t:null,i:null}};
+  function apply(tKey,iKey){{
+    var ts=TMAP[tKey], is=IMAP[iKey];
+    if(!ts||!is) return;
+    if(cur.t===ts && cur.i===is){{ sec.hidden=false; return; }}
+    cur.t=ts; cur.i=is;
+    document.getElementById('lblA').textContent=NTECH[ts]||tKey;
+    document.getElementById('lblB').textContent=NIND[is]||iKey;
     fP.src='../embed/perception-foresight.html?embed=1&type=cell&tech='+ts+'&indus='+is;
-    fU.src='../embed/unicorn.html?tech='+tu+'&indus='+iu;
+    fU.src='../embed/unicorn.html?tech='+encodeURIComponent(UTECH[ts])+'&indus='+encodeURIComponent(UIND[is]);
     fR.src='../embed/research/'+ts+'.html';
-  }
-  st.addEventListener('change',upd); si.addEventListener('change',upd); upd();
-})();
+    sec.hidden=false;
+  }}
+  window.addEventListener('message',function(e){{
+    var d=e.data; if(!d||d.source!=='ddm-radar') return;
+    if(d.tech && d.ind) apply(d.tech,d.ind);
+    else sec.hidden=true;  // hide until both chosen again
+  }});
+}})();
 </script>"""
     crumb = '<span>Explore</span><span class="sep">/</span><b>Technology &times; Industry</b>'
     wr("explore/tech-x-industry.html",
        shell("../", "tech-x-industry", "Technology &times; Industry", crumb, body,
-             head_extra=head_extra) .replace("</main>", "</main>\n"+script))
+             head_extra=head_extra).replace("</main>", "</main>\n"+script))
 
 # ============================================================================
 # PLACEHOLDER PAGES
