@@ -412,5 +412,14 @@ renderLegend(); switchView('combined');
   render(TECHS[0]);
 })();
 </script>
-<style id="ds-theme-override">:root{--disp:'Montserrat','IBM Plex Sans',sans-serif!important}</style></body>
+<style id="ds-theme-override">
+:root{--disp:'Montserrat','IBM Plex Sans',sans-serif!important}
+html,body{background:transparent!important;min-height:0!important;height:auto!important}
+/* host section header already says "Research & Innovation" -> drop the
+   masthead eyebrow ("Technology Intelligence · … · 2020–2025"), the duplicate
+   title and the focus chip. */
+.masthead #eyebrow,.masthead h1,.masthead #techChip{display:none!important}
+.masthead{border-bottom:0!important;padding-bottom:10px!important}
+.card.sel .card-name::after{content:none!important}
+</style></body>
 </html>
