@@ -1,10 +1,11 @@
 {
   "$meta": {
     "name": "Research & Innovation — Design System",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "theme": "dark",
     "description": "Design tokens for the Research & Innovation technology-intelligence dashboards. One accent at a time; in a technology-focused card, override `color.accent` and `color.accentTint` with that technology's hue.",
     "changelog": [
+      "1.2.0 — Increased reading-text sizes for legibility: body 13.5->15px, bodySmall 12->14px, label 10->11.5px, caption 10.5->12px; overlapping lede (->15px) and figure (->14px) followed the shared values. Applied across all dashboards.",
       "1.1.0 — Added the official SVG line-icon set: 5 technology icons + 10 industry icons (24x24, currentColor).",
       "1.0.0 — Display typeface changed from Bricolage Grotesque to Montserrat; brand ampersand is now upright (font-style: normal) instead of italic."
     ]
@@ -178,7 +179,7 @@
       "lede": {
         "family": "sans",
         "weight": 400,
-        "size": "13.5px",
+        "size": "15px",
         "lineHeight": 1.65,
         "color": "ink2"
       },
@@ -192,19 +193,19 @@
       "body": {
         "family": "sans",
         "weight": 400,
-        "size": "13.5px",
+        "size": "15px",
         "color": "ink"
       },
       "bodySmall": {
         "family": "sans",
         "weight": 400,
-        "size": "12px",
+        "size": "14px",
         "color": "ink2"
       },
       "label": {
         "family": "mono",
         "weight": 500,
-        "size": "10px",
+        "size": "11.5px",
         "letterSpacing": "0.06em",
         "transform": "uppercase",
         "color": "ink3"
@@ -220,13 +221,13 @@
       "figure": {
         "family": "mono",
         "weight": 600,
-        "size": "12px",
+        "size": "14px",
         "color": "ink2"
       },
       "caption": {
         "family": "sans",
         "weight": 400,
-        "size": "10.5px",
+        "size": "12px",
         "style": "italic",
         "lineHeight": 1.55,
         "color": "ink3"
