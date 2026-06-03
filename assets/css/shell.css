@@ -125,7 +125,7 @@ img{max-width:100%}
 .note-strip svg{width:17px;height:17px;color:var(--accent);flex:none;margin-top:1px}
 
 /* embedded dashboard iframe — seamless: no border, no inner scrollbar, blends in */
-.embed-frame{width:100%;border:0;background:transparent;display:block;overflow:hidden;color-scheme:dark}
+.embed-frame{width:100%;border:0;background:var(--bg);display:block;overflow:hidden;color-scheme:dark}
 .embed-wrap{position:relative;margin-top:14px}
 
 /* sticky clickable scrollspy for composed pages */

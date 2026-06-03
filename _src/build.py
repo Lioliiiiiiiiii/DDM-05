@@ -206,7 +206,8 @@ PERCEPTION_OVERRIDE = """
   --font-body:'IBM Plex Sans',-apple-system,sans-serif;
   --font-mono:'IBM Plex Mono',ui-monospace,monospace;
 }
-html,body{background:transparent!important;color:var(--ink);min-height:0!important;height:auto!important}
+html{color-scheme:dark}
+html,body{background:#0a0e14!important;color:var(--ink);min-height:0!important;height:auto!important}
 .owrap,.gwrap,.wrap{max-width:none!important}
 /* surfaces that were pure white */
 .module,.kpi,.scatterwrap,.chip,.gcard .module{background:var(--surface)}
@@ -316,7 +317,8 @@ UNICORN_OVERRIDE = """
   --native:#f5a623; --unicorn:#4a90d9; --emerging:#2abfa3;
   --native-d:rgba(245,166,35,.16); --unicorn-d:rgba(74,144,217,.16); --emerging-d:rgba(42,191,163,.16);
 }
-html,body{background:transparent!important;background-image:none!important;min-height:0!important;height:auto!important}
+html{color-scheme:dark}
+html,body{background:#0a0e14!important;background-image:none!important;min-height:0!important;height:auto!important}
 .wrap{max-width:none!important}
 .disp,h1,h2.sec,.explorer h1,.ebtn .et,.gcard .yoy,#tip .tn,#ftip .tn{
   font-family:'Montserrat','IBM Plex Sans',sans-serif!important;letter-spacing:-.01em}
@@ -379,7 +381,8 @@ RADAR_OVERRIDE = """
   --text:#e8eef5; --text-dim:#9aa7b5; --text-faint:#5e6b7a;
   --acc:#f5a623; --acc-soft:rgba(245,166,35,.30); --acc-line:#f5a623;
 }
-html,body{font-family:'IBM Plex Sans',-apple-system,sans-serif!important;background:transparent!important;min-height:0!important;height:auto!important}
+html{color-scheme:dark}
+html,body{font-family:'IBM Plex Sans',-apple-system,sans-serif!important;background:#0a0e14!important;min-height:0!important;height:auto!important}
 .eyebrow,.ax-name,.overview-link{font-family:'Montserrat','IBM Plex Sans',sans-serif!important}
 .ax-desc,.hint,.dd-btn{font-family:'IBM Plex Sans',-apple-system,sans-serif!important}
 .val{font-family:'IBM Plex Mono',ui-monospace,monospace!important}
@@ -434,7 +437,8 @@ def build_radar_embed():
 # ---- Research (already dark; swap Bricolage display -> Montserrat) ----------
 RESEARCH_OVERRIDE = """
 :root{--disp:'Montserrat','IBM Plex Sans',sans-serif!important}
-html,body{background:transparent!important;min-height:0!important;height:auto!important}
+html{color-scheme:dark}
+html,body{background:#0a0e14!important;min-height:0!important;height:auto!important}
 /* host section header already says "Research & Innovation" -> drop the
    masthead eyebrow ("Technology Intelligence · … · 2020–2025"), the duplicate
    title and the focus chip. */
@@ -493,11 +497,13 @@ def build_homepage():
     h = h.replace('font-family:var(--sans);font-size:13.5px;color:var(--ink2);text-decoration:none',
                   'font-family:var(--sans);font-size:15px;color:var(--ink2);text-decoration:none')
     h = re.sub(r'font-size:10\.5px;(\s*)letter-spacing:\.22em', r'font-size:11px;\1letter-spacing:.22em', h)
-    # 3. partner logos: bigger + white chips with a touch more padding so they read
-    h = h.replace('.chip.bnp img{height:22px}', '.chip.bnp img{height:40px}')
-    h = h.replace('.chip.sia img{height:26px}', '.chip.sia img{height:40px}')
+    # 3. partner logos: the source files were trimmed of their padding, so the
+    #    logos now fill the chip. Dark-text marks need a light chip to stay legible,
+    #    so keep a tight white badge and size the (now full-bleed) logos generously.
+    h = h.replace('.chip.bnp img{height:22px}', '.chip.bnp img{height:26px}')
+    h = h.replace('.chip.sia img{height:26px}', '.chip.sia img{height:30px}')
     h = h.replace('.chip{background:#fff;border-radius:9px;padding:10px 14px',
-                  '.chip{background:#fff;border-radius:11px;padding:13px 18px')
+                  '.chip{background:#fff;border-radius:9px;padding:9px 13px')
     # 4. bigger topbar buttons + travelling-border animation on the two ghost ones
     h = h.replace('.btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 17px;',
                   '.btn{display:inline-flex;align-items:center;gap:9px;height:46px;padding:0 21px;')
