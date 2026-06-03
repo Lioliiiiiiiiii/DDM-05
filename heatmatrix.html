@@ -6,7 +6,69 @@
 <title>Heatmatrix — Digital Disruption Matrix 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/shell.css">
-
+<style>
+  .hm-wrap{margin-top:30px;border:1px solid var(--line);border-radius:18px;background:var(--panel);
+    padding:clamp(16px,2.2vw,26px);box-shadow:0 24px 60px -36px rgba(0,0,0,.55)}
+  .hm-scroll{overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+  .hm-scroll::-webkit-scrollbar{height:8px}
+  .hm-scroll::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
+  .hm-grid{display:grid;gap:8px;min-width:860px;width:100%}
+  .hm-corner{height:var(--hm-head);border-radius:11px;border:1px solid transparent;background:transparent}
+  /* technology header tiles */
+  .hm-tech{display:flex;align-items:center;justify-content:center;text-align:center;
+    height:var(--hm-head);padding:10px 12px;border-radius:11px;
+    border:1px solid var(--line);background:var(--panel2);
+    font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink2);text-decoration:none;line-height:1.25;
+    transition:border-color .2s,color .2s,background .2s,transform .2s}
+  .hm-tech:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-tint);transform:translateY(-1px)}
+  .hm-tech:focus-visible{outline:none;box-shadow:0 0 0 1px var(--accent),0 10px 30px -12px var(--accent-tint)}
+  /* industry row label */
+  .hm-row{display:flex;align-items:center;height:var(--hm-cell);padding:0 14px;border-radius:11px;
+    border:1px solid var(--line);background:var(--panel2);
+    font-family:var(--sans);font-weight:500;font-size:13.5px;color:var(--ink);
+    text-decoration:none;line-height:1.2;
+    transition:border-color .2s,color .2s,background .2s,transform .2s}
+  .hm-row:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-tint);transform:translateY(-1px)}
+  .hm-row:focus-visible{outline:none;box-shadow:0 0 0 1px var(--accent),0 10px 30px -12px var(--accent-tint)}
+  /* heat cell */
+  .hm-cell{position:relative;height:var(--hm-cell);border-radius:11px;border:1px solid rgba(255,255,255,.05);
+    text-decoration:none;display:block;overflow:hidden;
+    transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+  .hm-cell::after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,0);transition:background .2s}
+  .hm-cell:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.35);
+    box-shadow:0 0 0 1px var(--accent),0 14px 36px -16px var(--accent-tint)}
+  .hm-cell:hover::after{background:rgba(255,255,255,.08)}
+  .hm-cell:focus-visible{outline:none;box-shadow:0 0 0 1px var(--accent),0 14px 36px -16px var(--accent-tint)}
+  .hm-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+  /* hover label */
+  .hm-tip{position:fixed;z-index:80;pointer-events:none;transform:translate(-50%,-100%) translateY(-10px);
+    padding:7px 12px;border-radius:10px;border:1px solid var(--accent);
+    background:var(--panel);color:var(--accent);
+    font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.06em;
+    text-transform:uppercase;white-space:nowrap;
+    box-shadow:0 12px 32px -16px var(--accent-tint);
+    opacity:0;transition:opacity .15s ease}
+  .hm-tip.on{opacity:1}
+  /* legend */
+  .hm-legend{margin-top:22px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--panel2)}
+  .hm-legend-bar{height:12px;border-radius:6px;border:1px solid rgba(255,255,255,.06);
+    background:linear-gradient(90deg,#fff7ed 0%, #fed7aa 18%, #fdba74 34%, #fb923c 52%, #ea580c 72%, #c2410c 88%, #991b1b 100%)}
+  .hm-legend-labels{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px;
+    font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3)}
+  .hm-legend-labels span:nth-child(2){text-align:center}
+  .hm-legend-labels span:nth-child(3){text-align:right}
+  /* explanation */
+  .hm-note{margin-top:18px;padding:16px 18px;border:1px solid rgba(245,166,35,.22);border-radius:14px;
+    background:rgba(245,166,35,.07);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.7}
+  /* sizing */
+  :root{ --hm-head:84px; --hm-cell:64px; --hm-rowlabel:200px; --hm-techcol:minmax(120px,1fr) }
+  @media (max-width:720px){
+    :root{ --hm-head:78px; --hm-cell:60px; --hm-rowlabel:160px }
+    .hm-row{font-size:12.5px;padding:0 10px}
+    .hm-tech{font-size:10.5px;padding:9px 8px}
+  }
+</style>
 </head>
 <body class="">
 <div class="glow"></div>
@@ -57,18 +119,178 @@
   <div class="container">
     <div class="eyebrow">Digital Disruption Matrix 2026</div>
     <h1 class="page-title">Heatmatrix</h1>
-    <div class="placeholder">
-      <div class="ph-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></div>
-      <span class="ph-tag">Coming soon</span>
-      <h2>Heatmatrix</h2>
-      <p>The full technology × industry heat matrix at a glance. This section is a placeholder for now.</p>
+    <p class="page-lede">The full technology &times; industry view of disruption potential. Click any technology, industry or intersection to dive in.</p>
+
+    <div class="hm-wrap">
+      <div class="hm-scroll">
+        <div id="hmGrid" class="hm-grid"></div>
+      </div>
+
+      <div class="hm-legend" aria-hidden="true">
+        <div class="hm-legend-bar"></div>
+        <div class="hm-legend-labels">
+          <span>Low potential</span><span>Medium potential</span><span>High potential</span>
+        </div>
+      </div>
+
+      <p class="hm-note">
+        This heat matrix combines hard data from peer-reviewed publications, patent filings, investment activity, unicorn and startup volume, and a survey of 1,000 professionals to visualize each technology&rsquo;s disruption potential across sectors. Darker orange indicates greater disruption potential.
+      </p>
     </div>
+
     <footer class="site">
       <span>Digital Disruption Matrix 2026 · ESSEC Business School</span>
       <span>5 technologies × 10 industries</span>
     </footer>
   </div>
 </main>
+<div id="hmTip" class="hm-tip" role="status" aria-live="polite"></div>
 <script src="assets/js/shell.js"></script>
+<script>
+(function(){
+  /* Technology column order — slug routes the technology page; radarKey is the
+     exact label the radar embed accepts in its ?tech= query. displayName drives
+     the hover label and visible header (kept short for the column tile). */
+  var TECHS = [
+    { csv:'Descriptive AI',           slug:'descriptive-ai',        radarKey:'Descriptive AI',                       displayName:'Descriptive AI',           short:'Descriptive AI' },
+    { csv:'Agentic & Gen AI',         slug:'generative-agentic-ai', radarKey:'Agentic & GenAI',                      displayName:'Agentic & GenAI',          short:'Agentic & GenAI' },
+    { csv:'Blockchain & Decentralized', slug:'blockchain',          radarKey:'Blockchain & Decentralized Systems',   displayName:'Blockchain & Decentralized', short:'Blockchain' },
+    { csv:'Physical AI & Robotics',   slug:'robotics',              radarKey:'Physical AI & Robotics',               displayName:'Physical AI & Robotics',   short:'Physical AI & Robotics' },
+    { csv:'Quantum Computing',        slug:'quantum-computing',     radarKey:'Quantum Computing',                    displayName:'Quantum Computing',        short:'Quantum Computing' }
+  ];
+  /* Industries in the order requested (matches CSV row order). */
+  var INDS = [
+    { csv:'Energy',                            slug:'energy',                 radarKey:'Energy',                              displayName:'Energy' },
+    { csv:'Materials',                         slug:'materials',              radarKey:'Materials',                           displayName:'Materials' },
+    { csv:'Industrials',                       slug:'industrials',            radarKey:'Industrials',                         displayName:'Industrials' },
+    { csv:'Consumer Goods',                    slug:'consumer-goods',         radarKey:'Consumer Goods',                      displayName:'Consumer Goods' },
+    { csv:'Health Care',                       slug:'healthcare',             radarKey:'Healthcare',                          displayName:'Healthcare' },
+    { csv:'Financial services',                slug:'financial-services',     radarKey:'Financial Services',                  displayName:'Financial Services' },
+    { csv:'Information technology',            slug:'information-technology', radarKey:'Information technology',              displayName:'Information Technology' },
+    { csv:'Communication & creative services', slug:'communication-creative', radarKey:'Communication & Creative Services',   displayName:'Communication & Creative Services' },
+    { csv:'Real Estate',                       slug:'real-estate',            radarKey:'Real Estate',                         displayName:'Real Estate' },
+    { csv:'Automotive & transport',            slug:'automotive-transport',   radarKey:'Automotive & Transport',              displayName:'Automotive & Transport' }
+  ];
+
+  /* Heat scores from the 2026 update — keyed by industry row × technology
+     column. Range observed roughly 12–92; we normalise across the actual
+     min/max for the color ramp so the spread reads clearly. */
+  var SCORES = {
+    'Energy':                            { 'Descriptive AI':36.2, 'Agentic & Gen AI':42.1, 'Blockchain & Decentralized':12.1, 'Physical AI & Robotics':22.2, 'Quantum Computing':15.2 },
+    'Materials':                         { 'Descriptive AI':47.8, 'Agentic & Gen AI':40.1, 'Blockchain & Decentralized':13.0, 'Physical AI & Robotics':26.1, 'Quantum Computing':16.9 },
+    'Industrials':                       { 'Descriptive AI':59.4, 'Agentic & Gen AI':50.5, 'Blockchain & Decentralized':25.2, 'Physical AI & Robotics':53.8, 'Quantum Computing':12.8 },
+    'Consumer Goods':                    { 'Descriptive AI':62.7, 'Agentic & Gen AI':62.6, 'Blockchain & Decentralized':27.7, 'Physical AI & Robotics':32.5, 'Quantum Computing':19.1 },
+    'Health Care':                       { 'Descriptive AI':65.9, 'Agentic & Gen AI':67.9, 'Blockchain & Decentralized':22.5, 'Physical AI & Robotics':35.2, 'Quantum Computing':25.1 },
+    'Financial services':                { 'Descriptive AI':61.4, 'Agentic & Gen AI':67.8, 'Blockchain & Decentralized':59.8, 'Physical AI & Robotics':13.0, 'Quantum Computing':19.4 },
+    'Information technology':            { 'Descriptive AI':67.8, 'Agentic & Gen AI':92.2, 'Blockchain & Decentralized':59.5, 'Physical AI & Robotics':53.2, 'Quantum Computing':41.9 },
+    'Communication & creative services': { 'Descriptive AI':66.5, 'Agentic & Gen AI':72.9, 'Blockchain & Decentralized':32.9, 'Physical AI & Robotics':13.8, 'Quantum Computing':17.1 },
+    'Real Estate':                       { 'Descriptive AI':47.5, 'Agentic & Gen AI':50.9, 'Blockchain & Decentralized':20.7, 'Physical AI & Robotics':16.3, 'Quantum Computing':17.9 },
+    'Automotive & transport':            { 'Descriptive AI':53.3, 'Agentic & Gen AI':51.3, 'Blockchain & Decentralized':15.2, 'Physical AI & Robotics':45.7, 'Quantum Computing':18.5 }
+  };
+
+  /* Whitish → amber → red-ish gradient. Multi-stop piecewise interpolation so
+     low values stay readable on a dark canvas and the top of the scale lands
+     in deep orange/red without going pink. */
+  var STOPS = [
+    { t:0.00, c:[255,247,237] }, // #fff7ed
+    { t:0.18, c:[254,215,170] }, // #fed7aa
+    { t:0.34, c:[253,186,116] }, // #fdba74
+    { t:0.52, c:[251,146, 60] }, // #fb923c
+    { t:0.72, c:[234, 88, 12] }, // #ea580c
+    { t:0.88, c:[194, 65, 12] }, // #c2410c
+    { t:1.00, c:[153, 27, 27] }  // #991b1b
+  ];
+  function lerp(a,b,k){return a+(b-a)*k}
+  function colorFor(t){
+    if(t<=0) return STOPS[0].c;
+    if(t>=1) return STOPS[STOPS.length-1].c;
+    for(var i=0;i<STOPS.length-1;i++){
+      var a=STOPS[i], b=STOPS[i+1];
+      if(t>=a.t && t<=b.t){
+        var k=(t-a.t)/(b.t-a.t);
+        return [lerp(a.c[0],b.c[0],k), lerp(a.c[1],b.c[1],k), lerp(a.c[2],b.c[2],k)];
+      }
+    }
+    return STOPS[STOPS.length-1].c;
+  }
+  function rgb(c){return 'rgb('+Math.round(c[0])+','+Math.round(c[1])+','+Math.round(c[2])+')'}
+
+  /* Compute normalised t per cell from the observed range so the palette
+     stretches across the actual data. */
+  var allValues=[];
+  INDS.forEach(function(ind){ TECHS.forEach(function(t){ allValues.push(SCORES[ind.csv][t.csv]); }); });
+  var vMin=Math.min.apply(null,allValues), vMax=Math.max.apply(null,allValues);
+
+  /* Build grid */
+  var grid=document.getElementById('hmGrid');
+  grid.style.gridTemplateColumns='var(--hm-rowlabel) repeat('+TECHS.length+', var(--hm-techcol))';
+
+  /* Header row: corner + technology header tiles */
+  var corner=document.createElement('div'); corner.className='hm-corner'; grid.appendChild(corner);
+  TECHS.forEach(function(tech){
+    var a=document.createElement('a');
+    a.className='hm-tech';
+    a.href='technology/'+tech.slug+'.html';
+    a.textContent=tech.short;
+    a.setAttribute('aria-label','Explore '+tech.displayName);
+    a.dataset.tip='Explore '+tech.displayName;
+    grid.appendChild(a);
+  });
+
+  /* Body rows */
+  INDS.forEach(function(ind){
+    var row=document.createElement('a');
+    row.className='hm-row';
+    row.href='industry/'+ind.slug+'.html';
+    row.textContent=ind.displayName;
+    row.setAttribute('aria-label','Explore '+ind.displayName);
+    row.dataset.tip='Explore '+ind.displayName;
+    grid.appendChild(row);
+
+    TECHS.forEach(function(tech){
+      var v=SCORES[ind.csv][tech.csv];
+      var t=(v-vMin)/(vMax-vMin);
+      var cell=document.createElement('a');
+      cell.className='hm-cell';
+      cell.href='explore/tech-x-industry.html?tech='+encodeURIComponent(tech.radarKey)+'&ind='+encodeURIComponent(ind.radarKey);
+      cell.style.background=rgb(colorFor(t));
+      var label='Explore '+tech.displayName+' × '+ind.displayName;
+      cell.setAttribute('aria-label',label);
+      cell.dataset.tip=label;
+      var sr=document.createElement('span'); sr.className='hm-sr'; sr.textContent=label;
+      cell.appendChild(sr);
+      grid.appendChild(cell);
+    });
+  });
+
+  /* Single shared floating tooltip — follows mouse / focus position. */
+  var tip=document.getElementById('hmTip');
+  function showTip(el){
+    var label=el.dataset.tip; if(!label) return;
+    tip.textContent=label;
+    var r=el.getBoundingClientRect();
+    tip.style.left=(r.left+r.width/2)+'px';
+    tip.style.top=r.top+'px';
+    tip.classList.add('on');
+  }
+  function hideTip(){ tip.classList.remove('on'); }
+  grid.addEventListener('mouseover',function(e){
+    var t=e.target.closest('[data-tip]'); if(t && grid.contains(t)) showTip(t);
+  });
+  grid.addEventListener('mouseout',function(e){
+    var t=e.target.closest('[data-tip]');
+    if(t && grid.contains(t) && !grid.contains(e.relatedTarget)) hideTip();
+    else if(t && grid.contains(t)) {
+      var to=e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('[data-tip]');
+      if(!to) hideTip();
+    }
+  });
+  grid.addEventListener('focusin',function(e){
+    var t=e.target.closest('[data-tip]'); if(t) showTip(t);
+  });
+  grid.addEventListener('focusout',hideTip);
+  window.addEventListener('scroll',hideTip,{passive:true});
+})();
+</script>
 </body>
 </html>

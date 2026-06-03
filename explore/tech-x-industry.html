@@ -62,7 +62,7 @@
     <div class="eyebrow">Explore by Sector</div>
     <h1 class="page-title">Technology &times; Industry</h1>
     <p class="page-lede">Pick a technology and an industry in the heat-analysis radar below. Once both are set, the analysis for that intersection appears underneath — how professionals perceive it, where the ventures cluster, and the research signal behind the technology.</p>
-    <div class="embed-wrap"><iframe class="embed-frame" src="../embed/radar.html" style="height:880px" title="embedded dashboard" loading="eager" scrolling="no" frameborder="0"></iframe></div>
+    <div class="embed-wrap"><iframe id="radarFrame" class="embed-frame" src="../embed/radar.html" style="height:880px" title="embedded dashboard" loading="eager" scrolling="no" frameborder="0"></iframe></div>
 
     <div id="xsections" hidden>
     <nav class="scrollspy" aria-label="Page sections"><a href="#sec-perception"><span class="n">01</span>Perception</a><a href="#sec-unicorn"><span class="n">02</span>Unicorn Factor</a><a href="#sec-research"><span class="n">03</span>Research</a></nav>
@@ -94,6 +94,20 @@
   var sec=document.getElementById('xsections');
   var fP=document.getElementById('frPerc'), fU=document.getElementById('frUni'), fR=document.getElementById('frRes');
   var cur={t:null,i:null};
+  /* Forward heatmatrix deep-link params (?tech=&ind=) to the radar embed so
+     it lands pre-selected. */
+  (function forwardQueryToRadar(){
+    try{
+      var p=new URLSearchParams(window.location.search);
+      var qt=p.get('tech'), qi=p.get('ind');
+      if(!qt && !qi) return;
+      var frame=document.getElementById('radarFrame');
+      var u=new URL(frame.getAttribute('src'), window.location.href);
+      if(qt) u.searchParams.set('tech',qt);
+      if(qi) u.searchParams.set('ind',qi);
+      frame.src=u.pathname.replace(/^.*\/embed\//,'../embed/')+u.search;
+    }catch(e){}
+  })();
   function apply(tKey,iKey){
     var ts=TMAP[tKey], is=IMAP[iKey];
     if(!ts||!is) return;
