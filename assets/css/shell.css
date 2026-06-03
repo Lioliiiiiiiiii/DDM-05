@@ -39,13 +39,13 @@ img{max-width:100%}
 .brand a{text-decoration:none}
 .brand .mark{font-family:var(--display);font-weight:700;color:var(--ink);
   font-size:21px;line-height:1.18;letter-spacing:-.015em}
-.brand .ed{margin-top:7px;font-family:var(--mono);font-weight:500;font-size:11.5px;
+.brand .ed{margin-top:7px;font-family:var(--mono);font-weight:500;font-size:13.5px;
   letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
 .nav{padding:16px 12px 26px;flex:1}
 .nav-group{margin-top:20px}
 .nav-group:first-child{margin-top:6px}
 .nav-eyebrow{display:flex;align-items:center;gap:8px;
-  padding:0 10px 10px;font-family:var(--mono);font-weight:500;font-size:11.5px;
+  padding:0 10px 10px;font-family:var(--mono);font-weight:500;font-size:13.5px;
   letter-spacing:.2em;text-transform:uppercase;color:var(--ink3)}
 .nav-eyebrow::before{content:"";width:18px;height:1px;background:var(--accent);flex:none;opacity:.85}
 .nav a{display:block;position:relative;padding:9px 12px;border-radius:8px;
@@ -68,7 +68,7 @@ img{max-width:100%}
   background:linear-gradient(180deg, rgba(10,14,20,0.86), rgba(10,14,20,0.42));
   border-bottom:1px solid var(--line);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.crumb{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;
+.crumb{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:13.5px;
   letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);min-width:0;overflow:hidden;white-space:nowrap}
 .crumb b{color:var(--ink2);font-weight:500}
 .crumb .sep{color:var(--line2)}
@@ -113,8 +113,8 @@ img{max-width:100%}
 .page-lede{margin-top:18px;font-family:var(--sans);font-size:16px;line-height:1.72;color:var(--ink2);max-width:76ch}
 .focus-chip{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:8px 16px;border-radius:30px;
   border:1px solid var(--accent);background:var(--accent-tint);font-family:var(--display);font-weight:600;
-  font-size:15px;color:var(--accent)}
-.focus-chip .pre{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.18em;color:var(--ink3)}
+  font-size:17px;color:var(--accent)}
+.focus-chip .pre{font-family:var(--mono);font-weight:500;font-size:13.5px;letter-spacing:.18em;color:var(--ink3)}
 .focus-chip svg{width:22px;height:22px}
 
 /* section wrapper for composed pages */
@@ -122,7 +122,7 @@ img{max-width:100%}
 .section-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px}
 .section-num{font-family:var(--mono);font-weight:600;font-size:12.5px;color:var(--accent);letter-spacing:.08em}
 .section-title{font-family:var(--display);font-weight:700;font-size:23px;letter-spacing:-.01em;color:var(--ink)}
-.section-desc{font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--ink2);margin-top:6px;max-width:82ch}
+.section-desc{font-family:var(--sans);font-size:16px;line-height:1.6;color:var(--ink2);margin-top:6px;max-width:82ch}
 .note-strip{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:13px 17px;border:1px dashed var(--line2);
   border-radius:11px;background:var(--panel2);font-family:var(--sans);font-size:13px;line-height:1.55;color:var(--ink2)}
 .note-strip svg{width:17px;height:17px;color:var(--accent);flex:none;margin-top:1px}
@@ -135,9 +135,9 @@ img{max-width:100%}
 .scrollspy{position:sticky;top:calc(var(--topbar-h) + 10px);z-index:20;display:flex;gap:6px;flex-wrap:wrap;
   margin:24px 0 4px;padding:6px;border:1px solid var(--line);border-radius:30px;
   background:rgba(13,17,23,0.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);width:fit-content;max-width:100%}
-.scrollspy a{font-family:var(--mono);font-size:14px;letter-spacing:.03em;color:var(--ink2);text-decoration:none;
+.scrollspy a{font-family:var(--mono);font-size:16px;letter-spacing:.03em;color:var(--ink2);text-decoration:none;
   padding:9px 17px;border-radius:30px;transition:color .2s,background .2s;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
-.scrollspy a .n{font-size:12px;color:var(--ink3);font-weight:500}
+.scrollspy a .n{font-size:14px;color:var(--ink3);font-weight:500}
 .scrollspy a:hover{color:var(--ink);background:var(--bg2)}
 .scrollspy a.active{background:var(--accent);color:var(--on-accent)}
 .scrollspy a.active .n{color:var(--on-accent);opacity:.75}
@@ -149,10 +149,10 @@ img{max-width:100%}
   background:var(--panel);text-decoration:none;transition:border-color .25s,transform .25s,box-shadow .25s}
 .linkcard:hover{border-color:var(--accent);transform:translateY(-3px);
   box-shadow:0 0 0 1px var(--accent),0 16px 40px -18px var(--accent-tint)}
-.linkcard .lc-ey{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3)}
+.linkcard .lc-ey{font-family:var(--mono);font-size:13.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3)}
 .linkcard .lc-t{font-family:var(--display);font-weight:700;font-size:18px;color:var(--ink)}
 .linkcard .lc-d{font-family:var(--sans);font-size:13px;line-height:1.55;color:var(--ink2)}
-.linkcard .lc-arr{margin-top:auto;font-family:var(--mono);font-size:14px;color:var(--accent)}
+.linkcard .lc-arr{margin-top:auto;font-family:var(--mono);font-size:16px;color:var(--accent)}
 
 /* placeholder block */
 .placeholder{margin-top:30px;display:grid;place-items:center;text-align:center;gap:14px;
@@ -161,8 +161,8 @@ img{max-width:100%}
   border:1px solid var(--line2);color:var(--accent);background:var(--accent-tint)}
 .placeholder .ph-ic svg{width:28px;height:28px}
 .placeholder h2{font-family:var(--display);font-weight:700;font-size:24px;color:var(--ink)}
-.placeholder p{font-family:var(--sans);font-size:14px;line-height:1.65;color:var(--ink2);max-width:52ch}
-.placeholder .ph-tag{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+.placeholder p{font-family:var(--sans);font-size:16px;line-height:1.65;color:var(--ink2);max-width:52ch}
+.placeholder .ph-tag{font-family:var(--mono);font-size:14px;letter-spacing:.2em;text-transform:uppercase;
   color:var(--ink3);padding:6px 14px;border:1px solid var(--line2);border-radius:30px}
 
 footer.site{margin-top:64px;padding-top:22px;border-top:1px solid var(--line);
