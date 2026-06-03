@@ -1,10 +1,11 @@
 # Research & Innovation — Design System
 
-**Version 1.2.0 · Dark theme · For human and agent use**
+**Version 1.3.0 · Dark theme · For human and agent use**
 
 This document is the source of truth for the visual language of the *Research & Innovation* technology-intelligence dashboards. It is written so an implementing agent can build new screens that match the existing cards without seeing them. Machine-readable tokens live in `design-tokens.json`; a rendered reference lives in `design-system-preview.html`.
 
-> **Changes in 1.2.0:** increased the four reading-text sizes for legibility — **Body** 13.5→15px, **Body small** 12→14px, **Label** 10→11.5px, **Caption** 10.5→12px. The shared values carried the overlapping **Lede** (→15px) and **Figure** (→14px) along with them. Applied across all dashboards.
+> **Changes in 1.3.0:** further enlarged reading text (+2px) — **Body** 15→17px, **Body small** 14→16px, **Label** 11.5→13.5px, **Caption** 12→14px. The shared values carried the overlapping **Lede** (→17px) and **Figure** (→16px) along with them. Applied across all pages and cards.
+> **1.2.0:** increased the four reading-text sizes for legibility — **Body** 13.5→15px, **Body small** 12→14px, **Label** 10→11.5px, **Caption** 10.5→12px. The shared values carried the overlapping **Lede** (→15px) and **Figure** (→14px) along with them. Applied across all dashboards.
 > **1.1.0:** added the official **SVG line-icon set** — 5 technology icons + 10 industry icons (§6). 
 > **1.0.0:** display typeface changed to **Montserrat**; the brand ampersand is **upright** (`font-style: normal`), not italic.
 
@@ -87,13 +88,13 @@ Apply `font-variant-numeric: tabular-nums` to all mono figures so numbers align.
 | Metric (large) | Display 800 | 30px | −0.02em | KPI / score |
 | Metric (card) | Display 800 | 25px | −0.02em | |
 | Eyebrow | Mono 500 | 11px | .32em, UPPER | accent colour |
-| Lede | Sans 400 | 15px | — | `--ink2`, line-height 1.65 |
+| Lede | Sans 400 | 17px | — | `--ink2`, line-height 1.65 |
 | Section desc | Sans 400 | 12.5px | — | `--ink2` |
-| Body | Sans 400 | 15px | — | `--ink` |
-| Body small | Sans 400 | 14px | — | `--ink2` |
-| Label | Mono 500 | 11.5px | .06em, UPPER | `--ink3` |
-| Figure | Mono 600 | 14px | — | `--ink2` |
-| Caption | Sans **italic** 400 | 12px | — | `--ink3`, used for the index note |
+| Body | Sans 400 | 17px | — | `--ink` |
+| Body small | Sans 400 | 16px | — | `--ink2` |
+| Label | Mono 500 | 13.5px | .06em, UPPER | `--ink3` |
+| Figure | Mono 600 | 16px | — | `--ink2` |
+| Caption | Sans **italic** 400 | 14px | — | `--ink3`, used for the index note |
 | Badge | Mono 600 | 8.5px | .05em | |
 
 ### Brand lockup
@@ -176,15 +177,15 @@ Each component is themed through `--accent`, so re-theming a card needs no per-c
 
 **Eyebrow** — Mono 11px, .32em uppercase, accent, preceded by a 26px×1px accent rule.
 
-**Focus chip** — pill (radius 30) with `1px solid var(--accent)`, fill `--accent-tint`, Display 600 15px in accent; a Mono "FOCUS" pre-label in `--ink3`, then the technology icon + name.
+**Focus chip** — pill (radius 30) with `1px solid var(--accent)`, fill `--accent-tint`, Display 600 17px in accent; a Mono "FOCUS" pre-label in `--ink3`, then the technology icon + name.
 
-**Signal toggle** — segmented control in a `--bg2` well, `1px --line2`, radius 10, 3px padding. Buttons Mono 11.5px uppercase `--ink2`; active button = solid `--accent` fill, text `#1a1205`, weight 600.
+**Signal toggle** — segmented control in a `--bg2` well, `1px --line2`, radius 10, 3px padding. Buttons Mono 13.5px uppercase `--ink2`; active button = solid `--accent` fill, text `#1a1205`, weight 600.
 
-**Technology selector (accordion tabs)** — Mono 12px chips, `--bg2` fill, `1px --line`, radius 8. Active chip: border `--accent`, text `--accent`. Defaults to the card's focused technology.
+**Technology selector (accordion tabs)** — Mono 14px chips, `--bg2` fill, `1px --line`, radius 8. Active chip: border `--accent`, text `--accent`. Defaults to the card's focused technology.
 
 **Metric / evolution card** — `--panel2`, `1px --line`, radius 11, padding 14–15. Name (Sans 600 11px with icon), score (Display 800 25px in technology colour), label (Mono 9px `--ink3`), divider, vs-2020 / vs-2024 stats (Mono, coloured by semantic). Focused card adds the focus shadow and a Mono "◀ focus" tag after the name.
 
-**Indexed bar row** — rank no. (Mono 11.5px `--ink3`) · flag · name (Sans 11.5px `--ink2`, truncating) · track (`--bg2`, height 18, radius 4) · fill (technology colour, right-aligned index label in `#0a0e14`) · trend tag.
+**Indexed bar row** — rank no. (Mono 13.5px `--ink3`) · flag · name (Sans 13.5px `--ink2`, truncating) · track (`--bg2`, height 18, radius 4) · fill (technology colour, right-aligned index label in `#0a0e14`) · trend tag.
 
 **Leaderboard row** — big rank (Display 700, accent for #1) · name (Sans 500 12.5px) with optional badge · thin progress bar (accent, 3px) · index value (Mono 600). Row hover = `--bg2`. Close the list with the italic index caption.
 
