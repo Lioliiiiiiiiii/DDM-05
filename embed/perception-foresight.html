@@ -11,7 +11,10 @@
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:760px;margin:0 auto;padding:34px 22px 64px}
+  /* Widen single-cell embeds + air out internal padding. */
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 32px 96px;display:flex;flex-direction:column;gap:40px}
+  .wrap > .module{margin:0}
+  @media (max-width:760px){.wrap{padding:28px 18px 64px;gap:28px}}
   .topline{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin:0 0 18px}
 
   .module{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;position:relative}
@@ -20,7 +23,7 @@
   .acc-indus::before{background:var(--indus)}
   .acc-cell::before{background:linear-gradient(90deg,var(--tech),var(--indus))}
 
-  .mod-head{padding:26px 30px 22px;border-bottom:1px solid var(--line)}
+  .mod-head{padding:30px 36px 24px;border-bottom:1px solid var(--line)}
   .mod-top{display:flex;flex-wrap:wrap;gap:16px 20px;align-items:center;justify-content:space-between}
   .mod-id{display:flex;align-items:center;gap:13px}
   .glyphs{display:flex;align-items:center;gap:9px;flex:none}
@@ -38,8 +41,8 @@
   .mod-n b{color:var(--ink);font-weight:500}
   .mod-sub{margin:14px 0 0;color:var(--ink-2);font-size:14px;max-width:64ch}
 
-  .mod-body{padding:26px 30px 30px}
-  .block+.block{margin-top:30px}
+  .mod-body{padding:30px 36px 34px}
+  .block+.block{margin-top:38px}
   .block-h{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
   .block-h .sub{text-transform:none;letter-spacing:0;font-family:var(--font-body);color:var(--ink-3);font-size:11.5px}
   .grid{display:grid;gap:24px}
@@ -95,7 +98,8 @@
 </style>
 
 <style>
- .gwrap{max-width:860px;margin:0 auto;padding:30px 22px 70px}
+ .gwrap{max-width:1080px;margin:0 auto;padding:40px 32px 96px;display:flex;flex-direction:column;gap:32px}
+ .gwrap > .gcard{margin:0}
  .gh{font-family:var(--font-disp);font-weight:500;font-size:34px;letter-spacing:-.01em;margin:0 0 6px}
  .gsub{color:var(--ink-2);margin:0 0 22px;font-size:14px}
  .controls{position:sticky;top:0;background:var(--paper);padding:14px 0;border-bottom:1px solid var(--line);z-index:5;margin-bottom:10px}

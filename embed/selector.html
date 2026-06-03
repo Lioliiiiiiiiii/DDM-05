@@ -135,14 +135,21 @@
   .viz-arm .grip{animation:gp 4s ease-in-out infinite}
   @keyframes gp{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
 
-  /* Quantum — orbiting electrons */
-  .viz-q .orbit{transform-box:view-box;transform-origin:160px 76px}
-  .viz-q .o1{animation:spin 9s linear infinite}
-  .viz-q .o2{animation:spin 11s linear infinite reverse}
-  .viz-q .o3{animation:spin 7s linear infinite}
-  .card:hover .viz-q .o1{animation-duration:3.4s}
-  .card:hover .viz-q .o2{animation-duration:4.2s}
-  .card:hover .viz-q .o3{animation-duration:2.7s}
+  /* Quantum — three electrons travel ALONG their tilted ellipses, not around a
+     circle. Each electron is animated with offset-path matching its parent
+     ellipse; the parent <g rotate=…> tilts ellipse+path together. */
+  .viz-q .electron{
+    offset-path:path('M 234,76 A 74,26 0 1,1 86,76 A 74,26 0 1,1 234,76');
+    offset-rotate:0deg;
+    animation:q-orbit 8s linear infinite;
+  }
+  .viz-q .e1{animation-duration:8s}
+  .viz-q .e2{animation-duration:10s;animation-direction:reverse}
+  .viz-q .e3{animation-duration:6.5s}
+  @keyframes q-orbit{to{offset-distance:100%}}
+  .card:hover .viz-q .e1{animation-duration:3.2s}
+  .card:hover .viz-q .e2{animation-duration:3.8s}
+  .card:hover .viz-q .e3{animation-duration:2.5s}
   .viz-q .nucleus{transform-box:view-box;transform-origin:160px 76px;animation:nuc 2.6s ease-in-out infinite}
   @keyframes nuc{0%,100%{transform:scale(.82);opacity:.85}50%{transform:scale(1.18);opacity:1}}
   .card:hover .viz-q .nucleus{animation-duration:1.3s}
@@ -246,9 +253,9 @@
   </svg>`;
 
   const sceneQ = `<svg class="viz viz-q" viewBox="0 0 320 152" preserveAspectRatio="xMidYMid slice">
-    <g class="orbit o1"><ellipse cx="160" cy="76" rx="74" ry="26" fill="none" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.4"/><circle cx="234" cy="76" r="4.5" fill="currentColor"/></g>
-    <g class="orbit o2" transform="rotate(60 160 76)"><ellipse cx="160" cy="76" rx="74" ry="26" fill="none" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.4"/><circle cx="234" cy="76" r="4" fill="currentColor" fill-opacity="0.85"/></g>
-    <g class="orbit o3" transform="rotate(120 160 76)"><ellipse cx="160" cy="76" rx="74" ry="26" fill="none" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.4"/><circle cx="234" cy="76" r="4" fill="currentColor" fill-opacity="0.85"/></g>
+    <g class="orbit"><ellipse cx="160" cy="76" rx="74" ry="26" fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.4"/><circle class="electron e1" r="4.5" fill="currentColor"/></g>
+    <g class="orbit" transform="rotate(60 160 76)"><ellipse cx="160" cy="76" rx="74" ry="26" fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.4"/><circle class="electron e2" r="4" fill="currentColor" fill-opacity="0.9"/></g>
+    <g class="orbit" transform="rotate(120 160 76)"><ellipse cx="160" cy="76" rx="74" ry="26" fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.4"/><circle class="electron e3" r="4" fill="currentColor" fill-opacity="0.9"/></g>
     <circle class="nucleus" cx="160" cy="76" r="7" fill="currentColor"/>
   </svg>`;
 

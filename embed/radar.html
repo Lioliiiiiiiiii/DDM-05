@@ -45,7 +45,8 @@
   }
   .val{font-family:"Space Mono";font-size:12px;font-weight:700;fill:var(--acc);}
   .dot{stroke:#0a0f1f;stroke-width:1.5;fill:var(--acc);}
-  .shape{filter:drop-shadow(0 0 8px rgba(255,122,24,.55));}
+  /* Neutral lift around the polygon — the per-cell heat colour does the talking. */
+  .shape{filter:drop-shadow(0 0 10px rgba(0,0,0,.5));}
   .hint{font-family:"Saira";font-size:13px;fill:var(--text-faint);}
 
   .selectors{display:grid;grid-template-columns:1fr 1fr;gap:46px;margin-top:2px;}
@@ -110,7 +111,7 @@
         </button>
         <div class="dd-menu" id="menu-tech" role="listbox"></div>
       </div>
-      <a class="overview-link">View technology overview ↗</a>
+      <a class="overview-link" id="lnk-tech" target="_top" href="../explore/technology.html">View Technology ↗</a>
       <p class="definition empty" id="def-tech"></p>
     </div>
 
@@ -122,7 +123,7 @@
         </button>
         <div class="dd-menu" id="menu-ind" role="listbox"></div>
       </div>
-      <a class="overview-link">View industry overview ↗</a>
+      <a class="overview-link" id="lnk-ind" target="_top" href="../explore/industry.html">View Industry ↗</a>
       <p class="definition empty" id="def-ind"></p>
     </div>
   </div>
@@ -179,6 +180,60 @@ const N=5, MIN=0, MAX=10, RINGS=3, CX=505, CY=355, R=160, LA=R+58;
 const W=240, HTOP=98, HSIDE=170;   // label box sizing
 const state={tech:null, ind:null};
 
+/* Heatmatrix scores + gradient — keep in sync with /heatmatrix.html so the
+   radar area paints with the same colour as the cell the user came from. */
+const HEAT_SCORES={
+  "Energy":                            {"Descriptive AI":36.2,"Agentic & GenAI":42.1,"Blockchain & Decentralized Systems":12.1,"Physical AI & Robotics":22.2,"Quantum Computing":15.2},
+  "Materials":                         {"Descriptive AI":47.8,"Agentic & GenAI":40.1,"Blockchain & Decentralized Systems":13.0,"Physical AI & Robotics":26.1,"Quantum Computing":16.9},
+  "Industrials":                       {"Descriptive AI":59.4,"Agentic & GenAI":50.5,"Blockchain & Decentralized Systems":25.2,"Physical AI & Robotics":53.8,"Quantum Computing":12.8},
+  "Consumer Goods":                    {"Descriptive AI":62.7,"Agentic & GenAI":62.6,"Blockchain & Decentralized Systems":27.7,"Physical AI & Robotics":32.5,"Quantum Computing":19.1},
+  "Healthcare":                        {"Descriptive AI":65.9,"Agentic & GenAI":67.9,"Blockchain & Decentralized Systems":22.5,"Physical AI & Robotics":35.2,"Quantum Computing":25.1},
+  "Financial Services":                {"Descriptive AI":61.4,"Agentic & GenAI":67.8,"Blockchain & Decentralized Systems":59.8,"Physical AI & Robotics":13.0,"Quantum Computing":19.4},
+  "Information technology":            {"Descriptive AI":67.8,"Agentic & GenAI":92.2,"Blockchain & Decentralized Systems":59.5,"Physical AI & Robotics":53.2,"Quantum Computing":41.9},
+  "Communication & Creative Services": {"Descriptive AI":66.5,"Agentic & GenAI":72.9,"Blockchain & Decentralized Systems":32.9,"Physical AI & Robotics":13.8,"Quantum Computing":17.1},
+  "Real Estate":                       {"Descriptive AI":47.5,"Agentic & GenAI":50.9,"Blockchain & Decentralized Systems":20.7,"Physical AI & Robotics":16.3,"Quantum Computing":17.9},
+  "Automotive & Transport":            {"Descriptive AI":53.3,"Agentic & GenAI":51.3,"Blockchain & Decentralized Systems":15.2,"Physical AI & Robotics":45.7,"Quantum Computing":18.5}
+};
+const HEAT_STOPS=[
+  {t:0.00,c:[255,247,237]},{t:0.18,c:[254,215,170]},{t:0.34,c:[253,186,116]},
+  {t:0.52,c:[251,146, 60]},{t:0.72,c:[234, 88, 12]},{t:0.88,c:[194, 65, 12]},
+  {t:1.00,c:[153, 27, 27]}
+];
+const HEAT_RANGE=(function(){
+  let mn=Infinity,mx=-Infinity;
+  for(const ind in HEAT_SCORES) for(const t in HEAT_SCORES[ind]){
+    const v=HEAT_SCORES[ind][t]; if(v<mn)mn=v; if(v>mx)mx=v;
+  }
+  return {mn:mn,mx:mx};
+})();
+function heatColor(v){
+  const t=Math.max(0,Math.min(1,(v-HEAT_RANGE.mn)/(HEAT_RANGE.mx-HEAT_RANGE.mn)));
+  if(t<=0) return HEAT_STOPS[0].c;
+  if(t>=1) return HEAT_STOPS[HEAT_STOPS.length-1].c;
+  for(let i=0;i<HEAT_STOPS.length-1;i++){
+    const a=HEAT_STOPS[i], b=HEAT_STOPS[i+1];
+    if(t>=a.t && t<=b.t){
+      const k=(t-a.t)/(b.t-a.t);
+      return [a.c[0]+(b.c[0]-a.c[0])*k, a.c[1]+(b.c[1]-a.c[1])*k, a.c[2]+(b.c[2]-a.c[2])*k];
+    }
+  }
+  return HEAT_STOPS[HEAT_STOPS.length-1].c;
+}
+function rgbStr(c,a){
+  const r=Math.round(c[0]),g=Math.round(c[1]),b=Math.round(c[2]);
+  return a==null ? `rgb(${r},${g},${b})` : `rgba(${r},${g},${b},${a})`;
+}
+function heatPaintFor(tech,ind){
+  const row=HEAT_SCORES[ind]; if(!row) return null;
+  const v=row[tech]; if(v==null) return null;
+  const c=heatColor(v);
+  return {fill:rgbStr(c,0.42), stroke:rgbStr(c,1), dot:rgbStr(c,1), v:v};
+}
+
+/* Slug maps for the dynamic "View …" buttons. Mirror tech-x-industry.html. */
+const TECH_SLUG={"Descriptive AI":"descriptive-ai","Agentic & GenAI":"generative-agentic-ai","Blockchain & Decentralized Systems":"blockchain","Physical AI & Robotics":"robotics","Quantum Computing":"quantum-computing"};
+const IND_SLUG={"Energy":"energy","Materials":"materials","Industrials":"industrials","Consumer Goods":"consumer-goods","Healthcare":"healthcare","Financial Services":"financial-services","Information technology":"information-technology","Communication & Creative Services":"communication-creative","Real Estate":"real-estate","Automotive & Transport":"automotive-transport"};
+
 function angle(i){return (-90+i*(360/N))*Math.PI/180;}
 function rad(v){return (Math.max(v,MIN)-MIN)/(MAX-MIN)*R;}
 function pt(i,v){const rr=rad(v);return [CX+rr*Math.cos(angle(i)), CY+rr*Math.sin(angle(i))];}
@@ -207,8 +262,12 @@ function renderChart(){
 
   const vals=(state.tech&&state.ind)?DATA[state.ind][state.tech]:null;
   if(vals){
-    s+=`<polygon class="shape" points="${poly(vals)}" fill="var(--acc-soft)" stroke="var(--acc-line)" stroke-width="3" stroke-linejoin="round"/>`;
-    vals.forEach((v,i)=>{const [x,y]=pt(i,v); s+=`<circle class="dot" cx="${x}" cy="${y}" r="4"/>`;});
+    const paint=heatPaintFor(state.tech,state.ind);
+    const fillAttr = paint ? paint.fill : 'var(--acc-soft)';
+    const strokeAttr = paint ? paint.stroke : 'var(--acc-line)';
+    const dotFill = paint ? paint.dot : 'var(--acc)';
+    s+=`<polygon class="shape" points="${poly(vals)}" fill="${fillAttr}" stroke="${strokeAttr}" stroke-width="4.5" stroke-linejoin="round" stroke-opacity="1"/>`;
+    vals.forEach((v,i)=>{const [x,y]=pt(i,v); s+=`<circle class="dot" cx="${x}" cy="${y}" r="5" fill="${dotFill}"/>`;});
   } else {
     s+=`<text class="hint" x="${CX}" y="${CY+4}" text-anchor="middle">Select a technology and an industry</text>`;
   }
@@ -234,10 +293,32 @@ function renderPanels(){
   const lt=document.getElementById("lbl-tech"),li=document.getElementById("lbl-ind");
   const bt=document.getElementById("btn-tech"),bi=document.getElementById("btn-ind");
   const dt=document.getElementById("def-tech"),di=document.getElementById("def-ind");
+  const lnkT=document.getElementById("lnk-tech"),lnkI=document.getElementById("lnk-ind");
   if(state.tech){lt.textContent=state.tech;bt.classList.remove("placeholder");dt.textContent=TECH_DEF[state.tech];dt.classList.remove("empty");}
   else{lt.textContent="Select a Technology";bt.classList.add("placeholder");dt.textContent="";dt.classList.add("empty");}
   if(state.ind){li.textContent=state.ind;bi.classList.remove("placeholder");di.textContent=IND_DEF[state.ind];di.classList.remove("empty");}
   else{li.textContent="Select an Industry";bi.classList.add("placeholder");di.textContent="";di.classList.add("empty");}
+  /* Dynamic "View …" deep-link: defaults to the overview pages, becomes
+     "View <name>" → /technology/<slug>.html (or /industry/<slug>.html) once a
+     selection is made. */
+  if(lnkT){
+    if(state.tech && TECH_SLUG[state.tech]){
+      lnkT.textContent="View "+state.tech+" ↗";
+      lnkT.setAttribute("href","../technology/"+TECH_SLUG[state.tech]+".html");
+    } else {
+      lnkT.textContent="View Technology ↗";
+      lnkT.setAttribute("href","../explore/technology.html");
+    }
+  }
+  if(lnkI){
+    if(state.ind && IND_SLUG[state.ind]){
+      lnkI.textContent="View "+state.ind+" ↗";
+      lnkI.setAttribute("href","../industry/"+IND_SLUG[state.ind]+".html");
+    } else {
+      lnkI.textContent="View Industry ↗";
+      lnkI.setAttribute("href","../explore/industry.html");
+    }
+  }
 }
 
 function buildMenu(menuId,keys,current,onPick){

@@ -72,6 +72,9 @@
   .nav a:hover::before{height:16px}
   .nav a.active{color:var(--accent);background:var(--accent-tint)}
   .nav a.active::before{height:18px}
+  /* Match shell.css: Explore-by-Sector / Explore-by-Data read white; "More"
+     stays secondary so the primary destinations sit forward. */
+  .nav-group:not(:last-child) a{color:var(--ink)}
 
   /* ---------- TOPBAR (action buttons, right-aligned) ---------- */
   .topbar{position:fixed;top:0;right:0;left:var(--nav-w);height:var(--topbar-h);z-index:35;
