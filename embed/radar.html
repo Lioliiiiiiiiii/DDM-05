@@ -27,9 +27,9 @@
   .wrap{max-width:1080px;margin:0 auto;padding:18px 28px 40px;}
 
   .eyebrow{
-    text-align:center;font-family:"Saira Condensed";
-    letter-spacing:.32em;text-transform:uppercase;
-    font-size:13px;color:var(--text-faint);margin:0 0 6px;
+    text-align:center;font-family:'Montserrat','IBM Plex Sans',sans-serif;
+    letter-spacing:-.01em;text-transform:none;font-weight:700;
+    font-size:22px;color:var(--text);margin:0 0 24px;
   }
 
   .chart-stage{position:relative;display:flex;justify-content:center;}
@@ -105,7 +105,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"></head>
 <body>
 <div class="wrap">
-  <p class="eyebrow">Cross-signal intensity radar.</p>
+  <p class="eyebrow">Cross-signal intensity radar</p>
 
   <div class="selectors">
     <div class="dd-block tech">
@@ -265,10 +265,10 @@ function renderChart(){
   const svg=document.getElementById("radar"); let s="";
   for(let r=1;r<=RINGS;r++){
     const ring=AXIS_NAME.map((_,i)=>pt(i,MIN+(MAX-MIN)*r/RINGS).join(",")).join(" ");
-    s+=`<polygon points="${ring}" fill="none" stroke="var(--grid)" stroke-width="1" opacity="${0.35+0.15*r/RINGS}"/>`;
+    s+=`<polygon points="${ring}" fill="none" stroke="var(--text-dim)" stroke-width="1" opacity="${0.35+0.15*r/RINGS}"/>`;
   }
   AXIS_NAME.forEach((_,i)=>{const [x,y]=pt(i,MAX);
-    s+=`<line x1="${CX}" y1="${CY}" x2="${x}" y2="${y}" stroke="var(--grid)" stroke-width="1" opacity="0.5"/>`;});
+    s+=`<line x1="${CX}" y1="${CY}" x2="${x}" y2="${y}" stroke="var(--text-dim)" stroke-width="1" opacity="0.5"/>`;});
 
   const vals=(state.tech&&state.ind)?DATA[state.ind][state.tech]:null;
   if(vals){
