@@ -75,7 +75,44 @@
     onScroll();
   }
 
+  // --- accessible tabs (Technology / Industry / Tech×Industry pages) ---
+  function bindTabs() {
+    var bars = document.querySelectorAll('.tabbar');
+    bars.forEach(function (bar) {
+      var tabs = [].slice.call(bar.querySelectorAll('[role="tab"]'));
+      if (!tabs.length) return;
+      function reveal(panel) {
+        if (!panel) return;
+        var frames = panel.querySelectorAll('iframe.embed-frame');
+        var run = function () { frames.forEach(function (f) { sizeFrame(f); }); };
+        run(); [60, 250, 700].forEach(function (t) { setTimeout(run, t); });
+      }
+      function select(tab, focus) {
+        tabs.forEach(function (t) {
+          var sel = t === tab;
+          t.setAttribute('aria-selected', sel ? 'true' : 'false');
+          t.tabIndex = sel ? 0 : -1;
+          var panel = document.getElementById(t.getAttribute('aria-controls'));
+          if (panel) panel.hidden = !sel;
+          if (sel) reveal(panel);
+        });
+        if (focus) tab.focus();
+      }
+      tabs.forEach(function (t) {
+        t.addEventListener('click', function () { select(t); });
+        t.addEventListener('keydown', function (e) {
+          var idx = tabs.indexOf(t), n = null;
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') n = tabs[(idx + 1) % tabs.length];
+          else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') n = tabs[(idx - 1 + tabs.length) % tabs.length];
+          else if (e.key === 'Home') n = tabs[0];
+          else if (e.key === 'End') n = tabs[tabs.length - 1];
+          if (n) { e.preventDefault(); select(n, true); }
+        });
+      });
+    });
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { bindNav(); bindFrames(); bindSpy(); });
-  } else { bindNav(); bindFrames(); bindSpy(); }
+    document.addEventListener('DOMContentLoaded', function () { bindNav(); bindFrames(); bindSpy(); bindTabs(); });
+  } else { bindNav(); bindFrames(); bindSpy(); bindTabs(); }
 })();

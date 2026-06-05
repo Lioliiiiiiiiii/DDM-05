@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Technology &times; Industry — Digital Disruption Matrix 2026</title>
+<title>Technology &times; Industry - Digital Disruption Matrix 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/shell.css?v=2">
+<link rel="stylesheet" href="../assets/css/shell.css?v=3">
 <style>
   #xsections[hidden]{display:none}
   #xsections{animation:xfade .5s ease}
@@ -20,15 +20,19 @@
     <div class="ed">Edition 2026</div>
   </div>
   <nav class="nav">
-      <div class="nav-group"><div class="nav-eyebrow">Explore by Sector</div>
+      <div class="nav-group nav-top">
+      <a href="../key-findings.html">Key Findings</a>
+      <a href="../heatmatrix.html">Enter the Matrix</a>
+      </div>
+      <div class="nav-group"><div class="nav-eyebrow">Explore by View</div>
       <a href="../explore/technology.html">Technology</a>
       <a href="../explore/industry.html">Industry</a>
       <a href="../explore/tech-x-industry.html" class="active">Technology &times; Industry</a>
       </div>
-      <div class="nav-group"><div class="nav-eyebrow">Explore by Data</div>
-      <a href="../data/professionals-perception.html">Professionals&rsquo; Perception</a>
-      <a href="../data/unicorn-factor.html">Unicorn Factor</a>
-      <a href="../data/research-innovation.html">Research &amp; Innovation</a>
+      <div class="nav-group"><div class="nav-eyebrow">Explore by Dataset</div>
+      <a href="../data/professionals-perception.html">Professionals Survey</a>
+      <a href="../data/unicorn-factor.html">Investment Landscape</a>
+      <a href="../data/research-innovation.html">Research &amp; Patents</a>
       </div>
       <div class="nav-group"><div class="nav-eyebrow">More</div>
       <a href="../more/about.html">About us</a>
@@ -44,7 +48,7 @@
   <label class="navtoggle" aria-label="Toggle menu">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
   </label>
-  <div class="crumb"><span>Explore</span><span class="sep">/</span><b>Technology &times; Industry</b></div>
+  <div class="crumb"><span>Explore</span><span class="sep">/</span><b>Technology &times; Industry</b><a class="focus-pill" id="pillTech" href="#radarFrame" hidden style="margin-left:10px"></a><a class="focus-pill" id="pillInd" href="#radarFrame" hidden style="margin-left:8px"></a></div>
   <div class="actions">
     <a href="../key-findings.html" class="btn btn-ghost btn-anim">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.5.4.5 1 .5 1.6h6c0-.6 0-1.2.5-1.6A6 6 0 0 0 12 3Z"/></svg>
@@ -59,28 +63,28 @@
 </div>
 <main class="page">
   <div class="container">
-    <div class="eyebrow">Explore by Sector</div>
+    <div class="eyebrow">Explore by View</div>
     <h1 class="page-title">Technology &times; Industry</h1>
-    <p class="page-lede">Pick a technology and an industry in the heat-analysis radar below. Once both are set, the analysis for that intersection appears underneath — how professionals perceive it, where the ventures cluster, and the research signal behind the technology.</p>
     <div class="embed-wrap"><iframe id="radarFrame" class="embed-frame" src="../embed/radar.html" style="height:880px" title="embedded dashboard" loading="eager" scrolling="no" frameborder="0"></iframe></div>
 
     <div id="xsections" hidden>
-    <nav class="scrollspy" aria-label="Page sections"><a href="#sec-perception"><span class="n">01</span>Perception</a><a href="#sec-unicorn"><span class="n">02</span>Unicorn Factor</a><a href="#sec-research"><span class="n">03</span>Research</a></nav>
-    <section class="section" id="sec-perception">
-      <div class="section-head"><span class="section-num">01</span><div><div class="section-title">Professionals&rsquo; Perception</div><div class="section-desc">For the selected <b id="lblA">…</b> &times; <b id="lblB">…</b> intersection.</div></div></div>
-      
+    <div class="tabbar" role="tablist" aria-label="Data views">
+      <button class="tab" role="tab" id="t-sec-perception" aria-controls="sec-perception" aria-selected="true" tabindex="0">Professionals Survey</button>
+      <button class="tab" role="tab" id="t-sec-unicorn" aria-controls="sec-unicorn" aria-selected="false" tabindex="-1">Investment Landscape</button>
+      <button class="tab" role="tab" id="t-sec-research" aria-controls="sec-research" aria-selected="false" tabindex="-1">Research &amp; Patents</button>
+    </div>
+    <div class="tabpanel" role="tabpanel" id="sec-perception" aria-labelledby="t-sec-perception">
+      <div class="section-desc" style="margin-top:0;margin-bottom:14px">For the selected <b id="lblA">…</b> &times; <b id="lblB">…</b> intersection.</div>
       <div class="embed-wrap"><iframe id="frPerc" class="embed-frame" style="height:1000px" title="perception cell" scrolling="no" frameborder="0"></iframe></div>
-    </section>
-    <section class="section" id="sec-unicorn">
-      <div class="section-head"><span class="section-num">02</span><div><div class="section-title">Unicorn Factor</div><div class="section-desc">The intersection, then the technology-level view beneath it.</div></div></div>
-      
+    </div>
+    <div class="tabpanel" role="tabpanel" id="sec-unicorn" aria-labelledby="t-sec-unicorn" hidden>
+      <div class="section-desc" style="margin-top:0;margin-bottom:14px">The intersection, then the technology-level view beneath it.</div>
       <div class="embed-wrap"><iframe id="frUni" class="embed-frame" style="height:1700px" title="unicorn" scrolling="no" frameborder="0"></iframe></div>
-    </section>
-    <section class="section" id="sec-research">
-      <div class="section-head"><span class="section-num">03</span><div><div class="section-title">Research &amp; Innovation</div><div class="section-desc">Publication and patent momentum for the selected technology.</div></div></div>
-      <div class="note-strip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg><span>Research &amp; Innovation is measured at the <b>technology level only</b> — it is not specific to the chosen industry.</span></div>
+    </div>
+    <div class="tabpanel" role="tabpanel" id="sec-research" aria-labelledby="t-sec-research" hidden>
+      <div class="note-strip" style="margin-top:0;margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg><span class="dataonly" style="font-style:italic;color:var(--ink)">Data shown reflects the selected <b>technology only</b> - Research &amp; Patents is measured at the technology level, not the chosen industry.</span></div>
       <div class="embed-wrap"><iframe id="frRes" class="embed-frame" style="height:1700px" title="research" scrolling="no" frameborder="0"></iframe></div>
-    </section>
+    </div>
     </div>
     <footer class="site">
       <span>Digital Disruption Matrix 2026 · ESSEC Business School</span>
@@ -115,6 +119,9 @@
     cur.t=ts; cur.i=is;
     document.getElementById('lblA').textContent=NTECH[ts]||tKey;
     document.getElementById('lblB').textContent=NIND[is]||iKey;
+    var pt=document.getElementById('pillTech'),pi=document.getElementById('pillInd');
+    if(pt){pt.textContent=NTECH[ts]||tKey;pt.hidden=false;}
+    if(pi){pi.textContent=NIND[is]||iKey;pi.hidden=false;}
     fP.src='../embed/perception-foresight.html?embed=1&type=cell&tech='+ts+'&indus='+is;
     fU.src='../embed/unicorn.html?tech='+encodeURIComponent(UTECH[ts])+'&indus='+encodeURIComponent(UIND[is]);
     fR.src='../embed/research/'+ts+'.html';
@@ -123,10 +130,10 @@
   window.addEventListener('message',function(e){
     var d=e.data; if(!d||d.source!=='ddm-radar') return;
     if(d.tech && d.ind) apply(d.tech,d.ind);
-    else sec.hidden=true;  // hide until both chosen again
+    else { sec.hidden=true; var pt=document.getElementById('pillTech'),pi=document.getElementById('pillInd'); if(pt)pt.hidden=true; if(pi)pi.hidden=true; }  // hide until both chosen again
   });
 })();
 </script>
-<script src="../assets/js/shell.js"></script>
+<script src="../assets/js/shell.js?v=2"></script>
 </body>
 </html>

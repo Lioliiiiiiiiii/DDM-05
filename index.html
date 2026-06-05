@@ -12,7 +12,7 @@
     --bg:#0a0e14;--bg2:#0d1117;--panel:#11161f;--panel2:#161b22;
     --line:#1f2733;--line2:#2a3340;
     --ink:#e8eef5;--ink2:#9aa7b5;--ink3:#5e6b7a;
-    --accent:#f5a623;--accent-tint:rgba(245,166,35,0.14);--on-accent:#1a1205;
+    --accent:#e08a30;--accent-tint:rgba(224,138,48,0.14);--on-accent:#1a1205;
     --display:'Montserrat','IBM Plex Sans',-apple-system,sans-serif;
     --sans:'IBM Plex Sans',-apple-system,sans-serif;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
@@ -25,7 +25,7 @@
   #particles-js{position:fixed;inset:0;z-index:0}
   #particles-js canvas{display:block}
   .glow{position:fixed;inset:0;z-index:1;pointer-events:none;
-    background:radial-gradient(1200px 760px at 4% -8%, rgba(245,166,35,0.16), transparent 54%),
+    background:radial-gradient(1200px 760px at 4% -8%, rgba(224,138,48,0.16), transparent 54%),
                radial-gradient(1200px 820px at 106% 4%, rgba(74,144,217,0.15), transparent 54%),
                linear-gradient(180deg, transparent 56%, rgba(10,14,20,0.55));}
   .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
@@ -59,9 +59,12 @@
   .nav{padding:14px 12px 26px;flex:1}
   .nav-group{margin-top:18px}
   .nav-group:first-child{margin-top:6px}
+  .nav-group a + a{margin-top:2px}
+  .nav-top{margin-top:4px;margin-bottom:6px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .nav-top a{font-weight:600;color:var(--ink)}
   .nav-eyebrow{display:flex;align-items:center;gap:8px;
     padding:0 10px 9px;font-family:var(--mono);font-weight:500;font-size:11px;
-    letter-spacing:.22em;text-transform:uppercase;color:var(--ink3)}
+    letter-spacing:.22em;text-transform:uppercase;color:var(--ink2)}
   .nav-eyebrow::before{content:"";width:18px;height:1px;background:var(--accent);flex:none;opacity:.85}
   .nav a{display:block;position:relative;padding:8px 12px;border-radius:8px;
     font-family:var(--sans);font-size:17px;color:var(--ink2);text-decoration:none;
@@ -107,9 +110,28 @@
   h1{font-family:var(--display);font-weight:600;color:var(--ink);
     font-size:clamp(40px,6.4vw,78px);line-height:.98;letter-spacing:-.025em;
     opacity:0;animation:up .9s cubic-bezier(.2,.8,.2,1) .28s forwards}
-  .sub{margin-top:clamp(18px,2.4vw,30px);font-family:var(--display);font-weight:600;
-    color:var(--accent);font-size:clamp(17px,2.3vw,26px);letter-spacing:-.01em;
+  .sub{margin-top:clamp(16px,2.2vw,26px);font-family:var(--display);font-weight:600;
+    color:#dbe2ea;font-size:clamp(16px,1.9vw,21px);letter-spacing:-.005em;line-height:1.5;max-width:34ch;
     opacity:0;animation:up .9s cubic-bezier(.2,.8,.2,1) .42s forwards}
+  /* FOMO info icon + tooltip */
+  .fomo-info{position:relative;display:inline-flex;align-items:center;justify-content:center;
+    margin-left:5px;font-size:.66em;color:var(--ink3);cursor:help;vertical-align:middle;transition:color .2s}
+  .fomo-info:hover,.fomo-info:focus-visible{color:#fff;outline:none}
+  .fomo-tip{position:absolute;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%);
+    background:var(--panel2);border:1px solid var(--line2);border-radius:8px;padding:7px 11px;
+    font-family:var(--sans);font-weight:500;font-size:13px;line-height:1.3;color:var(--ink);white-space:nowrap;
+    opacity:0;pointer-events:none;transition:opacity .2s;box-shadow:0 14px 34px -14px rgba(0,0,0,.8);z-index:10}
+  .fomo-info:hover .fomo-tip,.fomo-info:focus-visible .fomo-tip{opacity:1}
+  /* "Scroll for Key Findings" CTA */
+  .scroll-cta{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);z-index:6;
+    display:flex;flex-direction:column;align-items:center;gap:7px;text-decoration:none;
+    opacity:0;animation:up .9s ease 1s forwards}
+  .scroll-cta .sc-label{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--ink2);transition:color .2s}
+  .scroll-cta:hover .sc-label{color:var(--ink)}
+  .scroll-cta .sc-arrow{width:22px;height:22px;color:var(--accent);animation:scbounce 1.8s ease-in-out infinite}
+  @keyframes scbounce{0%,20%,50%,80%,100%{transform:translateY(0)}40%{transform:translateY(7px)}60%{transform:translateY(4px)}}
+  @media (max-width:900px){.scroll-cta{display:none}}
 
   /* ---------- RIGHT PANEL ---------- */
   .panel{background:rgba(17,22,31,0.74);border:1px solid var(--line2);border-radius:16px;
@@ -127,7 +149,7 @@
   .row:nth-child(5){animation-delay:.84s}
   .row:nth-child(6){animation-delay:.92s}
   .ic{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);
-    display:grid;place-items:center;color:var(--accent);background:rgba(245,166,35,0.05);
+    display:grid;place-items:center;color:var(--accent);background:rgba(224,138,48,0.05);
     transition:border-color .3s,background .3s}
   .ic svg{width:19px;height:19px}
   .row:hover .ic{border-color:var(--accent);background:var(--accent-tint)}
@@ -149,13 +171,11 @@
   .divider{height:1px;background:var(--line);margin:18px 0 16px}
   .powered{font-family:var(--mono);font-weight:500;font-size:13.5px;letter-spacing:.22em;
     text-transform:uppercase;color:var(--ink3);margin-bottom:14px}
-  .partners{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-  .chip{background:#fff;border-radius:9px;padding:9px 13px;display:grid;place-items:center;
-    box-shadow:0 6px 18px -10px rgba(0,0,0,.6);transition:transform .3s,box-shadow .3s}
-  .chip:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(245,166,35,.35)}
-  .chip img{display:block}
-  .chip.bnp img{height:26px}
-  .chip.sia img{height:30px}
+  .partners{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+  .plogo{display:block;width:auto;opacity:.9;transition:opacity .3s,transform .3s}
+  .plogo:hover{opacity:1;transform:translateY(-2px)}
+  .plogo.bnp{height:23px;filter:brightness(0) invert(1)}
+  .plogo.sia{height:30px}
 
   @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
@@ -207,28 +227,27 @@
   </div>
 
   <nav class="nav">
-    <div class="nav-group">
-      <div class="nav-eyebrow">Explore by Sector</div>
+      <div class="nav-group nav-top">
+      <a href="key-findings.html">Key Findings</a>
+      <a href="heatmatrix.html">Enter the Matrix</a>
+      </div>
+      <div class="nav-group"><div class="nav-eyebrow">Explore by View</div>
       <a href="explore/technology.html">Technology</a>
       <a href="explore/industry.html">Industry</a>
       <a href="explore/tech-x-industry.html">Technology &times; Industry</a>
-    </div>
-
-    <div class="nav-group">
-      <div class="nav-eyebrow">Explore by Data</div>
-      <a href="data/professionals-perception.html">Professionals&rsquo; Perception</a>
-      <a href="data/unicorn-factor.html">Unicorn Factor</a>
-      <a href="data/research-innovation.html">Research &amp; Innovation</a>
-    </div>
-
-    <div class="nav-group">
-      <div class="nav-eyebrow">More</div>
+      </div>
+      <div class="nav-group"><div class="nav-eyebrow">Explore by Dataset</div>
+      <a href="data/professionals-perception.html">Professionals Survey</a>
+      <a href="data/unicorn-factor.html">Investment Landscape</a>
+      <a href="data/research-innovation.html">Research &amp; Patents</a>
+      </div>
+      <div class="nav-group"><div class="nav-eyebrow">More</div>
       <a href="more/about.html">About us</a>
       <a href="more/methodology.html">Methodology</a>
       <a href="more/faq.html">FAQ</a>
       <a href="more/contact.html">Contact</a>
       <a href="more/acknowledgment.html">Acknowledgment</a>
-    </div>
+      </div>
   </nav>
 </aside>
 
@@ -263,7 +282,7 @@
     <div class="left">
       <img class="essec" src="assets/img/essec-blanc.png" alt="ESSEC Business School">
       <h1>Digital Disruption<br>Matrix 2026</h1>
-      <p class="sub">5 Technologies Analyzed Across 10 Industries.</p>
+      <p class="sub">Cutting through the noise and FOMO<span class="fomo-info" tabindex="0" role="img" aria-label="FOMO means Fear of Missing Out">&#9432;<span class="fomo-tip">Fear of Missing Out</span></span> to see where technology disruption is and how it is impacting industries.</p>
     </div>
 
     <!-- RIGHT -->
@@ -303,11 +322,15 @@
       <div class="divider"></div>
       <p class="powered">Powered by our chair partners</p>
       <div class="partners">
-        <span class="chip bnp"><img src="assets/img/bnp.png" alt="BNP Paribas"></span>
-        <span class="chip sia"><img src="assets/img/sia.jpg" alt="SIA Partners"></span>
+        <img class="plogo bnp" src="assets/img/bnp.png" alt="BNP Paribas">
+        <img class="plogo sia" src="assets/img/sia-white.png" alt="SIA Partners">
       </div>
     </aside>
   </div>
+  <a class="scroll-cta" href="key-findings.html" aria-label="Scroll for Key Findings">
+    <span class="sc-label">Scroll for Key Findings</span>
+    <svg class="sc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+  </a>
 </header>
 
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>

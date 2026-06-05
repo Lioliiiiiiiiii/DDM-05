@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Heat Analysis Radar</title>
+<title>Cross-signal intensity radar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600&family=Saira+Condensed:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -39,13 +39,19 @@
     font-family:"Saira Condensed";font-size:17px;font-weight:600;
     letter-spacing:.05em;text-transform:uppercase;color:var(--text);line-height:1.1;
   }
-  .ax-desc{
-    font-family:"Saira";font-size:14px;font-weight:300;
-    color:#aab4d6;line-height:1.35;margin-top:4px;
-  }
+  .ax-info{position:relative;display:inline-flex;align-items:center;margin-left:8px;
+    color:var(--text-dim);cursor:help;font-size:.82em;vertical-align:middle;transition:color .2s;}
+  .ax-info:hover,.ax-info:focus-visible{color:#fff;outline:none;}
+  .chart-stage{position:relative;}
+  .ax-tip{position:absolute;z-index:50;left:0;top:0;max-width:20rem;width:max-content;
+    border-radius:.5rem;background:rgba(0,0,0,.85);padding:12px 16px;
+    font-family:"Saira","IBM Plex Sans",sans-serif;font-size:15px;font-weight:400;line-height:1.6;
+    letter-spacing:0;text-transform:none;color:#fff;box-shadow:0 18px 44px -14px rgba(0,0,0,.85);
+    opacity:0;pointer-events:none;transition:opacity .2s ease;transform:translate(-50%,8px);}
+  .ax-tip.on{opacity:1;}
   .val{font-family:"Space Mono";font-size:16px;font-weight:700;fill:var(--acc);}
   .dot{stroke:#0a0f1f;stroke-width:1.5;fill:var(--acc);}
-  /* Neutral lift around the polygon — the per-cell heat colour does the talking. */
+  /* Neutral lift around the polygon - the per-cell heat colour does the talking. */
   .shape{filter:drop-shadow(0 0 10px rgba(0,0,0,.5));}
   .hint{font-family:"Saira";font-size:13px;fill:var(--text-faint);}
 
@@ -96,11 +102,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"></head>
 <body>
 <div class="wrap">
-  <p class="eyebrow">Heat Analysis Radar</p>
-
-  <div class="chart-stage">
-    <svg class="radar" id="radar" viewBox="0 0 1010 660" role="img" aria-label="Heat analysis radar chart"></svg>
-  </div>
+  <p class="eyebrow">Cross-signal intensity radar.</p>
 
   <div class="selectors">
     <div class="dd-block tech">
@@ -127,11 +129,16 @@
       <p class="definition empty" id="def-ind"></p>
     </div>
   </div>
+
+  <div class="chart-stage">
+    <svg class="radar" id="radar" viewBox="0 0 1010 660" role="img" aria-label="Heat analysis radar chart"></svg>
+    <div class="ax-tip" id="axTip" aria-live="polite"></div>
+  </div>
 </div>
 
 <script>
-/* AXES order: 0 Innovation intensity | 1 Innovation momentum | 2 Startup activity | 3 Unicorn Factor (Market Validation) | 4 Professionals' perception */
-const AXIS_NAME=["Innovation intensity","Innovation momentum","Startup activity","Unicorn Factor","Professionals' perception"];
+/* AXES order: 0 Innovation intensity | 1 Innovation momentum | 2 Startup activity | 3 Investment Landscape (Market Validation) | 4 Professionals' perception */
+const AXIS_NAME=["Innovation intensity","Innovation momentum","Startup activity","Investment Landscape","Professionals' perception"];
 const AXIS_DESC=[
   "Volume of scholar and patent publication.",
   "Year over year growth of scholar and patent publication.",
@@ -161,7 +168,7 @@ const IND_DEF={
   "Automotive & Transport":"Mainstream automotive companies and transportation-related industries."
 };
 
-/* DATA[industry][technology] = [ Innovation intensity, Innovation momentum, Startup activity, Unicorn Factor, Professionals' perception ] */
+/* DATA[industry][technology] = [ Innovation intensity, Innovation momentum, Startup activity, Investment Landscape, Professionals' perception ] */
 const T=["Descriptive AI","Agentic & GenAI","Blockchain & Decentralized Systems","Physical AI & Robotics","Quantum Computing"];
 const DATA={
   "Energy":{[T[0]]:[8,2,7,1.75,5.5],[T[1]]:[4,10,2,0,5.5],[T[2]]:[4,2.5,4,0,0.5],[T[3]]:[6,2.5,4,0.25,3],[T[4]]:[2,5,2,0,0.5]},
@@ -180,7 +187,7 @@ const N=5, MIN=0, MAX=10, RINGS=3, CX=505, CY=355, R=160, LA=R+58;
 const W=240, HTOP=98, HSIDE=170;   // label box sizing
 const state={tech:null, ind:null};
 
-/* Heatmatrix scores + gradient — keep in sync with /heatmatrix.html so the
+/* Heatmatrix scores + gradient - keep in sync with /heatmatrix.html so the
    radar area paints with the same colour as the cell the user came from. */
 const HEAT_SCORES={
   "Energy":                            {"Descriptive AI":36.2,"Agentic & GenAI":42.1,"Blockchain & Decentralized Systems":12.1,"Physical AI & Robotics":22.2,"Quantum Computing":15.2},
@@ -276,8 +283,7 @@ function renderChart(){
     const b=labelBox(i);
     s+=`<foreignObject x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" overflow="visible">
           <div xmlns="http://www.w3.org/1999/xhtml" style="height:${b.h}px;display:flex;flex-direction:column;justify-content:${b.justify};text-align:${b.align};">
-            <div class="ax-name">${name}</div>
-            <div class="ax-desc">${AXIS_DESC[i]}</div>
+            <div class="ax-name">${name}<span class="ax-info" data-desc="${AXIS_DESC[i]}" tabindex="0" role="button" aria-label="${name} details">&#9432;</span></div>
           </div>
         </foreignObject>`;
   });
@@ -360,6 +366,19 @@ setupDropdown("dd-ind","btn-ind","menu-ind",Object.keys(IND_DEF),"ind");
     if(mi) state.ind=mi;
   }catch(e){}
 })();
+(function(){
+  var stage=document.querySelector('.chart-stage'), tip=document.getElementById('axTip'), svg=document.getElementById('radar');
+  if(stage&&tip&&svg){
+    var show=function(el){var d=el.getAttribute('data-desc'); if(!d) return;
+      tip.textContent=d; var sr=stage.getBoundingClientRect(), er=el.getBoundingClientRect();
+      tip.style.left=(er.left-sr.left+er.width/2)+'px'; tip.style.top=(er.bottom-sr.top+6)+'px'; tip.classList.add('on');};
+    var hide=function(){tip.classList.remove('on');};
+    svg.addEventListener('mouseover',function(e){var t=e.target.closest&&e.target.closest('.ax-info'); if(t) show(t);});
+    svg.addEventListener('mouseout',function(e){var t=e.target.closest&&e.target.closest('.ax-info'); if(t) hide();});
+    svg.addEventListener('focusin',function(e){var t=e.target.closest&&e.target.closest('.ax-info'); if(t) show(t);});
+    svg.addEventListener('focusout',function(e){var t=e.target.closest&&e.target.closest('.ax-info'); if(t) hide();});
+  }
+})();
 update();
 </script>
 <style id="ds-theme-override">
@@ -367,7 +386,7 @@ update();
   --bg-0:#0a0e14; --bg-1:#0d1117; --bg-2:#11161f; --panel:#11161f;
   --line:#1f2733; --grid:#2a3340;
   --text:#e8eef5; --text-dim:#9aa7b5; --text-faint:#5e6b7a;
-  --acc:#f5a623; --acc-soft:rgba(245,166,35,.30); --acc-line:#f5a623;
+  --acc:#e08a30; --acc-soft:rgba(224,138,48,.30); --acc-line:#e08a30;
 }
 html{color-scheme:dark}
 html,body{font-family:'IBM Plex Sans',-apple-system,sans-serif!important;background:#0a0e14!important;min-height:0!important;height:auto!important}
@@ -376,7 +395,7 @@ html,body{font-family:'IBM Plex Sans',-apple-system,sans-serif!important;backgro
 .val{font-family:'IBM Plex Mono',ui-monospace,monospace!important}
 /* dropdowns sit near the bottom of the embed -> open menus upward so the
    iframe can't clip them */
-.dd-menu{top:auto!important;bottom:calc(100% + 8px)!important;max-height:300px!important;overflow-y:auto!important}
+.dd-menu{top:calc(100% + 8px)!important;bottom:auto!important;max-height:300px!important;overflow-y:auto!important}
 </style>
 <script>
 (function(){

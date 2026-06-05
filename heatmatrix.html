@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heatmatrix — Digital Disruption Matrix 2026</title>
+<title>Heatmatrix - Digital Disruption Matrix 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/shell.css?v=2">
+<link rel="stylesheet" href="assets/css/shell.css?v=3">
 <style>
   .hm-wrap{margin-top:30px;border:1px solid var(--line);border-radius:18px;background:var(--panel);
     padding:clamp(16px,2.2vw,26px);box-shadow:0 24px 60px -36px rgba(0,0,0,.55)}
@@ -54,13 +54,13 @@
   .hm-legend{margin-top:22px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--panel2)}
   .hm-legend-bar{height:12px;border-radius:6px;border:1px solid rgba(255,255,255,.06);
     background:linear-gradient(90deg,#fff7ed 0%, #fed7aa 18%, #fdba74 34%, #fb923c 52%, #ea580c 72%, #c2410c 88%, #991b1b 100%)}
-  .hm-legend-labels{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px;
-    font-family:var(--mono);font-weight:500;font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3)}
-  .hm-legend-labels span:nth-child(2){text-align:center}
-  .hm-legend-labels span:nth-child(3){text-align:right}
+  .hm-legend-title{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--ink2);margin-bottom:11px}
+  .hm-legend-labels{display:flex;justify-content:space-between;gap:10px;margin-top:9px;
+    font-family:var(--sans);font-weight:500;font-size:12px;color:var(--read)}
   /* explanation */
-  .hm-note{margin-top:18px;padding:16px 18px;border:1px solid rgba(245,166,35,.22);border-radius:14px;
-    background:rgba(245,166,35,.07);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7}
+  .hm-note{margin-top:18px;padding:16px 18px;border:1px solid rgba(224,138,48,.22);border-radius:14px;
+    background:rgba(224,138,48,.07);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7}
   /* sizing */
   :root{ --hm-head:84px; --hm-cell:64px; --hm-rowlabel:200px; --hm-techcol:minmax(120px,1fr) }
   @media (max-width:720px){
@@ -78,15 +78,19 @@
     <div class="ed">Edition 2026</div>
   </div>
   <nav class="nav">
-      <div class="nav-group"><div class="nav-eyebrow">Explore by Sector</div>
+      <div class="nav-group nav-top">
+      <a href="key-findings.html">Key Findings</a>
+      <a href="heatmatrix.html" class="active">Enter the Matrix</a>
+      </div>
+      <div class="nav-group"><div class="nav-eyebrow">Explore by View</div>
       <a href="explore/technology.html">Technology</a>
       <a href="explore/industry.html">Industry</a>
       <a href="explore/tech-x-industry.html">Technology &times; Industry</a>
       </div>
-      <div class="nav-group"><div class="nav-eyebrow">Explore by Data</div>
-      <a href="data/professionals-perception.html">Professionals&rsquo; Perception</a>
-      <a href="data/unicorn-factor.html">Unicorn Factor</a>
-      <a href="data/research-innovation.html">Research &amp; Innovation</a>
+      <div class="nav-group"><div class="nav-eyebrow">Explore by Dataset</div>
+      <a href="data/professionals-perception.html">Professionals Survey</a>
+      <a href="data/unicorn-factor.html">Investment Landscape</a>
+      <a href="data/research-innovation.html">Research &amp; Patents</a>
       </div>
       <div class="nav-group"><div class="nav-eyebrow">More</div>
       <a href="more/about.html">About us</a>
@@ -118,8 +122,8 @@
 <main class="page">
   <div class="container">
     <div class="eyebrow">Digital Disruption Matrix 2026</div>
-    <h1 class="page-title">Heatmatrix</h1>
-    <p class="page-lede">The full technology &times; industry view of disruption potential. Click any technology, industry or intersection to dive in.</p>
+    <h1 class="page-title">The Heatmatrix.</h1>
+    <p class="page-lede">Each year, the Heatmatrix is a bird's eye to technology disruption. Every cell crosses one of five technology families with one of ten industries, its intensity driven by hard data (investment, unicorns, startups, patents and publications) and field intelligence from 600+ reports, 1,000 professionals surveyed and expert interviews. The result is an overview of where disruption is gaining traction, where it is accelerating, and where blind spots may lie. Hover over any cell to explore the insight behind it.</p>
 
     <div class="hm-wrap">
       <div class="hm-scroll">
@@ -127,15 +131,12 @@
       </div>
 
       <div class="hm-legend" aria-hidden="true">
+        <div class="hm-legend-title">Disruption signal intensity</div>
         <div class="hm-legend-bar"></div>
         <div class="hm-legend-labels">
-          <span>Low potential</span><span>Medium potential</span><span>High potential</span>
+          <span>Lower Signal</span><span>Higher Signal</span>
         </div>
       </div>
-
-      <p class="hm-note">
-        This heat matrix combines hard data from peer-reviewed publications, patent filings, investment activity, unicorn and startup volume, and a survey of 1,000 professionals to visualize each technology&rsquo;s disruption potential across sectors. Darker orange indicates greater disruption potential.
-      </p>
     </div>
 
     <footer class="site">
@@ -145,10 +146,10 @@
   </div>
 </main>
 <div id="hmTip" class="hm-tip" role="status" aria-live="polite"></div>
-<script src="assets/js/shell.js"></script>
+<script src="assets/js/shell.js?v=2"></script>
 <script>
 (function(){
-  /* Technology column order — slug routes the technology page; radarKey is the
+  /* Technology column order - slug routes the technology page; radarKey is the
      exact label the radar embed accepts in its ?tech= query. displayName drives
      the hover label and visible header (kept short for the column tile). */
   var TECHS = [
@@ -172,7 +173,7 @@
     { csv:'Automotive & transport',            slug:'automotive-transport',   radarKey:'Automotive & Transport',              displayName:'Automotive & Transport' }
   ];
 
-  /* Heat scores from the 2026 update — keyed by industry row × technology
+  /* Heat scores from the 2026 update - keyed by industry row × technology
      column. Range observed roughly 12–92; we normalise across the actual
      min/max for the color ramp so the spread reads clearly. */
   var SCORES = {
@@ -263,7 +264,7 @@
     });
   });
 
-  /* Single shared floating tooltip — follows mouse / focus position. */
+  /* Single shared floating tooltip - follows mouse / focus position. */
   var tip=document.getElementById('hmTip');
   function showTip(el){
     var label=el.dataset.tip; if(!label) return;

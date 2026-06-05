@@ -1,16 +1,16 @@
 /* ===================================================================
-   Digital Disruption Matrix 2026 — shared shell (dark design system)
+   Digital Disruption Matrix 2026 - shared shell (dark design system)
    Sidebar + topbar chrome used on every interior page.
    Tokens mirror Public/design-tokens.json (v1.1.0).
    =================================================================== */
 :root{
   --bg:#0a0e14; --bg2:#0d1117; --panel:#11161f; --panel2:#161b22;
   --line:#1f2733; --line2:#2a3340;
-  --ink:#e8eef5; --ink2:#9aa7b5; --ink3:#5e6b7a;
-  --accent:#f5a623; --accent-tint:rgba(245,166,35,0.14); --on-accent:#1a1205;
+  --ink:#e8eef5; --ink2:#9aa7b5; --ink3:#828e9e; --read:#c9d2dd;
+  --accent:#e08a30; --accent-tint:rgba(224,138,48,0.14); --on-accent:#1a1205;
   --up:#3fb950; --down:#f85149; --flat:#8b949e;
   /* fixed technology hues */
-  --tech-descriptive:#f5a623; --tech-genai:#e84b8a; --tech-blockchain:#f05a32;
+  --tech-descriptive:#ebc840; --tech-genai:#e84b8a; --tech-blockchain:#f05a32;
   --tech-robotics:#2abfa3; --tech-quantum:#4a90d9;
   --display:'Montserrat','IBM Plex Sans',-apple-system,sans-serif;
   --sans:'IBM Plex Sans',-apple-system,sans-serif;
@@ -19,12 +19,15 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+/* avoid FOUC: body reveals only once shell.css is parsed (it is render-blocking in <head>) */
+body{animation:shell-in .35s ease both}
+@keyframes shell-in{from{opacity:0}to{opacity:1}}
 a{color:inherit}
 img{max-width:100%}
 
 /* page-wide faint radial flourish (design-system pageBackdrop) */
 .glow{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(1100px 600px at 12% -8%, rgba(245,166,35,0.07), transparent 55%),
+  background:radial-gradient(1100px 600px at 12% -8%, rgba(224,138,48,0.07), transparent 55%),
              radial-gradient(900px 600px at 100% 0%, rgba(74,144,217,0.07), transparent 50%)}
 
 /* ---------- SIDEBAR ---------- */
@@ -44,9 +47,13 @@ img{max-width:100%}
 .nav{padding:16px 12px 26px;flex:1}
 .nav-group{margin-top:20px}
 .nav-group:first-child{margin-top:6px}
+.nav-group a + a{margin-top:2px}
+/* standalone top-level links (Key Findings · Enter the Matrix) */
+.nav-top{margin-top:4px;margin-bottom:6px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.nav-top a{font-weight:600;color:var(--ink)}
 .nav-eyebrow{display:flex;align-items:center;gap:8px;
   padding:0 10px 10px;font-family:var(--mono);font-weight:500;font-size:13.5px;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--ink3)}
+  letter-spacing:.2em;text-transform:uppercase;color:var(--ink2)}
 .nav-eyebrow::before{content:"";width:18px;height:1px;background:var(--accent);flex:none;opacity:.85}
 .nav a{display:block;position:relative;padding:9px 12px;border-radius:8px;
   font-family:var(--sans);font-size:16px;color:var(--ink2);text-decoration:none;
@@ -110,7 +117,7 @@ img{max-width:100%}
 .eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);flex:none}
 .page-title{font-family:var(--display);font-weight:700;font-size:clamp(30px,5vw,52px);
   line-height:1.02;letter-spacing:-.02em;color:var(--ink);max-width:18ch}
-.page-lede{margin-top:18px;font-family:var(--sans);font-size:16px;line-height:1.72;color:var(--ink2);max-width:76ch}
+.page-lede{margin-top:18px;font-family:var(--sans);font-size:16px;line-height:1.72;color:var(--read);max-width:76ch}
 .focus-chip{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:8px 16px;border-radius:30px;
   border:1px solid var(--accent);background:var(--accent-tint);font-family:var(--display);font-weight:600;
   font-size:17px;color:var(--accent)}
@@ -122,12 +129,12 @@ img{max-width:100%}
 .section-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px}
 .section-num{font-family:var(--mono);font-weight:600;font-size:12.5px;color:var(--accent);letter-spacing:.08em}
 .section-title{font-family:var(--display);font-weight:700;font-size:23px;letter-spacing:-.01em;color:var(--ink)}
-.section-desc{font-family:var(--sans);font-size:16px;line-height:1.6;color:var(--ink2);margin-top:6px;max-width:82ch}
+.section-desc{font-family:var(--sans);font-size:16px;line-height:1.6;color:var(--read);margin-top:6px;max-width:82ch}
 .note-strip{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:13px 17px;border:1px dashed var(--line2);
-  border-radius:11px;background:var(--panel2);font-family:var(--sans);font-size:13px;line-height:1.55;color:var(--ink2)}
+  border-radius:11px;background:var(--panel2);font-family:var(--sans);font-size:13px;line-height:1.55;color:var(--read)}
 .note-strip svg{width:17px;height:17px;color:var(--accent);flex:none;margin-top:1px}
 
-/* embedded dashboard iframe — seamless: no border, no inner scrollbar, blends in */
+/* embedded dashboard iframe - seamless: no border, no inner scrollbar, blends in */
 .embed-frame{width:100%;border:0;background:var(--bg);display:block;overflow:hidden;color-scheme:dark}
 .embed-wrap{position:relative;margin-top:14px}
 
@@ -161,7 +168,7 @@ img{max-width:100%}
   border:1px solid var(--line2);color:var(--accent);background:var(--accent-tint)}
 .placeholder .ph-ic svg{width:28px;height:28px}
 .placeholder h2{font-family:var(--display);font-weight:700;font-size:24px;color:var(--ink)}
-.placeholder p{font-family:var(--sans);font-size:16px;line-height:1.65;color:var(--ink2);max-width:52ch}
+.placeholder p{font-family:var(--sans);font-size:16px;line-height:1.65;color:var(--read);max-width:52ch}
 .placeholder .ph-tag{font-family:var(--mono);font-size:14px;letter-spacing:.2em;text-transform:uppercase;
   color:var(--ink3);padding:6px 14px;border:1px solid var(--line2);border-radius:30px}
 
@@ -190,3 +197,28 @@ footer.site{margin-top:64px;padding-top:22px;border-top:1px solid var(--line);
   .btn-primary .lbl{display:inline}
 }
 @media (prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition:none!important}}
+
+/* ===== selected-state Focus pill (tech/industry pages + T×I header) ===== */
+.focus-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 13px;border-radius:999px;
+  background:#ebc840;color:#111827;font-family:var(--sans);font-weight:600;font-size:13px;
+  text-transform:none;letter-spacing:0;text-decoration:none;white-space:nowrap;transition:filter .2s,transform .2s}
+.focus-pill:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.focus-pill svg{width:15px;height:15px}
+.crumb a.crumb-link{color:var(--ink2);text-decoration:none;transition:color .2s}
+.crumb a.crumb-link:hover{color:var(--ink)}
+
+/* ===== Chair's Perspective (replaces the definition paragraph) ===== */
+.chair-perspective{margin-top:20px}
+.chair-title{font-family:var(--display);font-weight:600;font-size:18px;color:var(--ink)}
+.chair-body{margin-top:6px;font-family:var(--sans);font-style:italic;font-size:16px;color:var(--read)}
+
+/* ===== tabbed sections (Technology / Industry / Tech×Industry pages) ===== */
+.tabbar{display:flex;flex-wrap:wrap;gap:8px;border-bottom:1px solid rgba(255,255,255,.10);margin:26px 0 24px}
+.tab{font-family:var(--sans);font-weight:500;font-size:15px;color:var(--read);background:transparent;border:0;
+  cursor:pointer;padding:9px 18px;border-radius:6px 6px 0 0;transition:color .2s,background .2s}
+.tab:hover{color:#fff;background:rgba(255,255,255,.10)}
+.tab[aria-selected="true"]{background:var(--accent);color:#0a0e14;font-weight:600}
+.tab:focus-visible{outline:none;box-shadow:0 0 0 2px var(--accent)}
+.tabpanel{animation:tabfade .25s ease}
+.tabpanel[hidden]{display:none}
+@keyframes tabfade{from{opacity:0}to{opacity:1}}

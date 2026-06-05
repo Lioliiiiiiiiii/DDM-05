@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Unicorn Factor</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"></head><body>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Investment Landscape</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"></head><body>
 <meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -7,8 +7,8 @@
 :root{
   --bg:#070a12; --panel:#0e1422; --panel2:#0b1019; --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
   --ink:#eef2f8; --mut:#8a95a8; --mut2:#5d6679;
-  --native:#f5a623; --unicorn:#5b8def; --emerging:#2dd4a7;
-  --native-d:rgba(245,166,35,.16); --unicorn-d:rgba(91,141,239,.16); --emerging-d:rgba(45,212,167,.16);
+  --native:#e08a30; --unicorn:#5b8def; --emerging:#2dd4a7;
+  --native-d:rgba(224,138,48,.16); --unicorn-d:rgba(91,141,239,.16); --emerging-d:rgba(45,212,167,.16);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Mono",monospace;-webkit-font-smoothing:antialiased;line-height:1.5;
@@ -125,19 +125,25 @@ circle.pt{cursor:pointer;transition:r .12s,opacity .25s}
 .ebtn:hover .arr{color:var(--unicorn);transform:translateX(3px)}
 .foot{text-align:center;color:var(--mut2);font-size:14px;margin-top:34px;letter-spacing:.05em}
 @media(max-width:820px){.g2,.g5{grid-template-columns:1fr}.expbody{grid-template-columns:1fr}.panel-ctrl{border-right:none;border-bottom:1px solid var(--line)}}
+.yrange{margin:2px 2px 12px;display:flex;flex-direction:column;gap:6px}
+.yrange-head{display:flex;justify-content:space-between;align-items:baseline}
+.yrange-lab{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.yrange-val{font-size:14px;color:var(--ink)}
+.yrsl{width:100%;accent-color:#e08a30;cursor:pointer;margin:0}
+.gtname{font-size:12px;color:#cdd5df;font-weight:600;margin-top:8px;text-align:center}
 </style>
 
 <div class="wrap">
   <div class="hero">
     <span class="accent"></span>
     <div class="eyebrow">Frontier-Tech Intelligence</div>
-    <h1 class="disp">Unicorn Factor</h1>
+    <h1 class="disp">Investment Landscape</h1>
     <p>Looking at the number of unicorns and their funding, at companies with the potential to become unicorns (<b>"emerging unicorns"</b>) and the ones who became unicorns in a very short period of time (<b>"native unicorns"</b>) sending a high disruption signal. Adding to the unicorns, data from recently founded startups, indicating where entrepreneurs see potential.</p>
   </div>
 
   <div class="explorer">
     <div class="top">
-      <h1 class="disp">Organization Funding Landscape</h1>
+      <h1 class="disp">Unicorns Total Funding Overview</h1>
       <div class="sub">Founded date vs total funding by maturity category</div>
     </div>
     <div class="expbody">
@@ -152,7 +158,7 @@ circle.pt{cursor:pointer;transition:r .12s,opacity .25s}
         </div>
         <div class="csearch">
           <div class="t" style="font-size:14px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut);margin:4px 2px 7px">Country</div>
-          <input id="cinput" placeholder="All countries — type to filter…" autocomplete="off">
+          <input id="cinput" placeholder="All countries - type to filter…" autocomplete="off">
           <div class="cdrop" id="cdrop"></div>
         </div>
         <div class="legend">
@@ -161,24 +167,21 @@ circle.pt{cursor:pointer;transition:r .12s,opacity .25s}
           <span><span class="dot" style="background:var(--emerging)"></span><b>Emerging</b></span>
         </div>
       </div>
+      <div class="yrange">
+        <div class="yrange-head"><span class="yrange-lab">Founded year range</span><span class="yrange-val" id="yrVal">2015 - 2025</span></div>
+        <input type="range" id="yrLo" class="yrsl" min="1995" max="2025" value="2015" step="1" aria-label="Earliest founded year">
+        <input type="range" id="yrHi" class="yrsl" min="1995" max="2025" value="2025" step="1" aria-label="Latest founded year">
+      </div>
       <div class="plotwrap"><div id="plot"></div><div id="tip"></div></div>
     </div>
     <div class="count-note" id="cnote"></div>
   </div>
 
-  <h2 class="sec disp">Where the ventures cluster</h2>
-  <div class="sec-sub">Share by frontier technology — companies may span several, so shares can exceed 100%.</div>
-  <div class="toggle" id="clusterToggle">
-    <button class="on" data-v="uni" onclick="setCluster('uni')">Unicorns</button>
-    <button class="s" data-v="startup" onclick="setCluster('startup')">Startups</button>
-  </div>
-  <div class="card" id="techbars"></div>
-
-  <h2 class="sec disp">The 2025 founding wave</h2>
-  <div class="sec-sub">Source: newly founded <b style="color:var(--ink)">startups</b> (all maturities) — companies founded per year, 2023 → 2025. Year-over-year momentum in % (2024 → 2025).</div>
+  <h2 class="sec disp">Startup Creation Trend</h2>
+  <div class="sec-sub">Source: newly founded <b style="color:var(--ink)">startups</b> (all maturities) - companies founded per year, 2023 → 2025. Year-over-year momentum in % (2024 → 2025).</div>
   <div class="grid g5" id="growth"></div>
 
-  <h2 class="sec disp">Concentration &amp; capital</h2>
+  <h2 class="sec disp">Unicorn Leaderboard</h2>
   <div class="sec-sub">Both views below cover <b style="color:var(--ink)">unicorns only</b>. Filter by technology:</div>
   <div style="max-width:300px;margin-bottom:14px">
     <div class="acc" id="acc-gtech">
@@ -188,29 +191,14 @@ circle.pt{cursor:pointer;transition:r .12s,opacity .25s}
   </div>
   <div class="grid g2">
     <div class="card">
-      <div class="lab">Geographic concentration · unicorn HQ</div>
-      <div style="font-size:11px;color:var(--mut);margin:7px 0 8px" id="geosub"></div>
+      <div class="lab">Top Country - Volume of Unicorns</div>
       <div id="countries"></div>
     </div>
     <div class="card">
-      <div class="lab">Best-funded unicorns · top 10</div>
-      <div style="font-size:11px;color:var(--mut);margin:7px 0 10px">Total capital raised, early 2026 · bar length ∝ funding.</div>
+      <div class="lab">Top Unicorns - Total Funding</div>
       <div id="bubbles"></div>
       <div id="ftip"></div>
     </div>
-  </div>
-
-  <h2 class="sec disp">Explore more</h2>
-  <div class="sec-sub">Dive deeper into the signals behind the numbers.</div>
-  <div class="explore-btns">
-    <a class="ebtn" href="#" id="ebtn-perception">
-      <span><span class="et">Professionals' Perception</span><span class="es">HOW THE FIELD READS THE SIGNAL</span></span>
-      <span class="arr">→</span>
-    </a>
-    <a class="ebtn" href="#" id="ebtn-research">
-      <span><span class="et">Research &amp; Innovation</span><span class="es">PATENTS, PAPERS &amp; FRONTIER WORK</span></span>
-      <span class="arr">→</span>
-    </a>
   </div>
 
   <div class="foot">UNICORN FACTOR · 647 ventures · 5 technologies · 10 industries · source: Crunchbase, early 2026</div>
@@ -220,7 +208,7 @@ circle.pt{cursor:pointer;transition:r .12s,opacity .25s}
 <script>
 const $=s=>document.querySelector(s), C=t=>document.createElement(t||'div');
 const COL={native:'var(--native)',unicorn:'var(--unicorn)',emerging:'var(--emerging)'};
-const RAW={native:'#f5a623',unicorn:'#5b8def',emerging:'#2dd4a7'};
+const RAW={native:'#e08a30',unicorn:'#5b8def',emerging:'#2dd4a7'};
 const DISP={'Robotics':'Physical AI & Robotics'};
 const lbl=t=>DISP[t]||t;
 function fmtUSD(v){if(v>=1e9)return '$'+(v/1e9).toFixed(v>=1e10?0:1)+'B';if(v>=1e6)return '$'+(v/1e6).toFixed(0)+'M';return '$'+(v/1e3).toFixed(0)+'K';}
@@ -239,16 +227,16 @@ function drawTechBars(){
     r.innerHTML=`<div class="nm">${lbl(t.name)}</div><div class="track"><div class="fill" style="background:${grad}"></div></div><div class="val">${t.pct}%</div>`;
     box.append(r); setTimeout(()=>r.querySelector('.fill').style.width=(t.pct/mx*100)+'%',60+i*80);});
 }
-drawTechBars();
 
 BUNDLE.tech_order.forEach((t,i)=>{
   const g=BUNDLE.growth[t], yoy=g.yoy, ser=g.series, mx=Math.max(...ser);
   const cls=yoy>=0?'up':'down', sign=yoy>=0?'▲':'▼';
   const card=C();card.className='gcard';
-  const bars=ser.map(v=>`<div class="b" data-h="${Math.max(8,v/mx*100)}" style="background:${yoy>=0?'var(--emerging)':'#ff6b6b'};height:5px"></div>`).join('');
-  card.innerHTML=`<div class="head"><span class="tname">${lbl(t)}</span><span class="yoy ${cls}">${sign}${Math.abs(yoy)}%</span></div>
+  const _yrs=['2023','2024','2025'];
+  const bars=ser.map((v,j)=>`<div class="b" title="${_yrs[j]||''}" data-h="${Math.max(8,v/mx*100)}" style="background:${yoy>=0?'var(--emerging)':'#ff6b6b'};height:5px"></div>`).join('');
+  card.innerHTML=`<div class="head"><span class="yoy ${cls}">${sign}${Math.abs(yoy)}%</span></div>
     <div class="spark">${bars}</div>
-    <div class="meta">${g.share}% of '25 wave · '23→'25 ${g.cagr3>=0?'+':''}${g.cagr3}%</div>`;
+    <div class="gtname">${lbl(t)}</div>`;
   $('#growth').append(card);
   setTimeout(()=>card.querySelectorAll('.b').forEach(b=>b.style.height=b.dataset.h+'%'),120+i*70);
 });
@@ -269,7 +257,6 @@ function drawGeo(){
   const cc={}; rows.forEach(r=>cc[r.country]=(cc[r.country]||0)+1);
   const total=rows.length;
   const arr=Object.entries(cc).map(([k,v])=>({k,v,pct:total?Math.round(1000*v/total)/10:0})).sort((a,b)=>b.v-a.v).slice(0,10);
-  $('#geosub').innerHTML=`Among <b style="color:var(--ink)">${total}</b> unicorns ${gTech==='All'?'':'in '+lbl(gTech)+' '}with disclosed HQ · share of those located.`;
   const mx=arr.length?arr[0].pct:1; const box=$('#countries');box.innerHTML='';
   arr.forEach((c,i)=>{const r=C();r.className='rank';
     r.innerHTML=`<div class="pos">${i+1}</div><div class="flag">${BUNDLE.flags[c.k]||'🏳️'}</div><div class="cn">${c.k}</div>
@@ -293,8 +280,8 @@ function drawBubbles(){
     row.addEventListener('mousemove',e=>{
       ftip.innerHTML=`<div class="tn">${b.name}</div><div class="tcat" style="color:${COL[b.mat]}">${b.mat}</div>`
         +(b.desc?`<div class="td">${b.desc}</div>`:'')
-        +`<div class="tr"><b>Founded</b> ${b.founded?Math.floor(b.founded):'—'}</div><div class="tr"><b>Funding</b> ${fmtUSD(b.fund)}</div>`
-        +`<div class="tr"><b>Tech</b> ${(b.tech||[]).map(lbl).join(', ')||'—'}</div>`
+        +`<div class="tr"><b>Founded</b> ${b.founded?Math.floor(b.founded):'-'}</div><div class="tr"><b>Funding</b> ${fmtUSD(b.fund)}</div>`
+        +`<div class="tr"><b>Tech</b> ${(b.tech||[]).map(lbl).join(', ')||'-'}</div>`
         +`<div class="tr"><b>HQ</b> ${b.country?((BUNDLE.flags[b.country]||'')+' '+b.country):'undisclosed'}</div>`;
       const cr=card.getBoundingClientRect(); let x=e.clientX-cr.left+16, y=e.clientY-cr.top-10;
       if(x>cr.width-284)x=e.clientX-cr.left-284; if(x<6)x=6;
@@ -333,11 +320,13 @@ cinput.addEventListener('focus',()=>{renderDrop(cinput.value);cdrop.classList.ad
 cinput.addEventListener('input',()=>{renderDrop(cinput.value);cdrop.classList.add('show');if(cinput.value===''){fCountry='All';draw();}});
 document.addEventListener('click',e=>{if(!e.target.closest('.csearch'))cdrop.classList.remove('show');});
 
-const NS='http://www.w3.org/2000/svg', X0=1995,X1=2027;
+const NS='http://www.w3.org/2000/svg';
+let yearLo=2015, yearHi=2025;
 const yticks=[1e6,4e6,1e7,4e7,1e8,4e8,9e8,2e9,6e9,2e10,8e10];
 const yLo=Math.log10(1e6), yHi=Math.log10(8e10);
 function draw(){
   const wrap=$('#plot'); wrap.innerHTML='';
+  const X0=yearLo, X1=yearHi;
   const W=wrap.clientWidth||820,H=430,mL=60,mR=18,mT=14,mB=34,pw=W-mL-mR,ph=H-mT-mB;
   const xs=y=>mL+(Math.min(X1,Math.max(X0,y))-X0)/(X1-X0)*pw;
   const ys=v=>mT+(yHi-Math.log10(v))/(yHi-yLo)*ph;
@@ -345,9 +334,10 @@ function draw(){
   const E=t=>document.createElementNS(NS,t);
   yticks.forEach(v=>{const y=ys(v);const ln=E('line');ln.setAttribute('x1',mL);ln.setAttribute('x2',W-mR);ln.setAttribute('y1',y);ln.setAttribute('y2',y);ln.setAttribute('stroke','rgba(255,255,255,.05)');svg.append(ln);
     const tx=E('text');tx.setAttribute('x',mL-8);tx.setAttribute('y',y+3.5);tx.setAttribute('text-anchor','end');tx.setAttribute('fill','#5d6679');tx.setAttribute('font-size','10.5');tx.setAttribute('font-family','IBM Plex Mono');tx.textContent=fmtUSD(v);svg.append(tx);});
-  for(let yr=1995;yr<=2027;yr+=5){const x=xs(yr);const ln=E('line');ln.setAttribute('x1',x);ln.setAttribute('x2',x);ln.setAttribute('y1',mT);ln.setAttribute('y2',H-mB);ln.setAttribute('stroke','rgba(255,255,255,.04)');svg.append(ln);
+  const _step=(X1-X0)<=12?2:5;
+  for(let yr=X0;yr<=X1;yr+=_step){const x=xs(yr);const ln=E('line');ln.setAttribute('x1',x);ln.setAttribute('x2',x);ln.setAttribute('y1',mT);ln.setAttribute('y2',H-mB);ln.setAttribute('stroke','rgba(255,255,255,.04)');svg.append(ln);
     const tx=E('text');tx.setAttribute('x',x);tx.setAttribute('y',H-mB+18);tx.setAttribute('text-anchor','middle');tx.setAttribute('fill','#5d6679');tx.setAttribute('font-size','10.5');tx.setAttribute('font-family','IBM Plex Mono');tx.textContent=yr;svg.append(tx);}
-  const pts=P.filter(p=>p.fund&&p.founded&&(fTech==='All'||p.tech.includes(fTech))&&(fInd==='All'||p.ind.includes(fInd))&&(fCountry==='All'||p.country===fCountry));
+  const pts=P.filter(p=>p.fund&&p.founded&&p.founded>=X0&&p.founded<=X1&&(fTech==='All'||p.tech.includes(fTech))&&(fInd==='All'||p.ind.includes(fInd))&&(fCountry==='All'||p.country===fCountry));
   const ord={emerging:0,unicorn:1,native:2}; pts.sort((a,b)=>ord[a.maturity]-ord[b.maturity]);
   pts.forEach(p=>{const c=E('circle');c.setAttribute('class','pt');c.setAttribute('cx',xs(p.founded));c.setAttribute('cy',ys(p.fund));
     c.setAttribute('r',p.maturity==='native'?6:5);c.setAttribute('fill',RAW[p.maturity]);c.setAttribute('fill-opacity','1');
@@ -362,10 +352,13 @@ function showTip(e,p,c){c.setAttribute('r',(p.maturity==='native'?6:5)+2.5);
   tip.innerHTML=`<div class="tn">${p.name}</div><div class="tcat" style="color:${COL[p.maturity]}">${p.maturity}</div>`
     +(p.desc?`<div class="td">${p.desc}</div>`:'')
     +`<div class="tr"><b>Founded</b> ${Math.floor(p.founded)}</div><div class="tr"><b>Funding</b> ${fmtUSD(p.fund)}</div>`
-    +`<div class="tr"><b>Tech</b> ${p.tech.map(lbl).join(', ')||'—'}</div>`
+    +`<div class="tr"><b>Tech</b> ${p.tech.map(lbl).join(', ')||'-'}</div>`
     +`<div class="tr"><b>HQ</b> ${p.country?((BUNDLE.flags[p.country]||'')+' '+p.country):'undisclosed'}</div>`;
   let left=cx+16; if(left>wrap.width-292)left=cx-290; let top=cy-20; if(top<0)top=8; if(top>wrap.height-180)top=wrap.height-190;
   tip.style.left=left+'px';tip.style.top=top+'px';tip.style.opacity=1;}
+const yrLo=$('#yrLo'),yrHi=$('#yrHi'),yrVal=$('#yrVal');
+function syncYr(){yearLo=Math.min(+yrLo.value,+yrHi.value);yearHi=Math.max(+yrLo.value,+yrHi.value);yrVal.textContent=yearLo+' - '+yearHi;draw();}
+if(yrLo&&yrHi){yrLo.addEventListener('input',syncYr);yrHi.addEventListener('input',syncYr);}
 draw(); window.addEventListener('resize',draw);
 </script>
 
@@ -374,8 +367,8 @@ draw(); window.addEventListener('resize',draw);
   --bg:#0a0e14; --panel:#11161f; --panel2:#161b22;
   --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
   --ink:#e8eef5; --mut:#9aa7b5; --mut2:#5e6b7a;
-  --native:#f5a623; --unicorn:#4a90d9; --emerging:#2abfa3;
-  --native-d:rgba(245,166,35,.16); --unicorn-d:rgba(74,144,217,.16); --emerging-d:rgba(42,191,163,.16);
+  --native:#e08a30; --unicorn:#4a90d9; --emerging:#2abfa3;
+  --native-d:rgba(224,138,48,.16); --unicorn-d:rgba(74,144,217,.16); --emerging-d:rgba(42,191,163,.16);
 }
 html{color-scheme:dark}
 html,body{background:#0a0e14!important;background-image:none!important;min-height:0!important;height:auto!important}

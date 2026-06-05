@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Research &amp; Innovation — Selector</title>
+<title>Research &amp; Patents - Selector</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
     --bg:#0a0e14; --bg2:#0d1117; --panel:#11161f; --panel2:#161b22;
     --line:#1f2733; --line2:#2a3340;
     --ink:#e8eef5; --ink2:#9aa7b5; --ink3:#5e6b7a;
-    --accent:#f5a623; --accent-tint:rgba(245,166,35,0.14); --on-accent:#1a1205;
+    --accent:#e08a30; --accent-tint:rgba(224,138,48,0.14); --on-accent:#1a1205;
     --display:'Montserrat','IBM Plex Sans',-apple-system,sans-serif;
     --sans:'IBM Plex Sans',-apple-system,sans-serif;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
@@ -20,7 +20,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
   body::before{content:"";position:fixed;inset:-20% -10% auto -10%;height:140%;
-    background:radial-gradient(1100px 600px at 12% -8%, rgba(245,166,35,0.07), transparent 55%),radial-gradient(900px 600px at 100% 0%, rgba(74,144,217,0.07), transparent 50%);
+    background:radial-gradient(1100px 600px at 12% -8%, rgba(224,138,48,0.07), transparent 55%),radial-gradient(900px 600px at 100% 0%, rgba(74,144,217,0.07), transparent 50%);
     z-index:0;animation:drift 26s ease-in-out infinite alternate}
   @keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-2%,1.5%,0) scale(1.06)}}
 
@@ -41,7 +41,7 @@
   #techGrid .card{flex:0 1 344px}
 
   /* ---- card ---- */
-  .card{--ca:var(--accent);--ca-tint:rgba(245,166,35,0.14);
+  .card{--ca:var(--accent);--ca-tint:rgba(224,138,48,0.14);
     position:relative;text-align:left;cursor:pointer;background:var(--panel2);
     border:1px solid var(--line);border-radius:11px;padding:14px;color:inherit;font:inherit;
     transition:transform .42s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .42s,background .35s;
@@ -67,16 +67,15 @@
   .card.sel .dot{border-color:var(--ca)}
   .card.sel .dot::after{transform:scale(1)}
 
-  .card-body{padding:14px 6px 4px}
+  .card-body{padding:16px 10px 12px}
   .eyebrow-sm{font-family:var(--mono);font-weight:500;font-size:13.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--ca);display:block;margin-bottom:8px}
   .card-name{font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:-.01em;line-height:1.2;margin-bottom:9px;color:var(--ink)}
-  .card-def{font-family:var(--sans);font-weight:400;font-size:12.5px;line-height:1.6;color:var(--ink2);
-    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;transition:color .35s}
+  .card-def{font-family:var(--sans);font-weight:400;font-size:14px;line-height:1.65;color:var(--read)}
   .card:hover .card-def{color:var(--ink2)}
 
 
   /* ================= SCENE ANIMATIONS ================= */
-  /* Descriptive AI — growing bars + trend sweep */
+  /* Descriptive AI - growing bars + trend sweep */
   .viz-desc .bar{transform-box:fill-box;transform-origin:bottom;animation:barBob 3.4s ease-in-out infinite}
   @keyframes barBob{0%,100%{transform:scaleY(.9)}50%{transform:scaleY(1)}}
   .card:hover .viz-desc .bar{animation:barPop 1.15s ease-in-out infinite}
@@ -87,7 +86,7 @@
   .viz-desc .peak{animation:peakPulse 2.4s ease-in-out infinite}
   @keyframes peakPulse{0%,100%{opacity:.4;r:3}50%{opacity:1;r:5}}
 
-  /* GenAI — generative core + dispatched pulses */
+  /* GenAI - generative core + dispatched pulses */
   .viz-gen .node{transform-box:fill-box;transform-origin:center;animation:nodeP 3s ease-in-out infinite}
   @keyframes nodeP{0%,100%{transform:scale(.85);opacity:.8}50%{transform:scale(1.15);opacity:1}}
   .viz-gen .edge{opacity:.22;transition:opacity .4s}
@@ -107,7 +106,7 @@
   @keyframes flow2{0%{transform:translate(0,0);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translate(-68px,36px);opacity:0}}
   @keyframes flow3{0%{transform:translate(0,0);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translate(96px,38px);opacity:0}}
 
-  /* Blockchain — sequential validation + travelling token */
+  /* Blockchain - sequential validation + travelling token */
   .viz-chain .glow{opacity:0}
   .viz-chain .b0{animation:blkSeq 2.8s ease-in-out infinite}
   .viz-chain .b1{animation:blkSeq 2.8s ease-in-out infinite .45s}
@@ -121,7 +120,7 @@
   .viz-chain .link{stroke-dasharray:5 5;animation:dash 1.4s linear infinite}
   @keyframes dash{to{stroke-dashoffset:-20}}
 
-  /* Robotics — articulated arm reaching */
+  /* Robotics - articulated arm reaching */
   .viz-arm .shoulder{transform-box:view-box;transform-origin:78px 120px;animation:sh 4s ease-in-out infinite}
   .viz-arm .elbow{transform-box:view-box;transform-origin:150px 66px;animation:el 4s ease-in-out infinite}
   @keyframes sh{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(6deg)}}
@@ -135,7 +134,7 @@
   .viz-arm .grip{animation:gp 4s ease-in-out infinite}
   @keyframes gp{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
 
-  /* Quantum — three electrons travel ALONG their tilted ellipses, not around a
+  /* Quantum - three electrons travel ALONG their tilted ellipses, not around a
      circle. Each electron is animated with offset-path matching its parent
      ellipse; the parent <g rotate=…> tilts ellipse+path together. */
   .viz-q .electron{
@@ -154,7 +153,7 @@
   @keyframes nuc{0%,100%{transform:scale(.82);opacity:.85}50%{transform:scale(1.18);opacity:1}}
   .card:hover .viz-q .nucleus{animation-duration:1.3s}
 
-  /* Industry — icon medallion + pulsing rings */
+  /* Industry - icon medallion + pulsing rings */
   .hero-ind{display:grid;place-items:center}
   .ind-ic{position:relative;z-index:2;color:var(--ca);width:60px;height:60px;display:grid;place-items:center;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
   .ind-ic svg{width:46px;height:46px}
@@ -260,7 +259,7 @@
   </svg>`;
 
   const tech = [
-    { name:"Descriptive AI", color:"#f5a623", hero:sceneDesc,
+    { name:"Descriptive AI", color:"#ebc840", hero:sceneDesc,
       def:"Descriptive AI encompasses traditional AI approaches that analyze and interpret existing data to identify patterns, make predictions, and derive insights. This technology forms the foundation of practical AI applications in industry through machine learning, statistical analysis, and pattern recognition." },
     { name:"Generative AI & Agentic AI", color:"#e84b8a", hero:sceneGen,
       def:"Generative AI and Agentic AI refers to AI systems that can create new content (text, images, code, synthetic data) and autonomously plan and execute multi-step actions to achieve goals. This technology leverages large language models and neural networks to generate novel outputs based on patterns learned from training data." },
@@ -298,7 +297,7 @@
   function hexA(hex,a){const n=parseInt(hex.slice(1),16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;}
 
   function makeCard(item, accent, kind, i){
-    const ca = accent || item.color || "#f5a623";
+    const ca = accent || item.color || "#e08a30";
     const el = document.createElement("button");
     el.className = "card " + kind;
     el.style.setProperty("--ca", ca);
@@ -323,7 +322,7 @@
   const tg = document.getElementById("techGrid");
   tech.forEach((t,i) => tg.appendChild(makeCard(t, t.color, "tech", i)));
   const ig = document.getElementById("industryGrid");
-  industry.forEach((t,i) => ig.appendChild(makeCard(t, "#f5a623", "industry", i)));
+  industry.forEach((t,i) => ig.appendChild(makeCard(t, "#e08a30", "industry", i)));
 
   const buttons = document.querySelectorAll(".toggle button");
   const views = { tech:document.getElementById("tech"), industry:document.getElementById("industry") };
