@@ -234,7 +234,7 @@ body.embed-slice .gcard{margin:0}
 .block-h{font-family:var(--font-disp)!important;font-size:22px!important;font-weight:700!important;letter-spacing:-.01em!important;text-transform:none!important;color:var(--ink)!important;display:block!important;margin:0 0 14px!important}
 .block-h .sub{display:block!important;margin-top:6px!important;font-weight:400!important;font-size:13px!important;color:var(--ink-3)!important;text-transform:none!important;letter-spacing:0!important;font-family:var(--font-body)!important}
 .sub-below{display:block;margin-top:12px;font-weight:400;font-size:13px;color:var(--ink-3);text-transform:none;letter-spacing:0;font-family:var(--font-body)}
-</style><style>.rank .fill{transition:width .9s cubic-bezier(.2,.8,.2,1)}.rank .rk.clik{cursor:default}.rank .rk.clik:hover{background:rgba(255,255,255,.05)}</style><script>(function(){
+</style><style>.rank .fill{transition:width .9s cubic-bezier(.2,.8,.2,1)}.rank .rk.clik{cursor:default}.rank .rk.clik:hover{background:rgba(255,255,255,.05)}.rank .rk{position:relative}.rk-tip{position:absolute;left:42px;bottom:calc(100% - 4px);z-index:60;width:max-content;max-width:262px;background:#161b22;border:1px solid #2a3340;border-radius:9px;padding:9px 12px;font-family:var(--font-body);font-size:13px;line-height:1.45;color:#cdd5df;text-align:left;box-shadow:0 14px 34px -14px rgba(0,0,0,.8);opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .2s,transform .2s}.rk-tip::after{content:"";position:absolute;top:100%;left:24px;border:6px solid transparent;border-top-color:#2a3340}.rank .rk:hover .rk-tip{opacity:1;transform:translateY(0)}</style><script>(function(){
 function run(){
   var block=null;
   [].forEach.call(document.querySelectorAll(".block"),function(b){
@@ -249,7 +249,7 @@ function run(){
       var val=rk.querySelector(".val"); if(val) val.textContent=p1+"%";
       var fill=rk.querySelector(".fill");
       if(fill){fill.style.width="0%";(function(f,w){requestAnimationFrame(function(){requestAnimationFrame(function(){f.style.width=w+"%";});});})(fill,p1);}
-      rk.setAttribute("title", p1+"% of all respondents ranked this technology's impact #1");
+      var tip=document.createElement("span");tip.className="rk-tip";tip.textContent=p1+"% of all respondents ranked this technology's impact #1";rk.appendChild(tip);
     }
     rk.removeAttribute("data-open"); rk.removeAttribute("role"); rk.removeAttribute("tabindex"); rk.style.cursor="default";
   });
