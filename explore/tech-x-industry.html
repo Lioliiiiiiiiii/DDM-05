@@ -65,7 +65,7 @@
   <div class="container">
     <div class="eyebrow">Explore by View</div>
     <h1 class="page-title" style="margin-bottom:28px">Technology &times; Industry</h1>
-    <div class="embed-wrap"><iframe id="radarFrame" class="embed-frame" src="../embed/radar.html?v=14" style="height:880px" title="embedded dashboard" loading="eager" scrolling="no" frameborder="0"></iframe></div>
+    <div class="embed-wrap"><iframe id="radarFrame" class="embed-frame" src="../embed/radar.html?v=15" style="height:880px" title="embedded dashboard" loading="eager" scrolling="no" frameborder="0"></iframe></div>
 
     <div id="xsections" hidden>
     <div class="tabbar" role="tablist" aria-label="Data views">
@@ -124,9 +124,9 @@
     if(pt){pt.textContent=NTECH[ts]||tKey;pt.style.background=TECHCOLOR[ts]||'#e08a30';pt.hidden=false;}
     if(pi){pi.textContent=NIND[is]||iKey;pi.style.background='#a7b0bd';pi.hidden=false;}
     if(ct)ct.style.display='none';
-    fP.src='../embed/perception-foresight.html?v=14&embed=1&type=cell&tech='+ts+'&indus='+is;
-    fU.src='../embed/unicorn.html?v=14&tech='+encodeURIComponent(UTECH[ts])+'&indus='+encodeURIComponent(UIND[is]);
-    fR.src='../embed/research/'+ts+'.html?v=14';
+    fP.src='../embed/perception-foresight.html?v=15&embed=1&type=cell&tech='+ts+'&indus='+is;
+    fU.src='../embed/unicorn.html?v=15&tech='+encodeURIComponent(UTECH[ts])+'&indus='+encodeURIComponent(UIND[is]);
+    fR.src='../embed/research/'+ts+'.html?v=15';
     sec.hidden=false;
   }
   window.addEventListener('message',function(e){

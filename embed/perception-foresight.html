@@ -337,4 +337,19 @@ function run(){
   });
 }
 if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",run); else run();
+})();</script><script>(function(){
+function mv(){
+  document.querySelectorAll('.gcard[data-type="panel-tech"]').forEach(function(g){
+    var body=g.querySelector(".mod-body"); if(!body) return;
+    var hs=g.querySelectorAll(".block-h"), wb=null;
+    for(var i=0;i<hs.length;i++){var t=(hs[i].firstChild&&hs[i].firstChild.nodeValue||"").trim(); if(t.indexOf("Where ")===0){wb=hs[i].parentNode;break;}}
+    if(!wb) return;
+    var grid=wb.parentNode;
+    if(grid&&grid!==body&&grid.classList&&grid.classList.contains("grid")){
+      grid.parentNode.insertBefore(wb,grid);
+      if(!grid.children.length) grid.remove();
+    }
+  });
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",mv); else mv();
 })();</script></body></html>
