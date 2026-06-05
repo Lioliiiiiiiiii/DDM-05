@@ -37,11 +37,14 @@
 
   .ax-name{
     font-family:"Saira Condensed";font-size:17px;font-weight:600;
-    letter-spacing:.05em;text-transform:uppercase;color:var(--text);line-height:1.1;
+    letter-spacing:.05em;text-transform:uppercase;color:var(--text);line-height:1.1;text-align:center;
   }
-  .ax-info{position:relative;display:inline-flex;align-items:center;margin-left:8px;
-    color:var(--text-dim);cursor:help;font-size:.82em;vertical-align:middle;transition:color .2s;}
-  .ax-info:hover,.ax-info:focus-visible{color:#fff;outline:none;}
+  .ax-grp{display:inline-flex;flex-direction:column;align-items:center;gap:6px;}
+  .ax-info{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;flex:none;
+    border-radius:50%;border:1.5px solid var(--text-dim);background:transparent;color:var(--text-dim);
+    font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:700;font-size:11px;line-height:1;
+    cursor:help;padding:0;transition:color .2s,border-color .2s,background .2s;}
+  .ax-info:hover,.ax-info:focus-visible{color:#fff;border-color:#fff;background:rgba(255,255,255,.14);outline:none;}
   .chart-stage{position:relative;}
   .ax-tip{position:absolute;z-index:50;left:0;top:0;max-width:20rem;width:max-content;
     border-radius:.5rem;background:rgba(0,0,0,.85);padding:12px 16px;
@@ -281,9 +284,10 @@ function renderChart(){
 
   AXIS_NAME.forEach((name,i)=>{
     const b=labelBox(i);
+    const ai=b.align==='left'?'flex-start':b.align==='right'?'flex-end':'center';
     s+=`<foreignObject x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" overflow="visible">
-          <div xmlns="http://www.w3.org/1999/xhtml" style="height:${b.h}px;display:flex;flex-direction:column;justify-content:${b.justify};text-align:${b.align};">
-            <div class="ax-name">${name}<span class="ax-info" data-desc="${AXIS_DESC[i]}" tabindex="0" role="button" aria-label="${name} details">&#9432;</span></div>
+          <div xmlns="http://www.w3.org/1999/xhtml" style="height:${b.h}px;display:flex;flex-direction:column;justify-content:${b.justify};align-items:${ai};">
+            <div class="ax-grp"><div class="ax-name">${name}</div><button type="button" class="ax-info" data-desc="${AXIS_DESC[i]}" tabindex="0" aria-label="${name} details">i</button></div>
           </div>
         </foreignObject>`;
   });
