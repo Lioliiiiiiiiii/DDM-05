@@ -36,6 +36,10 @@
         try {
           var win = f.contentWindow;
           if (win) win.addEventListener('resize', resize);
+          // re-measure when the embed's own content grows/shrinks (e.g. radar
+          // definitions appearing on select, expanding panels) so it isn't clipped
+          var bdy = f.contentDocument && f.contentDocument.body;
+          if (bdy && window.ResizeObserver) { new ResizeObserver(resize).observe(bdy); }
         } catch (e) {}
       });
       // already-loaded case
