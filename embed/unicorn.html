@@ -132,14 +132,14 @@ circle.pt{cursor:pointer;transition:r .12s,opacity .25s}
 .yrange-val{font-size:14px;font-weight:600;color:var(--ink);font-family:var(--mono)}
 .yrange-track{position:relative;height:20px}
 .yrange-track::before{content:"";position:absolute;left:0;right:0;top:50%;height:5px;transform:translateY(-50%);background:rgba(255,255,255,.22);border-radius:4px}
-.yrange-fill{position:absolute;top:50%;height:5px;transform:translateY(-50%);background:#e08a30;border-radius:4px;pointer-events:none;box-shadow:0 0 8px -1px rgba(224,138,48,.55)}
+.yrange-fill{position:absolute;top:50%;height:5px;transform:translateY(-50%);background:rgba(255,255,255,.5);border-radius:4px;pointer-events:none}
 .yrsl{position:absolute;left:0;top:0;width:100%;height:20px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;pointer-events:none}
 .yrsl::-webkit-slider-runnable-track{height:5px;background:transparent}
 .yrsl::-moz-range-track{height:5px;background:transparent}
-.yrsl::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;pointer-events:auto;width:17px;height:17px;border-radius:50%;background:#e08a30;border:3px solid #0d1117;box-shadow:0 0 0 1.5px #e08a30,0 2px 6px rgba(0,0,0,.55);cursor:grab;margin-top:-6.5px;transition:transform .12s ease}
+.yrsl::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;pointer-events:auto;width:17px;height:17px;border-radius:50%;background:#cdd5df;border:3px solid #0d1117;box-shadow:0 2px 6px rgba(0,0,0,.55);cursor:grab;margin-top:-6.5px;transition:transform .12s ease}
 .yrsl::-webkit-slider-thumb:hover{transform:scale(1.12)}
 .yrsl::-webkit-slider-thumb:active{cursor:grabbing}
-.yrsl::-moz-range-thumb{pointer-events:auto;width:17px;height:17px;border:3px solid #0d1117;border-radius:50%;background:#e08a30;box-shadow:0 0 0 1.5px #e08a30;cursor:grab}
+.yrsl::-moz-range-thumb{pointer-events:auto;width:17px;height:17px;border:3px solid #0d1117;border-radius:50%;background:#cdd5df;cursor:grab}
 .yrange-scale{display:flex;justify-content:space-between;padding:0 1px;font-family:var(--mono);font-size:10px;color:var(--mut2);letter-spacing:.02em}
 .yrange-scale span{position:relative}
 .yrange-scale span::before{content:"";position:absolute;top:-9px;left:50%;width:1px;height:5px;background:var(--line2);transform:translateX(-50%)}
@@ -156,8 +156,7 @@ circle.pt{cursor:pointer;transition:r .12s,opacity .25s}
 
   <div class="explorer">
     <div class="top">
-      <h1 class="disp">Unicorns Total Funding Overview</h1>
-      <div class="sub">Founded date vs total funding by maturity category</div>
+      <h1 class="disp">Unicorn Landscape</h1>
     </div>
     <div class="expbody">
       <div class="panel-ctrl">
