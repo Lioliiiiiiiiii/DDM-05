@@ -257,4 +257,48 @@ function run(){
   });
 }
 if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",run); else run();
+})();</script><style>.donut-row{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin:36px 0}.donut-row>div{padding:0 8px}.donut-wrap{margin:18px 0 14px;display:flex;justify-content:center}.donut-row .legend{justify-content:center;flex-wrap:wrap;gap:10px 16px}.donut-caption{margin:14px auto 0;max-width:300px;text-align:center;font-size:13px;line-height:1.55;color:#c9d2dd}.donut-caption b{color:var(--ink)}.donut-svg{animation:donutIn .8s cubic-bezier(.2,.8,.2,1) both;transform-origin:50% 50%}@keyframes donutIn{from{opacity:0;transform:scale(.6) rotate(-150deg)}55%{opacity:1}to{opacity:1;transform:scale(1) rotate(0)}}@media(max-width:620px){.donut-row{grid-template-columns:1fr;gap:26px}}</style><script>(function(){
+var TC={"descriptive-ai":"#ebc840","generative-agentic-ai":"#e84b8a","blockchain":"#f05a32","robotics":"#2abfa3","quantum-computing":"#4a90d9"};
+var TN={"descriptive-ai":"Descriptive AI","generative-agentic-ai":"Generative AI & Agentic AI","blockchain":"Blockchain & Decentralized Systems","robotics":"Physical AI & Robotics","quantum-computing":"Quantum Computing"};
+var GREY=["#9aa7b5","#6b7682","#474e58","#3a414b"];
+function hexA(h,a){h=h.replace("#","");var n=parseInt(h,16);return "rgba("+((n>>16)&255)+","+((n>>8)&255)+","+(n&255)+","+a+")";}
+function toDonut(block,tech,nm,kind){
+  var stack=block.querySelector(".stack"); if(!stack) return;
+  var segs=[].map.call(stack.querySelectorAll(".seg"),function(seg,i){
+    var parts=(seg.getAttribute("title")||"").split("·");
+    var label=(parts[0]||"").trim(); var pct=parseFloat(seg.style.width)||0;
+    var pctStr=(parts[1]||"").trim()||(pct+"%");
+    var color=i===0?tech:i===1?hexA(tech,.5):(GREY[i-2]||"#3a414b");
+    return {label:label,pct:pct,pctStr:pctStr,color:color};
+  });
+  var sz=140,r=(sz-26)/2,c=sz/2,C=2*Math.PI*r,off=0,arcs="";
+  segs.forEach(function(s){if(!(s.pct>0))return;var len=C*s.pct/100;
+    arcs+='<circle cx="'+c+'" cy="'+c+'" r="'+r+'" fill="none" stroke="'+s.color+'" stroke-width="22" stroke-dasharray="'+len.toFixed(2)+" "+(C-len).toFixed(2)+'" stroke-dashoffset="'+(-off).toFixed(2)+'" transform="rotate(-90 '+c+" "+c+')"><title>'+s.label+" - "+s.pctStr+"</title></circle>";off+=len;});
+  var dw=document.createElement("div"); dw.className="donut-wrap"; dw.innerHTML='<svg class="donut-svg" width="'+sz+'" height="'+sz+'" viewBox="0 0 '+sz+" "+sz+'">'+arcs+"</svg>";
+  stack.replaceWith(dw);
+  var leg=block.querySelector(".legend");
+  if(leg) leg.innerHTML=segs.map(function(s){return '<span><i style="background:'+s.color+'"></i>'+s.label+" - "+s.pctStr+"</span>";}).join("");
+  var pos=Math.round(segs[0].pct+(segs[1]?segs[1].pct:0));
+  var cap=document.createElement("div"); cap.className="donut-caption";
+  cap.innerHTML = kind==="time"
+    ? "<b>"+pos+'%</b> of professionals surveyed expect '+nm+' impact "Now" or "Soon"'
+    : "<b>"+pos+'%</b> of professionals surveyed expect "significant" or "very significant" '+nm+" impact";
+  (leg||dw).after(cap);
+}
+function fb(g,p){var hs=g.querySelectorAll(".block-h");for(var i=0;i<hs.length;i++){var t=(hs[i].firstChild&&hs[i].firstChild.nodeValue||"").trim();if(t.indexOf(p)===0)return hs[i].parentNode;}return null;}
+function run(){
+  document.querySelectorAll(".gcard").forEach(function(g){
+    var slug=g.getAttribute("data-tech"), tech=TC[slug]||"#e08a30", nm=TN[slug]||"this technology";
+    var tb=fb(g,"Expected time horizon of impact"), sb=fb(g,"Strength of expected impact");
+    if(tb)toDonut(tb,tech,nm,"time"); if(sb)toDonut(sb,tech,nm,"str");
+    if(g.getAttribute("data-type")==="panel-tech"&&tb&&sb){
+      var body=g.querySelector(".mod-body"), wb=fb(g,"Where "), grid=tb.parentNode, which=fb(g,"Which industries");
+      if(wb&&wb.parentNode===grid) grid.parentNode.insertBefore(wb,grid);
+      var row=document.createElement("div"); row.className="donut-row"; row.appendChild(tb); row.appendChild(sb);
+      if(which) which.parentNode.insertBefore(row,which); else body.appendChild(row);
+      if(grid&&!grid.children.length) grid.remove();
+    }
+  });
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",run); else run();
 })();</script></body></html>
