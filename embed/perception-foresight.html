@@ -301,4 +301,40 @@ function run(){
   });
 }
 if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",run); else run();
+})();</script><style>.where-rank .wr-row{position:relative}.where-rank .wr-icon{display:inline-flex;align-items:center;justify-content:center}.where-rank .wr-icon svg{width:22px;height:22px}.where-rank .fill{transition:width .9s cubic-bezier(.2,.8,.2,1)}.where-rank .rk-tip{position:absolute;left:42px;bottom:calc(100% - 4px);z-index:60;width:max-content;max-width:262px;background:#161b22;border:1px solid #2a3340;border-radius:9px;padding:9px 12px;font-family:var(--font-body);font-size:13px;line-height:1.45;color:#cdd5df;text-align:left;box-shadow:0 14px 34px -14px rgba(0,0,0,.8);opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .2s,transform .2s}.where-rank .rk-tip::after{content:"";position:absolute;top:100%;left:24px;border:6px solid transparent;border-top-color:#2a3340}.where-rank .wr-row:hover .rk-tip{opacity:1;transform:translateY(0)}</style><script>(function(){
+var TECHCOL={"descriptive-ai":"#ebc840","generative-agentic-ai":"#e84b8a","blockchain":"#f05a32","robotics":"#2abfa3","quantum-computing":"#4a90d9"};
+var SLUG={"Descriptive AI":"descriptive-ai","Generative & Agentic AI":"generative-agentic-ai","Blockchain":"blockchain","Physical AI & Robotics":"robotics","Quantum Computing":"quantum-computing"};
+var ICON={
+"descriptive-ai":`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="6.4" y="12.5" width="2.6" height="5.5" rx="0.7" fill="currentColor" stroke="none"/><rect x="10.7" y="9.5" width="2.6" height="8.5" rx="0.7" fill="currentColor" stroke="none" opacity="0.5"/><rect x="15" y="6.5" width="2.6" height="11.5" rx="0.7" fill="currentColor" stroke="none"/><path d="M6 9.7l3.6-3.1 3 2 3.9-4.4"/><circle cx="16.5" cy="4.2" r="1.5" fill="currentColor" stroke="none"/></svg>`,
+"generative-agentic-ai":`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3c.6 3.8 1.9 5.1 5.7 5.7-3.8.6-5.1 1.9-5.7 5.7-.6-3.8-1.9-5.1-5.7-5.7C10.1 8.1 11.4 6.8 12 3Z" fill="currentColor" stroke="none"/><path d="M18.5 14.5c.3 1.8.9 2.4 2.7 2.7-1.8.3-2.4.9-2.7 2.7-.3-1.8-.9-2.4-2.7-2.7 1.8-.3 2.4-.9 2.7-2.7Z" fill="currentColor" stroke="none" opacity="0.6"/></svg>`,
+"blockchain":`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.4"/><rect x="14" y="14" width="7" height="7" rx="1.4"/><rect x="14" y="3" width="7" height="7" rx="1.4" opacity="0.5"/><rect x="3" y="14" width="7" height="7" rx="1.4" opacity="0.5"/><path d="M10 6.5h4M6.5 10v4M17.5 10v4M10 17.5h4"/></svg>`,
+"robotics":`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><rect x="4" y="7.5" width="16" height="11" rx="2.5"/><circle cx="12" cy="4" r="1.3" fill="currentColor" stroke="none"/><path d="M12 5.3v2.2"/><circle cx="9" cy="13" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="13" r="1.4" fill="currentColor" stroke="none"/><path d="M2.5 12v3M21.5 12v3"/></svg>`,
+"quantum-computing":`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="1.8" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="10" ry="4.3"/><ellipse cx="12" cy="12" rx="10" ry="4.3" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.3" transform="rotate(120 12 12)"/></svg>`};
+var GREY="#9aa7b5";
+function run(){
+  document.querySelectorAll('.gcard[data-type="panel-tech"]').forEach(function(g){
+    var focus=g.getAttribute("data-tech"), bars=null, hs=g.querySelectorAll(".block-h");
+    for(var i=0;i<hs.length;i++){var t=(hs[i].firstChild&&hs[i].firstChild.nodeValue||"").trim(); if(t.indexOf("Where ")===0){bars=hs[i].parentNode.querySelector(".bars"); break;}}
+    if(!bars) return;
+    var rows=[].map.call(bars.querySelectorAll(".bar-row"),function(br){
+      return {name:(br.querySelector(".name").textContent||"").trim(), pct:parseFloat(br.querySelector(".val").textContent)||0};});
+    rows.forEach(function(r){r.slug=SLUG[r.name];});
+    rows.sort(function(a,b){return b.pct-a.pct;});
+    var html='<div class="rank where-rank">'+rows.map(function(r,i){
+      var col=r.slug===focus?(TECHCOL[focus]||"#e08a30"):GREY, rk=(i+1<10?"0":"")+(i+1);
+      return '<div class="rk wr-row" style="display:grid;grid-template-columns:26px 28px 1fr 50px;align-items:center;gap:11px;padding:7px 0">'
+        +'<span class="rkn">'+rk+'</span>'
+        +'<span class="wr-icon" style="color:'+col+'">'+(ICON[r.slug]||"")+'</span>'
+        +'<div class="rkbar-wrap"><span class="rkname">'+r.name+'</span><div class="track"><div class="fill" style="width:0%;background:'+col+'"></div></div></div>'
+        +'<span class="val">'+r.pct+'%</span>'
+        +'<span class="rk-tip">'+r.pct+"% of all respondents ranked "+r.name+"'s impact #1</span>"
+        +'</div>';
+    }).join("")+'</div>';
+    bars.outerHTML=html;
+    var nr=g.querySelector(".where-rank");
+    if(nr){var fills=nr.querySelectorAll(".fill");var pc=rows.map(function(r){return r.pct;});
+      requestAnimationFrame(function(){requestAnimationFrame(function(){[].forEach.call(fills,function(f,i){f.style.width=pc[i]+"%";});});});}
+  });
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",run); else run();
 })();</script></body></html>
