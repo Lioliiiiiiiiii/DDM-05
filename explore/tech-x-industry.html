@@ -48,7 +48,7 @@
   <label class="navtoggle" aria-label="Toggle menu">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
   </label>
-  <div class="crumb"><span>Explore</span><span class="sep">/</span><b>Technology &times; Industry</b><a class="focus-pill" id="pillTech" href="#radarFrame" hidden style="margin-left:10px"></a><a class="focus-pill" id="pillInd" href="#radarFrame" hidden style="margin-left:8px"></a></div>
+  <div class="crumb"><span>Explore</span><span class="sep">/</span><b id="crumbTitle">Technology &times; Industry</b><a class="focus-pill" id="pillTech" href="#radarFrame" hidden style="margin-left:10px"></a><a class="focus-pill" id="pillInd" href="#radarFrame" hidden style="margin-left:8px"></a></div>
   <div class="actions">
     <a href="../key-findings.html" class="btn btn-ghost btn-anim">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.5.4.5 1 .5 1.6h6c0-.6 0-1.2.5-1.6A6 6 0 0 0 12 3Z"/></svg>
@@ -98,6 +98,7 @@
   var sec=document.getElementById('xsections');
   var fP=document.getElementById('frPerc'), fU=document.getElementById('frUni'), fR=document.getElementById('frRes');
   var cur={t:null,i:null};
+  var TECHCOLOR={"descriptive-ai":"#ebc840","generative-agentic-ai":"#e84b8a","blockchain":"#f05a32","robotics":"#2abfa3","quantum-computing":"#4a90d9"};
   /* Forward heatmatrix deep-link params (?tech=&ind=) to the radar embed so
      it lands pre-selected. */
   (function forwardQueryToRadar(){
@@ -119,9 +120,10 @@
     cur.t=ts; cur.i=is;
     document.getElementById('lblA').textContent=NTECH[ts]||tKey;
     document.getElementById('lblB').textContent=NIND[is]||iKey;
-    var pt=document.getElementById('pillTech'),pi=document.getElementById('pillInd');
-    if(pt){pt.textContent=NTECH[ts]||tKey;pt.hidden=false;}
-    if(pi){pi.textContent=NIND[is]||iKey;pi.hidden=false;}
+    var pt=document.getElementById('pillTech'),pi=document.getElementById('pillInd'),ct=document.getElementById('crumbTitle');
+    if(pt){pt.textContent=NTECH[ts]||tKey;pt.style.background=TECHCOLOR[ts]||'#e08a30';pt.hidden=false;}
+    if(pi){pi.textContent=NIND[is]||iKey;pi.style.background='#a7b0bd';pi.hidden=false;}
+    if(ct)ct.style.display='none';
     fP.src='../embed/perception-foresight.html?v=6&embed=1&type=cell&tech='+ts+'&indus='+is;
     fU.src='../embed/unicorn.html?v=6&tech='+encodeURIComponent(UTECH[ts])+'&indus='+encodeURIComponent(UIND[is]);
     fR.src='../embed/research/'+ts+'.html?v=6';
@@ -130,7 +132,7 @@
   window.addEventListener('message',function(e){
     var d=e.data; if(!d||d.source!=='ddm-radar') return;
     if(d.tech && d.ind) apply(d.tech,d.ind);
-    else { sec.hidden=true; var pt=document.getElementById('pillTech'),pi=document.getElementById('pillInd'); if(pt)pt.hidden=true; if(pi)pi.hidden=true; }  // hide until both chosen again
+    else { sec.hidden=true; var pt=document.getElementById('pillTech'),pi=document.getElementById('pillInd'),ct=document.getElementById('crumbTitle'); if(pt)pt.hidden=true; if(pi)pi.hidden=true; if(ct)ct.style.display=''; }  // hide until both chosen again
   });
 })();
 </script>
