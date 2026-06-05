@@ -203,6 +203,7 @@ footer.site{margin-top:64px;padding-top:22px;border-top:1px solid var(--line);
   background:#ebc840;color:#111827;font-family:var(--sans);font-weight:600;font-size:13px;
   text-transform:none;letter-spacing:0;text-decoration:none;white-space:nowrap;transition:filter .2s,transform .2s}
 .focus-pill:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.focus-pill[hidden]{display:none}
 .focus-pill svg{width:15px;height:15px}
 .crumb a.crumb-link{color:var(--ink2);text-decoration:none;transition:color .2s}
 .crumb a.crumb-link:hover{color:var(--ink)}
