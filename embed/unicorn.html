@@ -60,10 +60,11 @@ h2.sec{font-family:"Bricolage Grotesque";font-size:18px;font-weight:700;margin:3
 .rank .pc{width:46px;text-align:right;font-size:12.5px;font-weight:600}
 
 .acc{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel2)}
-.acc>.h{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;user-select:none}
+.acc>.h{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:11px 14px;cursor:pointer;user-select:none}
 .acc>.h .t{font-size:14px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut)}
-.acc>.h .cur{font-size:16px;font-weight:600;color:var(--ink)}
-.acc>.h .chev{transition:transform .25s;color:var(--mut2);font-size:11px}
+.acc>.h>span:last-child{display:flex;align-items:center;gap:7px;max-width:100%}
+.acc>.h .cur{font-size:16px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acc>.h .chev{transition:transform .25s;color:var(--mut2);font-size:11px;flex:none}
 .acc.open>.h .chev{transform:rotate(180deg)}
 .acc .body{max-height:0;overflow:hidden;transition:max-height .3s ease}
 .acc.open .body{max-height:420px}
@@ -130,7 +131,7 @@ circle.pt{cursor:pointer;transition:r .12s,opacity .25s}
 .yrange-lab{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
 .yrange-val{font-size:14px;font-weight:600;color:var(--ink);font-family:var(--mono)}
 .yrange-track{position:relative;height:20px}
-.yrange-track::before{content:"";position:absolute;left:0;right:0;top:50%;height:5px;transform:translateY(-50%);background:var(--panel2);border:1px solid var(--line2);border-radius:4px}
+.yrange-track::before{content:"";position:absolute;left:0;right:0;top:50%;height:5px;transform:translateY(-50%);background:rgba(255,255,255,.22);border-radius:4px}
 .yrange-fill{position:absolute;top:50%;height:5px;transform:translateY(-50%);background:#e08a30;border-radius:4px;pointer-events:none;box-shadow:0 0 8px -1px rgba(224,138,48,.55)}
 .yrsl{position:absolute;left:0;top:0;width:100%;height:20px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;pointer-events:none}
 .yrsl::-webkit-slider-runnable-track{height:5px;background:transparent}
@@ -160,7 +161,7 @@ circle.pt{cursor:pointer;transition:r .12s,opacity .25s}
     </div>
     <div class="expbody">
       <div class="panel-ctrl">
-        <div class="acc open" id="acc-tech">
+        <div class="acc" id="acc-tech">
           <div class="h" onclick="toggleAcc('acc-tech')"><span class="t">Technology</span><span><span class="cur" id="cur-tech">Descriptive AI</span> <span class="chev">▾</span></span></div>
           <div class="body" id="opt-tech"></div>
         </div>
@@ -174,9 +175,8 @@ circle.pt{cursor:pointer;transition:r .12s,opacity .25s}
           <div class="cdrop" id="cdrop"></div>
         </div>
         <div class="legend">
-          <span><span class="dot" style="background:var(--native)"></span><b>Native</b></span>
-          <span><span class="dot" style="background:var(--unicorn)"></span><b>Unicorn</b></span>
-          <span><span class="dot" style="background:var(--emerging)"></span><b>Emerging</b></span>
+          <span><span class="dot" id="lg-uni" style="background:#e08a30"></span><b>Unicorn</b></span>
+          <span><span class="dot" id="lg-eme" style="background:#eaaf71"></span><b>Emerging</b></span>
         </div>
       </div>
       <div class="plotwrap">
@@ -192,7 +192,6 @@ circle.pt{cursor:pointer;transition:r .12s,opacity .25s}
         <div id="plot"></div><div id="tip"></div>
       </div>
     </div>
-    <div class="count-note" id="cnote"></div>
   </div>
 
   <h2 class="sec disp">Startup Creation Trend</h2>
@@ -229,6 +228,9 @@ const COL={native:'var(--native)',unicorn:'var(--unicorn)',emerging:'var(--emerg
 const RAW={native:'#e08a30',unicorn:'#5b8def',emerging:'#2dd4a7'};
 const DISP={'Robotics':'Physical AI & Robotics'};
 const lbl=t=>DISP[t]||t;
+const TECHCOL={"Descriptive AI":"#ebc840","Agentic & GenAI":"#e84b8a","Blockchain":"#f05a32","Robotics":"#2abfa3","Quantum":"#4a90d9"};
+function ptFill(p){var eme=p.maturity==='emerging';if(fTech==='All')return eme?'#eaaf71':'#e08a30';return TECHCOL[fTech]||'#e08a30';}
+function ptOpacity(p){if(fTech==='All')return'1';return p.maturity==='emerging'?'0.4':'1';}
 function fmtUSD(v){if(v>=1e9)return '$'+(v/1e9).toFixed(v>=1e10?0:1)+'B';if(v>=1e6)return '$'+(v/1e6).toFixed(0)+'M';return '$'+(v/1e3).toFixed(0)+'K';}
 const P=BUNDLE.points;
 
@@ -358,16 +360,16 @@ function draw(){
   const pts=P.filter(p=>p.fund&&p.founded&&p.founded>=X0&&p.founded<=X1&&(fTech==='All'||p.tech.includes(fTech))&&(fInd==='All'||p.ind.includes(fInd))&&(fCountry==='All'||p.country===fCountry));
   const ord={emerging:0,unicorn:1,native:2}; pts.sort((a,b)=>ord[a.maturity]-ord[b.maturity]);
   pts.forEach(p=>{const c=E('circle');c.setAttribute('class','pt');c.setAttribute('cx',xs(p.founded));c.setAttribute('cy',ys(p.fund));
-    c.setAttribute('r',p.maturity==='native'?6:5);c.setAttribute('fill',RAW[p.maturity]);c.setAttribute('fill-opacity','1');
+    c.setAttribute('r','5');c.setAttribute('fill',ptFill(p));c.setAttribute('fill-opacity',ptOpacity(p));
     c.setAttribute('stroke','#070a12');c.setAttribute('stroke-width','1');
     c.addEventListener('mouseenter',e=>showTip(e,p,c));
-    c.addEventListener('mouseleave',()=>{$('#tip').style.opacity=0;c.setAttribute('r',p.maturity==='native'?6:5);});svg.append(c);});
+    c.addEventListener('mouseleave',()=>{$('#tip').style.opacity=0;c.setAttribute('r','5');});svg.append(c);});
   wrap.append(svg);
-  $('#cnote').innerHTML=`<b style="color:var(--ink)">${pts.length}</b> ventures · ${fTech==='All'?'all technologies':lbl(fTech)} · ${fInd==='All'?'all industries':fInd} · ${fCountry==='All'?'all countries':(BUNDLE.flags[fCountry]||'')+' '+fCountry}`+(fCountry!=='All'?'  <span style="opacity:.7">(emerging unicorns have no disclosed HQ)</span>':'');
+  (function(){var u=$('#lg-uni'),m=$('#lg-eme');if(u&&m){if(fTech==='All'){u.style.background='#e08a30';m.style.background='#eaaf71';m.style.opacity='1';}else{var c=TECHCOL[fTech]||'#e08a30';u.style.background=c;m.style.background=c;m.style.opacity='0.4';}}})();
 }
-function showTip(e,p,c){c.setAttribute('r',(p.maturity==='native'?6:5)+2.5);
+function showTip(e,p,c){c.setAttribute('r','7.5');
   const tip=$('#tip'),wrap=$('#plot').getBoundingClientRect(),cx=e.clientX-wrap.left,cy=e.clientY-wrap.top;
-  tip.innerHTML=`<div class="tn">${p.name}</div><div class="tcat" style="color:${COL[p.maturity]}">${p.maturity}</div>`
+  tip.innerHTML=`<div class="tn">${p.name}</div><div class="tcat" style="color:${ptFill(p)}">${p.maturity==='emerging'?'emerging':'unicorn'}</div>`
     +(p.desc?`<div class="td">${p.desc}</div>`:'')
     +`<div class="tr"><b>Founded</b> ${Math.floor(p.founded)}</div><div class="tr"><b>Funding</b> ${fmtUSD(p.fund)}</div>`
     +`<div class="tr"><b>Tech</b> ${p.tech.map(lbl).join(', ')||'-'}</div>`
