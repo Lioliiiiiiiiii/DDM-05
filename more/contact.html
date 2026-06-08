@@ -6,7 +6,50 @@
 <title>Contact - Digital Disruption Matrix 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/shell.css?v=5">
+<style>
+  .contact-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);
+    gap:clamp(28px,4vw,60px);margin-top:clamp(26px,3.4vw,44px);align-items:start}
+  @media (max-width:880px){.contact-wrap{grid-template-columns:1fr;gap:34px}}
 
+  /* contact methods (left column) */
+  .contact-methods{display:flex;flex-direction:column;gap:12px}
+  .cmethod{display:flex;gap:15px;align-items:flex-start;padding:17px 18px;
+    border:1px solid var(--line);border-radius:14px;background:var(--panel);text-decoration:none}
+  a.cmethod{transition:border-color .2s,transform .2s,box-shadow .2s}
+  a.cmethod:hover{border-color:var(--accent);transform:translateY(-2px);
+    box-shadow:0 16px 40px -22px var(--accent-tint)}
+  .cmethod .ci{width:44px;height:44px;flex:none;border-radius:11px;display:grid;place-items:center;
+    border:1px solid var(--line2);color:var(--accent);background:var(--accent-tint)}
+  .cmethod .ci svg{width:22px;height:22px}
+  .cmethod .cbody{display:flex;flex-direction:column;min-width:0}
+  .cmethod .ct{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--ink3);margin-bottom:5px}
+  .cmethod .cv{font-family:var(--sans);font-size:15.5px;color:var(--ink);line-height:1.5}
+
+  /* contact form (right column box) */
+  .contact-form{padding:clamp(22px,2.4vw,30px);border:1px solid var(--line);border-radius:18px;
+    background:var(--panel);box-shadow:0 30px 70px -34px rgba(0,0,0,.6)}
+  .contact-form h2{font-family:var(--display);font-weight:700;font-size:clamp(18px,1.7vw,22px);
+    color:var(--ink);margin-bottom:18px;letter-spacing:-.01em}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink2);margin-bottom:7px}
+  .field input,.field textarea{width:100%;background:var(--bg2);border:1px solid var(--line2);
+    border-radius:10px;padding:11px 13px;font-family:var(--sans);font-size:15px;color:var(--ink);
+    transition:border-color .2s,box-shadow .2s}
+  .field input::placeholder,.field textarea::placeholder{color:var(--ink3)}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);
+    box-shadow:0 0 0 1px var(--accent)}
+  .field textarea{resize:vertical;min-height:132px;line-height:1.5}
+  .cf-submit{margin-top:6px;width:100%;height:48px;display:inline-flex;align-items:center;
+    justify-content:center;gap:9px;border:1px solid var(--accent);background:var(--accent);
+    color:var(--on-accent);border-radius:12px;font-family:var(--mono);font-weight:600;font-size:13px;
+    letter-spacing:.06em;text-transform:uppercase;cursor:pointer;
+    transition:transform .2s,box-shadow .2s}
+  .cf-submit:hover{transform:translateY(-1px);
+    box-shadow:0 0 0 1px var(--accent),0 12px 30px -12px var(--accent-tint)}
+  .cf-submit svg{width:17px;height:17px}
+</style>
 </head>
 <body class="">
 <div class="glow"></div>
@@ -59,13 +102,37 @@
 </div>
 <main class="page">
   <div class="container">
-    <div class="eyebrow">More</div>
-    <h1 class="page-title">Contact</h1>
-    <div class="placeholder">
-      <div class="ph-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></div>
-      <span class="ph-tag">Coming soon</span>
-      <h2>Contact</h2>
-      <p>Get in touch with the chair team. This section is a placeholder for now.</p>
+    <h1 class="page-title">Contact the Digital Disruption Chair</h1>
+
+    <div class="contact-wrap">
+      <div class="contact-methods">
+        <a class="cmethod" href="mailto:digitaldisruption@essec.edu">
+          <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></svg></span>
+          <span class="cbody"><span class="ct">Email</span><span class="cv">digitaldisruption@essec.edu</span></span>
+        </a>
+        <a class="cmethod" href="https://www.linkedin.com/company/chaire-digital-disruption-essec/" target="_blank" rel="noopener">
+          <span class="ci"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></span>
+          <span class="cbody"><span class="ct">LinkedIn</span><span class="cv">Chaire Digital Disruption ESSEC</span></span>
+        </a>
+        <div class="cmethod">
+          <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6-5.2-6-10a6 6 0 1 1 12 0c0 4.8-6 10-6 10Z"/><circle cx="12" cy="11" r="2.3"/></svg></span>
+          <span class="cbody"><span class="ct">Singapore</span><span class="cv">5 Nepal Hill, one-north, Singapore 138608</span></span>
+        </div>
+        <div class="cmethod">
+          <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6-5.2-6-10a6 6 0 1 1 12 0c0 4.8-6 10-6 10Z"/><circle cx="12" cy="11" r="2.3"/></svg></span>
+          <span class="cbody"><span class="ct">France</span><span class="cv">3 Avenue Bernard Hirsch, CS 50105, 95021 Cergy-Pontoise Cedex, France</span></span>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contactForm" novalidate>
+        <h2>Send us a message</h2>
+        <div class="field"><label for="cf-name">Name</label><input id="cf-name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="cf-email">Email</label><input id="cf-email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="cf-msg">Message</label><textarea id="cf-msg" required></textarea></div>
+        <button class="cf-submit" type="submit">Send message
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
     </div>
     <footer class="site">
       <span>Digital Disruption Matrix 2026 · ESSEC Business School</span>
@@ -73,6 +140,21 @@
     </footer>
   </div>
 </main>
+<script>
+(function(){
+  var form=document.getElementById('contactForm');
+  if(!form)return;
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=document.getElementById('cf-name').value.trim();
+    var email=document.getElementById('cf-email').value.trim();
+    var msg=document.getElementById('cf-msg').value.trim();
+    var subject=name?('Contact from '+name):'Contact from the Digital Disruption Matrix site';
+    var body=[msg,'','Name: '+name,'Email: '+email].join('\n');
+    window.location.href='mailto:digitaldisruption@essec.edu?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  });
+})();
+</script>
 <script src="../assets/js/shell.js?v=3"></script>
 </body>
 </html>
