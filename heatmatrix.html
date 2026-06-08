@@ -7,32 +7,34 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/shell.css?v=4">
 <style>
-  .hm-wrap{margin-top:30px;border:1px solid var(--line);border-radius:18px;background:var(--panel);
-    padding:clamp(16px,2.2vw,26px);box-shadow:0 24px 60px -36px rgba(0,0,0,.55)}
+  /* heatmatrix lede spans the full container on this page */
+  .page-lede{max-width:none}
+  .hm-wrap{margin-top:24px;border:1px solid var(--line);border-radius:18px;background:var(--panel);
+    padding:clamp(14px,1.9vw,22px);box-shadow:0 24px 60px -36px rgba(0,0,0,.55)}
   .hm-scroll{overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
   .hm-scroll::-webkit-scrollbar{height:8px}
   .hm-scroll::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
-  .hm-grid{display:grid;gap:8px;min-width:860px;width:100%}
-  .hm-corner{height:var(--hm-head);border-radius:11px;border:1px solid transparent;background:transparent}
+  .hm-grid{display:grid;gap:6px;min-width:780px;width:100%}
+  .hm-corner{height:var(--hm-head);border-radius:9px;border:1px solid transparent;background:transparent}
   /* technology header tiles */
   .hm-tech{display:flex;align-items:center;justify-content:center;text-align:center;
-    height:var(--hm-head);padding:10px 12px;border-radius:11px;
+    height:var(--hm-head);padding:8px 9px;border-radius:9px;
     border:1px solid var(--line);background:var(--panel2);
-    font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.14em;
+    font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.12em;
     text-transform:uppercase;color:var(--ink2);text-decoration:none;line-height:1.25;
     transition:border-color .2s,color .2s,background .2s,transform .2s}
   .hm-tech:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-tint);transform:translateY(-1px)}
   .hm-tech:focus-visible{outline:none;box-shadow:0 0 0 1px var(--accent),0 10px 30px -12px var(--accent-tint)}
   /* industry row label */
-  .hm-row{display:flex;align-items:center;height:var(--hm-cell);padding:0 14px;border-radius:11px;
+  .hm-row{display:flex;align-items:center;height:var(--hm-cell);padding:0 12px;border-radius:9px;
     border:1px solid var(--line);background:var(--panel2);
-    font-family:var(--sans);font-weight:500;font-size:17px;color:var(--ink);
+    font-family:var(--sans);font-weight:500;font-size:14.5px;color:var(--ink);
     text-decoration:none;line-height:1.2;
     transition:border-color .2s,color .2s,background .2s,transform .2s}
   .hm-row:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-tint);transform:translateY(-1px)}
   .hm-row:focus-visible{outline:none;box-shadow:0 0 0 1px var(--accent),0 10px 30px -12px var(--accent-tint)}
   /* heat cell */
-  .hm-cell{position:relative;height:var(--hm-cell);border-radius:11px;border:1px solid rgba(255,255,255,.05);
+  .hm-cell{position:relative;height:var(--hm-cell);border-radius:9px;border:1px solid rgba(255,255,255,.05);
     text-decoration:none;display:block;overflow:hidden;
     transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
   .hm-cell::after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,0);transition:background .2s}
@@ -62,11 +64,11 @@
   .hm-note{margin-top:18px;padding:16px 18px;border:1px solid rgba(224,138,48,.22);border-radius:14px;
     background:rgba(224,138,48,.07);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7}
   /* sizing */
-  :root{ --hm-head:84px; --hm-cell:64px; --hm-rowlabel:200px; --hm-techcol:minmax(120px,1fr) }
+  :root{ --hm-head:70px; --hm-cell:50px; --hm-rowlabel:186px; --hm-techcol:minmax(112px,1fr) }
   @media (max-width:720px){
-    :root{ --hm-head:78px; --hm-cell:60px; --hm-rowlabel:160px }
+    :root{ --hm-head:66px; --hm-cell:50px; --hm-rowlabel:150px }
     .hm-row{font-size:12.5px;padding:0 10px}
-    .hm-tech{font-size:14px;padding:9px 8px}
+    .hm-tech{font-size:11px;padding:8px 7px}
   }
 </style>
 </head>
