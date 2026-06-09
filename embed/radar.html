@@ -116,7 +116,7 @@
         </button>
         <div class="dd-menu" id="menu-tech" role="listbox"></div>
       </div>
-      <a class="overview-link" id="lnk-tech" target="_top" href="../explore/technology.html">View Technology ↗</a>
+      <a class="overview-link" id="lnk-tech" target="_top" href="../explore/technology.html">Explore technology ↗</a>
       <p class="definition empty" id="def-tech"></p>
     </div>
 
@@ -128,7 +128,7 @@
         </button>
         <div class="dd-menu" id="menu-ind" role="listbox"></div>
       </div>
-      <a class="overview-link" id="lnk-ind" target="_top" href="../explore/industry.html">View Industry ↗</a>
+      <a class="overview-link" id="lnk-ind" target="_top" href="../explore/industry.html">Explore industry ↗</a>
       <p class="definition empty" id="def-ind"></p>
     </div>
   </div>
@@ -313,19 +313,19 @@ function renderPanels(){
      selection is made. */
   if(lnkT){
     if(state.tech && TECH_SLUG[state.tech]){
-      lnkT.textContent="View "+state.tech+" ↗";
+      lnkT.textContent="Explore "+state.tech+" ↗";
       lnkT.setAttribute("href","../technology/"+TECH_SLUG[state.tech]+".html");
     } else {
-      lnkT.textContent="View Technology ↗";
+      lnkT.textContent="Explore technology ↗";
       lnkT.setAttribute("href","../explore/technology.html");
     }
   }
   if(lnkI){
     if(state.ind && IND_SLUG[state.ind]){
-      lnkI.textContent="View "+state.ind+" ↗";
+      lnkI.textContent="Explore "+state.ind+" ↗";
       lnkI.setAttribute("href","../industry/"+IND_SLUG[state.ind]+".html");
     } else {
-      lnkI.textContent="View Industry ↗";
+      lnkI.textContent="Explore industry ↗";
       lnkI.setAttribute("href","../explore/industry.html");
     }
   }
