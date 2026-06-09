@@ -202,8 +202,9 @@ a{color:var(--tech)}
 /* EMBED MODE (slice): the host section header already names the tech/industry,
    so drop the module's own title row; keep the descriptive sub-line. */
 body.embed-slice .mod-top{display:none}
-body.embed-slice .mod-head{padding:4px 2px 16px;border-bottom:1px solid var(--line)}
-body.embed-slice .mod-body{padding:22px 2px 6px}
+body.embed-slice .mod-head{display:none}
+body.embed-slice .mod-body{padding:2px 2px 6px}
+body.embed-slice .mod-body>.block:has(.kpis)+.block{margin-top:0}
 body.embed-slice .module{border:0;background:transparent}
 body.embed-slice .module::before{display:none}
 body.embed-slice .gcard{margin:0}

@@ -415,7 +415,7 @@ html,body{background:#0a0e14!important;background-image:none!important;min-heigh
   function hideChrome(){
     ['.hero','#sec-explore'].forEach(function(s){
       var e=document.querySelector(s); if(e) e.style.display='none';});
-    var w=document.querySelector('.wrap'); if(w) w.style.paddingTop='8px';
+    var w=document.querySelector('.wrap'); if(w) w.style.paddingTop='2px';
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',hideChrome);
   else hideChrome();
