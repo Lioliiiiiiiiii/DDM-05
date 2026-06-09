@@ -68,7 +68,7 @@ h1 .amp{color:var(--accent);font-style:italic;font-weight:600}
 .kpi-sub{font-family:var(--mono);font-size:13.5px;color:var(--ink3);margin-top:3px}
 
 /* ===== SECTIONS ===== */
-section{margin-top:40px}
+section{margin-top:40px}section:first-of-type{margin-top:0}
 .sec-head{display:flex;align-items:baseline;gap:13px;margin-bottom:6px}
 .sec-num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.05em}
 .sec-title{font-family:var(--disp);font-weight:600;font-size:21px;letter-spacing:-.01em}
@@ -455,7 +455,7 @@ html,body{background:#0a0e14!important;min-height:0!important;height:auto!import
    masthead eyebrow ("Technology Intelligence · … · 2020–2025"), the duplicate
    title and the focus chip. */
 .masthead #eyebrow,.masthead h1,.masthead #techChip{display:none!important}
-.masthead{border-bottom:0!important;padding-bottom:10px!important}
+.masthead{display:none!important}
 .card.sel .card-name::after{content:none!important}
 /* Trajectory: toned-down non-selected cards + hover-highlight line (cards stay uniform size/bg) */
 .card{transition:opacity .2s ease,box-shadow .2s ease}
