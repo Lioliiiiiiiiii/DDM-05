@@ -422,10 +422,12 @@ html,body{background:#0a0e14!important;background-image:none!important;min-heigh
   var p=new URLSearchParams(location.search);
   var tech=p.get('tech'), indus=p.get('indus');
   if(!tech&&!indus) return;
+  var allTech = !!tech && tech.toLowerCase()==='all';
   var ti = tech ? TORDER.indexOf(tech) : -1;
-  // technology option index: explicit tech -> ti+1; industry-only -> 0 ("All
-  // technologies") so the view spans all five techs within that industry.
-  var techIdx = tech ? (ti>=0 ? ti+1 : -1) : (indus ? 0 : -1);
+  // technology option index: tech=all -> 0 ("All technologies"); explicit tech
+  // -> ti+1; industry-only -> 0 so the view spans all five techs within that
+  // industry.
+  var techIdx = allTech ? 0 : (tech ? (ti>=0 ? ti+1 : -1) : (indus ? 0 : -1));
   var ii = indus ? IORDER.indexOf(indus) : -1; // industry option index ii+1
   function clickIdx(boxId, idx){
     var box=document.getElementById(boxId); if(!box) return false;
