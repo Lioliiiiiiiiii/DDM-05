@@ -61,11 +61,6 @@
     background-size:26px 26px;mask-image:radial-gradient(120% 120% at 50% 40%,#000,transparent 80%)}
   .viz{position:absolute;inset:0;width:100%;height:100%;color:var(--ca)}
 
-  .dot{position:absolute;top:12px;right:12px;width:16px;height:16px;border-radius:50%;border:1px solid var(--line2);background:rgba(10,14,20,.6);z-index:3;transition:border-color .3s}
-  .dot::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--ca);transform:scale(0);transition:transform .3s cubic-bezier(.2,.9,.3,1.4)}
-  .card:hover .dot{border-color:var(--ca)}
-  .card.sel .dot{border-color:var(--ca)}
-  .card.sel .dot::after{transform:scale(1)}
 
   .card-body{padding:14px 6px 4px}
   .eyebrow-sm{font-family:var(--mono);font-weight:500;font-size:13.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--ca);display:block;margin-bottom:8px}
@@ -300,7 +295,7 @@
     const hero = kind === "tech"
       ? `<div class="hero">${item.hero}</div>`
       : `<div class="hero hero-ind"><span class="ring r-a"></span><span class="ring r-b"></span><span class="ind-ic">${item.svg}</span></div>`;
-    el.innerHTML = `${hero}${kind === "tech" ? '<span class="dot"></span>' : ''}
+    el.innerHTML = `${hero}
       <div class="card-body">
         <span class="eyebrow-sm">${kind === "tech" ? "Technology" : "Industry"}</span>
         <div class="card-name">${item.name}</div>
