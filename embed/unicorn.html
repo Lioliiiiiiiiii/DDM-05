@@ -193,6 +193,7 @@ circle.pt{cursor:pointer;transition:r .12s,opacity .25s}
     </div>
   </div>
 
+  <div id="sec-extra">
   <h2 class="sec disp">Startup Creation Trend</h2>
   
   <div class="grid g5" id="growth"></div>
@@ -217,6 +218,7 @@ circle.pt{cursor:pointer;transition:r .12s,opacity .25s}
       <div id="ftip"></div>
     </div>
   </div>
+  </div><!--/sec-extra-->
 
   
 </div>
@@ -421,6 +423,7 @@ html,body{background:#0a0e14!important;background-image:none!important;min-heigh
   else hideChrome();
   var p=new URLSearchParams(location.search);
   var tech=p.get('tech'), indus=p.get('indus');
+  if(p.get('only')==='unicorn'){var se=document.getElementById('sec-extra');if(se)se.style.display='none';}
   if(!tech&&!indus) return;
   var allTech = !!tech && tech.toLowerCase()==='all';
   var ti = tech ? TORDER.indexOf(tech) : -1;
